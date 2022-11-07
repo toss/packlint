@@ -1,0 +1,1005 @@
+diff --git a/dist/index.d.cts b/dist/index.d.cts
+new file mode 100644
+index 0000000000000000000000000000000000000000..07a7fbc715f44b4213057c2eadf33f4303e2dd5a
+--- /dev/null
++++ b/dist/index.d.cts
+@@ -0,0 +1,5 @@
++import * as Pattern from './patterns.cjs';
++
++export { match } from './match.cjs';
++export { isMatching } from './is-matching.cjs';
++export { Pattern, Pattern as P };
+diff --git a/dist/internals/helpers.d.cts b/dist/internals/helpers.d.cts
+new file mode 100644
+index 0000000000000000000000000000000000000000..f15b2a928e8a669d24a5da98774ef391a8680078
+--- /dev/null
++++ b/dist/internals/helpers.d.cts
+@@ -0,0 +1,13 @@
++/**
++ * @module
++ * @private
++ * @internal
++ */
++import { SelectionType } from '../types/FindSelected.cjs';
++import { Matcher, MatcherType, Pattern } from '../types/Pattern.cjs';
++
++export declare const isObject: (value: unknown) => value is Object;
++export declare const isMatcher: (x: unknown) => x is Matcher<unknown, unknown, MatcherType, SelectionType, unknown>;
++export declare const matchPattern: (pattern: Pattern<any>, value: any, select: (key: string, value: unknown) => void) => boolean;
++export declare const getSelectionKeys: (pattern: Pattern<any>) => string[];
++export declare const flatMap: <a, b>(xs: a[], f: (v: a) => b[]) => b[];
+diff --git a/dist/internals/symbols.d.cts b/dist/internals/symbols.d.cts
+new file mode 100644
+index 0000000000000000000000000000000000000000..2c54b40a65102c5e5eb717313e62a6c219ff13ec
+--- /dev/null
++++ b/dist/internals/symbols.d.cts
+@@ -0,0 +1,22 @@
++/**
++ * Symbols used internally within ts-pattern to construct and discriminate
++ * Guard, Not, and Select, and AnonymousSelect patterns
++ *
++ * Symbols have the advantage of not appearing in auto-complete suggestions in
++ * user defined patterns, and eliminate the risk of property
++ * overlap between ts-pattern internals and user defined patterns.
++ *
++ * These symbols have to be visible to tsc for type inference to work, but
++ * users should not import them
++ * @module
++ * @private
++ * @internal
++ */
++export declare const toExclude: unique symbol;
++export declare type toExclude = typeof toExclude;
++export declare const matcher: unique symbol;
++export declare type matcher = typeof matcher;
++export declare const unset: unique symbol;
++export declare type unset = typeof unset;
++export declare const anonymousSelectKey = "@ts-pattern/anonymous-select-key";
++export declare type anonymousSelectKey = typeof anonymousSelectKey;
+diff --git a/dist/is-matching.d.cts b/dist/is-matching.d.cts
+new file mode 100644
+index 0000000000000000000000000000000000000000..71242491d9debb92c0d4269ad269b8615831a921
+--- /dev/null
++++ b/dist/is-matching.d.cts
+@@ -0,0 +1,34 @@
++import * as P from './patterns.cjs';
++import { MatchedValue } from './types/Match.cjs';
++import { Pattern } from './types/Pattern.cjs';
++
++/**
++ * `isMatching` takes pattern and returns a **type guard** function, cheching if a value matches this pattern.
++ *
++ * [Read `isMatching` documentation on GitHub](https://github.com/gvergnaud/ts-pattern#ismatching)
++ *
++ * @example
++ *  const hasName = isMatching({ name: P.string })
++ *
++ *  declare let input: unknown
++ *
++ *  if (hasName(input)) {
++ *    // `input` inferred as { name: string }
++ *    return input.name
++ *  }
++ */
++export declare function isMatching<p extends Pattern<any>>(pattern: p): (value: any) => value is MatchedValue<any, P.infer<p>>;
++/**
++ * `isMatching` takes pattern and a value and checks if the value matches this pattern.
++ *
++ * [Read `isMatching` documentation on GitHub](https://github.com/gvergnaud/ts-pattern#ismatching)
++ *
++ * @example
++ *  declare let input: unknown
++ *
++ *  if (isMatching({ name: P.string }, input)) {
++ *    // `input` inferred as { name: string }
++ *    return input.name
++ *  }
++ */
++export declare function isMatching<p extends Pattern<any>>(pattern: p, value: any): value is MatchedValue<any, P.infer<p>>;
+diff --git a/dist/match.d.cts b/dist/match.d.cts
+new file mode 100644
+index 0000000000000000000000000000000000000000..14cfec2da1de667b91d0032ab05252261e7ea58e
+--- /dev/null
++++ b/dist/match.d.cts
+@@ -0,0 +1,22 @@
++import * as symbols from './internals/symbols.cjs';
++import { Match } from './types/Match.cjs';
++
++/**
++ * `match` creates a **pattern matching expression**.
++ *
++ * Use `.with(pattern, handler)` to pattern match on the input.
++ *
++ * Use `.exhaustive()` or `.otherwise(() => defaultValue)` to end the expression and get the result.
++ *
++ * [Read `match` documentation on GitHub](https://github.com/gvergnaud/ts-pattern#match)
++ *
++ * @example
++ *  declare let input: "A" | "B";
++ *
++ *  return match(input)
++ *    .with("A", () => "It's a A!")
++ *    .with("B", () => "It's a B!")
++ *    .exhaustive();
++ *
++ */
++export declare const match: <input, output = typeof symbols.unset>(value: input) => Match<input, output, [], never>;
+diff --git a/dist/patterns.d.cts b/dist/patterns.d.cts
+new file mode 100644
+index 0000000000000000000000000000000000000000..e265116a565973b29ab3c9e70c49bff68b03854e
+--- /dev/null
++++ b/dist/patterns.d.cts
+@@ -0,0 +1,237 @@
++import * as symbols from './internals/symbols.cjs';
++import { GuardFunction } from './types/helpers.cjs';
++import { InvertPattern } from './types/InvertPattern.cjs';
++import {
++    AndP,
++    AnonymousSelectP,
++    ArrayP,
++    GuardExcludeP,
++    GuardP,
++    NotP,
++    OptionalP,
++    OrP,
++    Pattern,
++    SelectP,
++    UnknownPattern,
++} from './types/Pattern.cjs';
++
++export { Pattern };
++/**
++ * `P.infer<typeof somePattern>` will return the type of the value
++ * matched by this pattern.
++ *
++ * [Read `P.infer` documentation on GitHub](https://github.com/gvergnaud/ts-pattern#Pinfer)
++ *
++ * @example
++ * const userPattern = { name: P.string }
++ * type User = P.infer<typeof userPattern>
++ */
++export declare type infer<p extends Pattern<any>> = InvertPattern<p>;
++/**
++ * `P.optional(subpattern)` takes a sub pattern and returns a pattern which matches if the
++ * key is undefined or if it is defined and the sub pattern matches its value.
++ *
++ * [Read `P.optional` documentation on GitHub](https://github.com/gvergnaud/ts-pattern#Poptional-patterns)
++
++* @example
++ *  match(value)
++ *   .with({ greeting: P.optional('Hello') }, () => 'will match { greeting?: "Hello" }')
++ */
++export declare function optional<input, p extends unknown extends input ? UnknownPattern : Pattern<input>>(pattern: p): OptionalP<input, p>;
++declare type Elem<xs> = xs extends Array<infer x> ? x : never;
++/**
++ * `P.array(subpattern)` takes a sub pattern and returns a pattern, which matches
++ * arrays if all their elements match the sub pattern.
++ *
++ * [Read `P.array` documentation on GitHub](https://github.com/gvergnaud/ts-pattern#Parray-patterns)
++ *
++ * @example
++ *  match(value)
++ *   .with({ users: P.array({ name: P.string }) }, () => 'will match { name: string }[]')
++ */
++export declare function array<input, p extends unknown extends input ? UnknownPattern : Pattern<Elem<input>>>(pattern: p): ArrayP<input, p>;
++/**
++ * `P.intersection(...patterns)` returns a pattern which matches
++ * only if **every** patterns provided in parameter match the input.
++ *
++ * [Read `P.intersection` documentation on GitHub](https://github.com/gvergnaud/ts-pattern#Pintersection-patterns)
++ *
++ * @example
++ *  match(value)
++ *   .with(
++ *     {
++ *       user: P.intersection(
++ *         { firstname: P.string },
++ *         { lastname: P.string },
++ *         { age: P.when(age => age > 21) }
++ *       )
++ *     },
++ *     ({ user }) => 'will match { firstname: string, lastname: string, age: number } if age > 21'
++ *   )
++ */
++export declare function intersection<input, ps extends unknown extends input ? [UnknownPattern, ...UnknownPattern[]] : [Pattern<input>, ...Pattern<input>[]]>(...patterns: ps): AndP<input, ps>;
++/**
++ * `P.union(...patterns)` returns a pattern which matches
++ * if **at least one** of the patterns provided in parameter match the input.
++ *
++ * [Read `P.union` documentation on GitHub](https://github.com/gvergnaud/ts-pattern#Punion-patterns)
++ *
++ * @example
++ *  match(value)
++ *   .with(
++ *     { type: P.union('a', 'b', 'c') },
++ *     ({ user }) => 'will match { type: "a" | "b" | "c" }'
++ *   )
++ */
++export declare function union<input, ps extends unknown extends input ? [UnknownPattern, ...UnknownPattern[]] : [Pattern<input>, ...Pattern<input>[]]>(...patterns: ps): OrP<input, ps>;
++/**
++ * `P.not(pattern)` returns a pattern which matches if the sub pattern
++ * doesn't match.
++ *
++ * [Read `P.not` documentation on GitHub](https://github.com/gvergnaud/ts-pattern#Pnot-patterns)
++ *
++ * @example
++ *  match<{ a: string | number }>(value)
++ *   .with({ a: P.not(P.string) }, (x) => 'will match { a: number }'
++ *   )
++ */
++export declare function not<input, p extends unknown extends input ? UnknownPattern : Pattern<input> | undefined>(pattern: p): NotP<input, p>;
++/**
++ * `P.when((value) => boolean)` returns a pattern which matches
++ * if the predicate returns true for the current input.
++ *
++ * [Read `P.when` documentation on GitHub](https://github.com/gvergnaud/ts-pattern#Pwhen-patterns)
++ *
++ * @example
++ *  match<{ age: number }>(value)
++ *   .with({ age: P.when(age => age > 21) }, (x) => 'will match if value.age > 21'
++ *   )
++ */
++export declare function when<input, p extends (value: input) => unknown>(predicate: p): GuardP<input, p extends (value: any) => value is infer narrowed ? narrowed : never>;
++export declare function when<input, narrowed extends input, excluded>(predicate: (input: input) => input is narrowed): GuardExcludeP<input, narrowed, excluded>;
++/**
++ * `P.select()` is a pattern which will always match,
++ * and will inject the selected piece of input in the handler function.
++ *
++ * [Read `P.select` documentation on GitHub](https://github.com/gvergnaud/ts-pattern#Pselect-patterns)
++ *
++ * @example
++ *  match<{ age: number }>(value)
++ *   .with({ age: P.select() }, (age) => 'age: number'
++ *   )
++ */
++export declare function select(): AnonymousSelectP;
++export declare function select<input, patternOrKey extends string | (unknown extends input ? UnknownPattern : Pattern<input>)>(patternOrKey: patternOrKey): patternOrKey extends string ? SelectP<patternOrKey> : SelectP<symbols.anonymousSelectKey, input, patternOrKey>;
++export declare function select<input, p extends unknown extends input ? UnknownPattern : Pattern<input>, k extends string>(key: k, pattern: p): SelectP<k, input, p>;
++declare type AnyConstructor = new (...args: any[]) => any;
++/**
++ * `P.any` is a wildcard pattern, matching **any value**.
++ *
++ * [Read `P.any` documentation on GitHub](https://github.com/gvergnaud/ts-pattern#P_-wildcard)
++ *
++ * @example
++ *  match(value)
++ *   .with(P.any, () => 'will always match')
++ */
++export declare const any: GuardP<unknown, unknown>;
++/**
++ * `P._` is a wildcard pattern, matching **any value**.
++ * It's an alias to `P.any`.
++ *
++ * [Read `P._` documentation on GitHub](https://github.com/gvergnaud/ts-pattern#P_-wildcard)
++ *
++ * @example
++ *  match(value)
++ *   .with(P._, () => 'will always match')
++ */
++export declare const _: GuardP<unknown, unknown>;
++/**
++ * `P.string` is a wildcard pattern matching any **string**.
++ *
++ * [Read `P.string` documentation on GitHub](https://github.com/gvergnaud/ts-pattern#Pstring-wildcard)
++ *
++ * @example
++ *  match(value)
++ *   .with(P.string, () => 'will match on strings')
++ */
++export declare const string: GuardP<unknown, string>;
++/**
++ * `P.number` is a wildcard pattern matching any **number**.
++ *
++ * [Read `P.number` documentation on GitHub](https://github.com/gvergnaud/ts-pattern#Pnumber-wildcard)
++ *
++ * @example
++ *  match(value)
++ *   .with(P.number, () => 'will match on numbers')
++ */
++export declare const number: GuardP<unknown, number>;
++/**
++ * `P.boolean` is a wildcard pattern matching any **boolean**.
++ *
++ * [Read `P.boolean` documentation on GitHub](https://github.com/gvergnaud/ts-pattern#boolean-wildcard)
++ *
++ * @example
++ *   .with(P.boolean, () => 'will match on booleans')
++ */
++export declare const boolean: GuardP<unknown, boolean>;
++/**
++ * `P.bigint` is a wildcard pattern matching any **bigint**.
++ *
++ * [Read `P.bigint` documentation on GitHub](https://github.com/gvergnaud/ts-pattern#bigint-wildcard)
++ *
++ * @example
++ *   .with(P.bigint, () => 'will match on bigints')
++ */
++export declare const bigint: GuardP<unknown, bigint>;
++/**
++ * `P.symbol` is a wildcard pattern matching any **symbol**.
++ *
++ * [Read `P.symbol` documentation on GitHub](https://github.com/gvergnaud/ts-pattern#symbol-wildcard)
++ *
++ * @example
++ *   .with(P.symbol, () => 'will match on symbols')
++ */
++export declare const symbol: GuardP<unknown, symbol>;
++/**
++ * `P.nullish` is a wildcard pattern matching **null** or **undefined**.
++ *
++ * [Read `P.nullish` documentation on GitHub](https://github.com/gvergnaud/ts-pattern#nullish-wildcard)
++ *
++ * @example
++ *   .with(P.nullish, () => 'will match on null or undefined')
++ */
++export declare const nullish: GuardP<unknown, null | undefined>;
++/**
++ * `P.instanceOf(SomeClass)` is a pattern matching instances of a given class.
++ *
++ * [Read `P.instanceOf` documentation on GitHub](https://github.com/gvergnaud/ts-pattern#Pinstanceof-patterns)
++ *
++ *  @example
++ *   .with(P.instanceOf(SomeClass), () => 'will match on SomeClass instances')
++ */
++export declare function instanceOf<T extends AnyConstructor>(classConstructor: T): GuardP<unknown, InstanceType<T>>;
++/**
++ * `P.typed<SomeType>()` is a way to set the input type this
++ * pattern should match on.
++ *
++ * It returns all utility functions to create patterns,
++ * Like `array`, `union`, `intersection`, etc.
++ *
++ * [Read `P.typed` documentation on GitHub](https://github.com/gvergnaud/ts-pattern#Ptyped)
++ *
++ * @example
++ *  .with(
++ *    P.typed<string | number[]>().array(P.string),
++ *    (arrayOfString) => arrayOfString.join(', ')
++ *  )
++ */
++export declare function typed<input>(): {
++    array<p extends Pattern<Elem<input>>>(pattern: p): ArrayP<input, p>;
++    optional<p extends Pattern<input>>(pattern: p): OptionalP<input, p>;
++    intersection<ps extends [Pattern<input>, ...Pattern<input>[]]>(...patterns: ps): AndP<input, ps>;
++    union<ps extends [Pattern<input>, ...Pattern<input>[]]>(...patterns: ps): OrP<input, ps>;
++    not<p extends Pattern<input>>(pattern: p): NotP<input, p>;
++    when<narrowed extends input = never>(predicate: GuardFunction<input, narrowed>): GuardP<input, narrowed>;
++    select<pattern extends Pattern<input>>(pattern: pattern): SelectP<symbols.anonymousSelectKey, input, pattern>;
++    select<p extends Pattern<input>, k extends string>(key: k, pattern: p): SelectP<k, input, p>;
++};
+diff --git a/dist/types/BuildMany.d.cts b/dist/types/BuildMany.d.cts
+new file mode 100644
+index 0000000000000000000000000000000000000000..dff23c54ebb8cc64509bae66651cbd5e1d63cee7
+--- /dev/null
++++ b/dist/types/BuildMany.d.cts
+@@ -0,0 +1,22 @@
++import { Cast, Compute, Drop, Iterator, Next } from './helpers.cjs';
++
++export declare type BuildMany<data, xs extends any[]> = xs extends any ? BuildOne<data, xs> : never;
++declare type BuildOne<data, xs extends any[]> = xs extends [
++    [
++        infer value,
++        infer path
++    ],
++    ...infer tail
++] ? BuildOne<Update<data, value, Cast<path, PropertyKey[]>>, tail> : data;
++declare type SafeGet<data, k extends PropertyKey, def> = k extends keyof data ? data[k] : def;
++declare type Update<data, value, path extends PropertyKey[]> = path extends [
++    infer head,
++    ...infer tail
++] ? data extends readonly [any, ...any] ? head extends number ? [
++    ...Slice<data, Iterator<head>>,
++    Update<data[head], value, Cast<tail, PropertyKey[]>>,
++    ...Drop<data, Next<Iterator<head>>>
++] : never : data extends readonly (infer a)[] ? Update<a, value, Cast<tail, PropertyKey[]>>[] : data extends Set<infer a> ? Set<Update<a, value, Cast<tail, PropertyKey[]>>> : data extends Map<infer k, infer v> ? Map<k, Update<v, value, Cast<tail, PropertyKey[]>>> : Compute<Omit<data, Cast<head, PropertyKey>> & {
++    [k in Cast<head, PropertyKey>]: Update<SafeGet<data, k, {}>, value, Cast<tail, PropertyKey[]>>;
++}> : value;
++export {};
+diff --git a/dist/types/DeepExclude.d.cts b/dist/types/DeepExclude.d.cts
+new file mode 100644
+index 0000000000000000000000000000000000000000..0c56adeb6787f06e0c22e060450648bd50b11e24
+--- /dev/null
++++ b/dist/types/DeepExclude.d.cts
+@@ -0,0 +1,3 @@
++import { DistributeMatchingUnions } from './DistributeUnions.cjs';
++
++export declare type DeepExclude<a, b> = Exclude<DistributeMatchingUnions<a, b>, b>;
+diff --git a/dist/types/DistributeUnions.d.cts b/dist/types/DistributeUnions.d.cts
+new file mode 100644
+index 0000000000000000000000000000000000000000..faea413a8209e815453ab63ceab5be7f4bdaed59
+--- /dev/null
++++ b/dist/types/DistributeUnions.d.cts
+@@ -0,0 +1,103 @@
++import { BuildMany } from './BuildMany.cjs';
++import { IsMatching } from './IsMatching.cjs';
++
++import type { IsAny, Cast, Values, Flatten, IsUnion, IsPlainObject, Length, UnionToTuple } from './helpers.cjs';
++/**
++ * DistributeMatchingUnions takes two arguments:
++ * - a data structure of type `a` containing unions
++ * - a pattern `p`, matching this data structure
++ * and turns it into a union of all possible
++ * combination of each unions contained in `a` that matches `p`.
++ *
++ * It does this in 3 main steps:
++ *  - 1. Find all unions contained in the data structure, that matches `p`
++ *    with `FindUnions<a, p>`. It returns a tree of [union, path] pairs.
++ *  - 2. this tree is passed to the `Distribute` type level function,
++ *    Which turns it into a union of list of `[singleValue, path]` pairs.
++ *    Each list correspond to one of the possible combination of the unions
++ *    found in `a`.
++ *  - 3. build a data structure with the same shape as `a` for each combination
++ *    and return the union of these data structures.
++ *
++ * @example
++ * type t1 = DistributeMatchingUnions<['a' | 'b', 1 | 2], ['a', 1]>;
++ * // => ['a', 1] | ['a', 2] | ['b', 1] | ['b', 2]
++ *
++ * type t2 = DistributeMatchingUnions<['a' | 'b', 1 | 2], ['a', unknown]>;
++ * // => ['a', 1 | 2] | ['b', 1 | 2]
++ */
++export declare type DistributeMatchingUnions<a, p> = IsAny<a> extends true ? any : BuildMany<a, Distribute<FindUnionsMany<a, p>>>;
++export declare type FindUnionsMany<a, p, path extends PropertyKey[] = []> = UnionToTuple<(p extends any ? IsMatching<a, p> extends true ? FindUnions<a, p, path> : [] : never) extends (infer T)[] ? T : never>;
++/**
++ * The reason we don't look further down the tree with lists,
++ * Set and Maps is that they can be heterogeneous,
++ * so matching on a A[] for a in input of (A|B)[]
++ * doesn't rule anything out. You can still have
++ * a (A|B)[] afterward. The same logic goes for Set and Maps.
++ *
++ * Kinds are types of types.
++ *
++ * kind UnionConfig = {
++ *  cases: Union<{
++ *    value: b,
++ *    subUnions: UnionConfig[]
++ *  }>,
++ *  path: string[]
++ * }
++ * FindUnions :: Pattern a p => a -> p -> UnionConfig[]
++ */
++export declare type FindUnions<a, p, path extends PropertyKey[] = []> = unknown extends p ? [] : IsAny<p> extends true ? [] : Length<path> extends 5 ? [] : IsUnion<a> extends true ? [
++    {
++        cases: a extends any ? {
++            value: a;
++            subUnions: FindUnionsMany<a, p, path>;
++        } : never;
++        path: path;
++    }
++] : [a, p] extends [readonly any[], readonly any[]] ? [a, p] extends [
++    readonly [infer a1, infer a2, infer a3, infer a4, infer a5],
++    readonly [infer p1, infer p2, infer p3, infer p4, infer p5]
++] ? [
++    ...FindUnions<a1, p1, [...path, 0]>,
++    ...FindUnions<a2, p2, [...path, 1]>,
++    ...FindUnions<a3, p3, [...path, 2]>,
++    ...FindUnions<a4, p4, [...path, 3]>,
++    ...FindUnions<a5, p5, [...path, 4]>
++] : [a, p] extends [
++    readonly [infer a1, infer a2, infer a3, infer a4],
++    readonly [infer p1, infer p2, infer p3, infer p4]
++] ? [
++    ...FindUnions<a1, p1, [...path, 0]>,
++    ...FindUnions<a2, p2, [...path, 1]>,
++    ...FindUnions<a3, p3, [...path, 2]>,
++    ...FindUnions<a4, p4, [...path, 3]>
++] : [a, p] extends [
++    readonly [infer a1, infer a2, infer a3],
++    readonly [infer p1, infer p2, infer p3]
++] ? [
++    ...FindUnions<a1, p1, [...path, 0]>,
++    ...FindUnions<a2, p2, [...path, 1]>,
++    ...FindUnions<a3, p3, [...path, 2]>
++] : [a, p] extends [
++    readonly [infer a1, infer a2],
++    readonly [infer p1, infer p2]
++] ? [...FindUnions<a1, p1, [...path, 0]>, ...FindUnions<a2, p2, [...path, 1]>] : [a, p] extends [readonly [infer a1], readonly [infer p1]] ? FindUnions<a1, p1, [...path, 0]> : [] : a extends Set<any> ? [] : a extends Map<any, any> ? [] : [IsPlainObject<a>, IsPlainObject<p>] extends [true, true] ? Flatten<Values<{
++    [k in keyof a & keyof p]: FindUnions<a[k], p[k], [...path, k]>;
++}>> : [];
++export declare type Distribute<unions extends any[]> = unions extends [
++    {
++        cases: infer cases;
++        path: infer path;
++    },
++    ...infer tail
++] ? cases extends {
++    value: infer value;
++    subUnions: infer subUnions;
++} ? [
++    [
++        value,
++        path
++    ],
++    ...Distribute<Cast<subUnions, any[]>>,
++    ...Distribute<tail>
++] : never : [];
+diff --git a/dist/types/ExtractPreciseValue.d.cts b/dist/types/ExtractPreciseValue.d.cts
+new file mode 100644
+index 0000000000000000000000000000000000000000..e8e48dd22edb0a00068159c0f1e80ac35fa28652
+--- /dev/null
++++ b/dist/types/ExtractPreciseValue.d.cts
+@@ -0,0 +1,27 @@
++import { DeepExclude } from './DeepExclude.cjs';
++
++import type { ToExclude } from './Pattern.cjs';
++import type { BuiltInObjects, Compute, ExcludeObjectIfContainsNever, IsAny, IsPlainObject, LeastUpperBound } from './helpers.cjs';
++export declare type ExtractPreciseValue<a, b> = unknown extends b ? a : IsAny<a> extends true ? b : b extends readonly [] ? [] : b extends ToExclude<infer b1> ? DeepExclude<a, b1> : b extends readonly (infer bItem)[] ? a extends readonly (infer aItem)[] ? b extends readonly [infer b1, infer b2, infer b3, infer b4, infer b5] ? a extends readonly [infer a1, infer a2, infer a3, infer a4, infer a5] ? ExcludeObjectIfContainsNever<[
++    ExtractPreciseValue<a1, b1>,
++    ExtractPreciseValue<a2, b2>,
++    ExtractPreciseValue<a3, b3>,
++    ExtractPreciseValue<a4, b4>,
++    ExtractPreciseValue<a5, b5>
++], '0' | '1' | '2' | '3' | '4'> : LeastUpperBound<a, b> : b extends readonly [infer b1, infer b2, infer b3, infer b4] ? a extends readonly [infer a1, infer a2, infer a3, infer a4] ? ExcludeObjectIfContainsNever<[
++    ExtractPreciseValue<a1, b1>,
++    ExtractPreciseValue<a2, b2>,
++    ExtractPreciseValue<a3, b3>,
++    ExtractPreciseValue<a4, b4>
++], '0' | '1' | '2' | '3'> : LeastUpperBound<a, b> : b extends readonly [infer b1, infer b2, infer b3] ? a extends readonly [infer a1, infer a2, infer a3] ? ExcludeObjectIfContainsNever<[
++    ExtractPreciseValue<a1, b1>,
++    ExtractPreciseValue<a2, b2>,
++    ExtractPreciseValue<a3, b3>
++], '0' | '1' | '2'> : LeastUpperBound<a, b> : b extends readonly [infer b1, infer b2] ? a extends readonly [infer a1, infer a2] ? ExcludeObjectIfContainsNever<[
++    ExtractPreciseValue<a1, b1>,
++    ExtractPreciseValue<a2, b2>
++], '0' | '1'> : LeastUpperBound<a, b> : b extends readonly [infer b1] ? a extends readonly [infer a1] ? ExcludeObjectIfContainsNever<[ExtractPreciseValue<a1, b1>], '0'> : LeastUpperBound<a, b> : ExtractPreciseValue<aItem, bItem> extends infer preciseValue ? [preciseValue] extends [never] ? never : preciseValue[] : never : LeastUpperBound<a, b> : b extends Map<infer bk, infer bv> ? a extends Map<infer ak, infer av> ? Map<ExtractPreciseValue<ak, bk>, ExtractPreciseValue<av, bv>> : LeastUpperBound<a, b> : b extends Set<infer bv> ? a extends Set<infer av> ? Set<ExtractPreciseValue<av, bv>> : LeastUpperBound<a, b> : IsPlainObject<b, BuiltInObjects | Error> extends true ? a extends object ? a extends b ? a : b extends a ? b : [keyof a & keyof b] extends [never] ? never : ExcludeObjectIfContainsNever<Compute<{
++    [k in Exclude<keyof a, keyof b>]: a[k];
++} & {
++    [k in keyof b]: k extends keyof a ? ExtractPreciseValue<a[k], b[k]> : b[k];
++}>, keyof b & string> : LeastUpperBound<a, b> : LeastUpperBound<a, b>;
+diff --git a/dist/types/FindSelected.d.cts b/dist/types/FindSelected.d.cts
+new file mode 100644
+index 0000000000000000000000000000000000000000..12d95bc992a3ff9149dcac180a3361aa09f35c52
+--- /dev/null
++++ b/dist/types/FindSelected.d.cts
+@@ -0,0 +1,61 @@
++import type * as symbols from '../internals/symbols.cjs';
++import type { Cast, Equal, IsAny, TupleKeys, UnionToTuple } from './helpers.cjs';
++import type { Matcher, Pattern } from './Pattern.cjs';
++declare type SelectionsRecord = Record<string, [unknown, unknown[]]>;
++export declare type None = {
++    type: 'none';
++};
++export declare type Some<key extends string> = {
++    type: 'some';
++    key: key;
++};
++export declare type SelectionType = None | Some<string>;
++declare type MapOptional<selections> = {
++    [k in keyof selections]: selections[k] extends [infer v, infer subpath] ? [v | undefined, subpath] : never;
++};
++declare type MapList<selections> = {
++    [k in keyof selections]: selections[k] extends [infer v, infer subpath] ? [v[], subpath] : never;
++};
++declare type ReduceFindSelectionUnion<i, ps extends any[], output = never> = ps extends [infer head, ...infer tail] ? ReduceFindSelectionUnion<i, tail, output | FindSelectionUnion<i, head>> : output;
++export declare type FindSelectionUnion<i, p, path extends any[] = []> = IsAny<i> extends true ? never : p extends Matcher<any, infer pattern, infer matcherType, infer sel> ? {
++    select: sel extends Some<infer k> ? {
++        [kk in k]: [i, path];
++    } | FindSelectionUnion<i, pattern, path> : never;
++    array: i extends (infer ii)[] ? MapList<FindSelectionUnion<ii, pattern>> : never;
++    optional: MapOptional<FindSelectionUnion<i, pattern>>;
++    or: MapOptional<ReduceFindSelectionUnion<i, Cast<pattern, any[]>>>;
++    and: ReduceFindSelectionUnion<i, Cast<pattern, any[]>>;
++    not: never;
++    default: sel extends Some<infer k> ? {
++        [kk in k]: [i, path];
++    } : never;
++}[matcherType] : p extends readonly (infer pp)[] ? i extends readonly (infer ii)[] ? p extends readonly [any, ...any[]] ? i extends readonly [any, ...any[]] ? {
++    [k in TupleKeys & keyof i & keyof p]: FindSelectionUnion<i[k], p[k], [
++        ...path,
++        k
++    ]>;
++}[TupleKeys & keyof i & keyof p] : FindSelectionUnion<ii, p[number], [...path, 0]> : FindSelectionUnion<ii, pp, [...path, 0]> : never : p extends object ? i extends object ? {
++    [k in keyof p]: k extends keyof i ? FindSelectionUnion<i[k], p[k], [...path, k]> : never;
++}[keyof p] : never : never;
++export declare type SeveralAnonymousSelectError<a = 'You can only use a single anonymous selection (with `select()`) in your pattern. If you need to select multiple values, give them names with `select(<name>)` instead'> = {
++    __error: never;
++} & a;
++export declare type MixedNamedAndAnonymousSelectError<a = 'Mixing named selections (`select("name")`) and anonymous selections (`select()`) is forbiden. Please, only use named selections.'> = {
++    __error: never;
++} & a;
++export declare type SelectionToArgs<selections extends SelectionsRecord> = symbols.anonymousSelectKey extends keyof selections ? [
++    selections[symbols.anonymousSelectKey][1]
++] extends [never] ? SeveralAnonymousSelectError : keyof selections extends symbols.anonymousSelectKey ? selections[symbols.anonymousSelectKey][0] : MixedNamedAndAnonymousSelectError : {
++    [k in keyof selections]: selections[k][0];
++};
++declare type ConcatSelections<a extends SelectionsRecord, b extends SelectionsRecord> = {
++    [k in keyof a & keyof b]: [a[k][0] | b[k][0], a[k][1] & b[k][1]];
++} & {
++    [k in Exclude<keyof a, keyof b>]: a[k];
++} & {
++    [k in Exclude<keyof b, keyof a>]: b[k];
++};
++declare type ReduceToRecord<selections extends any[], output extends SelectionsRecord = {}> = selections extends [infer sel, ...infer rest] ? ReduceToRecord<rest, ConcatSelections<Cast<sel, SelectionsRecord>, output>> : output;
++export declare type Selections<i, p> = FindSelectionUnion<i, p> extends infer u ? [u] extends [never] ? i : SelectionToArgs<ReduceToRecord<UnionToTuple<u>>> : i;
++export declare type FindSelected<i, p> = Equal<p, Pattern<i>> extends true ? i : Selections<i, p>;
++export {};
+diff --git a/dist/types/InvertPattern.d.cts b/dist/types/InvertPattern.d.cts
+new file mode 100644
+index 0000000000000000000000000000000000000000..b92431d768d319202efda90d0cf83eb00826a679
+--- /dev/null
++++ b/dist/types/InvertPattern.d.cts
+@@ -0,0 +1,83 @@
++import { DeepExclude } from './DeepExclude.cjs';
++import { Cast, Compute, Equal, IsLiteral, Primitives, ValueOf } from './helpers.cjs';
++
++import type { Matcher, ToExclude } from './Pattern.cjs';
++declare type OptionalKeys<p> = ValueOf<{
++    [k in keyof p]: p[k] extends Matcher<any, any, infer matcherType> ? matcherType extends 'optional' ? k : never : never;
++}>;
++declare type ReduceUnion<tuple extends any[], output = never> = tuple extends readonly [
++    infer p,
++    ...infer tail
++] ? ReduceUnion<tail, output | InvertPattern<p>> : output;
++declare type ReduceIntersection<tuple extends any[], output = unknown> = tuple extends readonly [infer p, ...infer tail] ? ReduceIntersection<tail, output & InvertPattern<p>> : output;
++/**
++ * ### InvertPattern
++ * Since patterns have special wildcard values, we need a way
++ * to transform a pattern into the type of value it represents
++ */
++export declare type InvertPattern<p> = p extends Matcher<infer input, infer narrowed, infer matcherType, any> ? {
++    not: ToExclude<InvertPattern<narrowed>>;
++    select: InvertPattern<narrowed>;
++    array: InvertPattern<narrowed>[];
++    optional: InvertPattern<narrowed> | undefined;
++    and: ReduceIntersection<Cast<narrowed, any[]>>;
++    or: ReduceUnion<Cast<narrowed, any[]>>;
++    default: [narrowed] extends [never] ? input : narrowed;
++}[matcherType] : p extends Primitives ? p : p extends readonly (infer pp)[] ? p extends readonly [infer p1, infer p2, infer p3, infer p4, infer p5] ? [
++    InvertPattern<p1>,
++    InvertPattern<p2>,
++    InvertPattern<p3>,
++    InvertPattern<p4>,
++    InvertPattern<p5>
++] : p extends readonly [infer p1, infer p2, infer p3, infer p4] ? [
++    InvertPattern<p1>,
++    InvertPattern<p2>,
++    InvertPattern<p3>,
++    InvertPattern<p4>
++] : p extends readonly [infer p1, infer p2, infer p3] ? [InvertPattern<p1>, InvertPattern<p2>, InvertPattern<p3>] : p extends readonly [infer p1, infer p2] ? [InvertPattern<p1>, InvertPattern<p2>] : p extends readonly [infer p1] ? [InvertPattern<p1>] : p extends readonly [] ? [] : InvertPattern<pp>[] : p extends Map<infer pk, infer pv> ? Map<pk, InvertPattern<pv>> : p extends Set<infer pv> ? Set<InvertPattern<pv>> : IsPlainObject<p> extends true ? OptionalKeys<p> extends infer optKeys ? [optKeys] extends [never] ? {
++    [k in Exclude<keyof p, optKeys>]: InvertPattern<p[k]>;
++} : Compute<{
++    [k in Exclude<keyof p, optKeys>]: InvertPattern<p[k]>;
++} & {
++    [k in Cast<optKeys, keyof p>]?: InvertPattern<p[k]>;
++}> : never : p;
++export declare type ReduceIntersectionForExclude<tuple extends any[], i, output = unknown> = tuple extends readonly [infer p, ...infer tail] ? ReduceIntersectionForExclude<tail, i, output & InvertPatternForExclude<p, i, unknown>> : output;
++export declare type ReduceUnionForExclude<tuple extends any[], i, output = never> = tuple extends readonly [infer p, ...infer tail] ? ReduceUnionForExclude<tail, i, output | InvertPatternForExclude<p, i, never>> : output;
++declare type ExcludeIfExists<a, b> = [b] extends [never] ? never : DeepExclude<a, b> extends infer excluded ? Equal<a, excluded> extends true ? unknown : excluded : never;
++/**
++ * ### InvertPatternForExclude
++ */
++export declare type InvertPatternForExclude<p, i, empty = never> = p extends Matcher<infer matchableInput, infer subpattern, infer matcherType, any, infer excluded> ? {
++    select: InvertPatternForExclude<subpattern, i, empty>;
++    array: i extends readonly (infer ii)[] ? InvertPatternForExclude<subpattern, ii, empty>[] : empty;
++    optional: InvertPatternForExclude<subpattern, i, empty> | undefined;
++    and: ReduceIntersectionForExclude<Cast<subpattern, any[]>, i>;
++    or: ReduceUnionForExclude<Cast<subpattern, any[]>, i>;
++    not: ExcludeIfExists<unknown extends matchableInput ? i : matchableInput, InvertPatternForExclude<subpattern, i>>;
++    default: excluded;
++}[matcherType] : p extends Primitives ? IsLiteral<p> extends true ? p : IsLiteral<i> extends true ? p : empty : p extends readonly (infer pp)[] ? i extends readonly (infer ii)[] ? p extends readonly [infer p1, infer p2, infer p3, infer p4, infer p5] ? i extends readonly [infer i1, infer i2, infer i3, infer i4, infer i5] ? readonly [
++    InvertPatternForExclude<p1, i1, empty>,
++    InvertPatternForExclude<p2, i2, empty>,
++    InvertPatternForExclude<p3, i3, empty>,
++    InvertPatternForExclude<p4, i4, empty>,
++    InvertPatternForExclude<p5, i5, empty>
++] : empty : p extends readonly [infer p1, infer p2, infer p3, infer p4] ? i extends readonly [infer i1, infer i2, infer i3, infer i4] ? readonly [
++    InvertPatternForExclude<p1, i1, empty>,
++    InvertPatternForExclude<p2, i2, empty>,
++    InvertPatternForExclude<p3, i3, empty>,
++    InvertPatternForExclude<p4, i4, empty>
++] : empty : p extends readonly [infer p1, infer p2, infer p3] ? i extends readonly [infer i1, infer i2, infer i3] ? readonly [
++    InvertPatternForExclude<p1, i1, empty>,
++    InvertPatternForExclude<p2, i2, empty>,
++    InvertPatternForExclude<p3, i3, empty>
++] : empty : p extends readonly [infer p1, infer p2] ? i extends readonly [infer i1, infer i2] ? readonly [
++    InvertPatternForExclude<p1, i1, empty>,
++    InvertPatternForExclude<p2, i2, empty>
++] : empty : p extends readonly [infer p1] ? i extends readonly [infer i1] ? readonly [InvertPatternForExclude<p1, i1, empty>] : empty : p extends readonly [] ? [] : InvertPatternForExclude<pp, ii, empty>[] : empty : p extends Map<infer pk, infer pv> ? i extends Map<any, infer iv> ? Map<pk, InvertPatternForExclude<pv, iv, empty>> : empty : p extends Set<infer pv> ? i extends Set<infer iv> ? Set<InvertPatternForExclude<pv, iv, empty>> : empty : IsPlainObject<p> extends true ? i extends object ? [keyof p & keyof i] extends [never] ? empty : OptionalKeys<p> extends infer optKeys ? [optKeys] extends [never] ? {
++    readonly [k in keyof p]: k extends keyof i ? InvertPatternForExclude<p[k], i[k], empty> : InvertPattern<p[k]>;
++} : Compute<{
++    readonly [k in Exclude<keyof p, optKeys>]: k extends keyof i ? InvertPatternForExclude<p[k], i[k], empty> : InvertPattern<p[k]>;
++} & {
++    readonly [k in Cast<optKeys, keyof p>]?: k extends keyof i ? InvertPatternForExclude<p[k], i[k], empty> : InvertPattern<p[k]>;
++}> : empty : empty : empty;
++export {};
+diff --git a/dist/types/IsMatching.d.cts b/dist/types/IsMatching.d.cts
+new file mode 100644
+index 0000000000000000000000000000000000000000..0556a55b0d3a25ae17d952b061a5d96d1558ccf7
+--- /dev/null
++++ b/dist/types/IsMatching.d.cts
+@@ -0,0 +1,32 @@
++import { IsUnion, Primitives } from './helpers.cjs';
++
++export declare type IsMatching<a, p> = true extends IsUnion<a> | IsUnion<p> ? true extends (p extends any ? (a extends any ? IsMatching<a, p> : never) : never) ? true : false : unknown extends p ? true : p extends Primitives ? p extends a ? true : false : [p, a] extends [readonly any[], readonly any[]] ? [p, a] extends [
++    readonly [infer p1, infer p2, infer p3, infer p4, infer p5],
++    readonly [infer a1, infer a2, infer a3, infer a4, infer a5]
++] ? [
++    IsMatching<a1, p1>,
++    IsMatching<a2, p2>,
++    IsMatching<a3, p3>,
++    IsMatching<a4, p4>,
++    IsMatching<a5, p5>
++] extends [true, true, true, true, true] ? true : false : [p, a] extends [
++    readonly [infer p1, infer p2, infer p3, infer p4],
++    readonly [infer a1, infer a2, infer a3, infer a4]
++] ? [
++    IsMatching<a1, p1>,
++    IsMatching<a2, p2>,
++    IsMatching<a3, p3>,
++    IsMatching<a4, p4>
++] extends [true, true, true, true] ? true : false : [p, a] extends [
++    readonly [infer p1, infer p2, infer p3],
++    readonly [infer a1, infer a2, infer a3]
++] ? [IsMatching<a1, p1>, IsMatching<a2, p2>, IsMatching<a3, p3>] extends [
++    true,
++    true,
++    true
++] ? true : false : [p, a] extends [
++    readonly [infer p1, infer p2],
++    readonly [infer a1, infer a2]
++] ? [IsMatching<a1, p1>, IsMatching<a2, p2>] extends [true, true] ? true : false : [p, a] extends [readonly [infer p1], readonly [infer a1]] ? IsMatching<a1, p1> : p extends a ? true : false : IsPlainObject<p> extends true ? true extends (a extends any ? [keyof p & keyof a] extends [never] ? false : {
++    [k in keyof p & keyof a]: IsMatching<a[k], p[k]>;
++}[keyof p & keyof a] extends true ? true : false : never) ? true : false : p extends a ? true : false;
+diff --git a/dist/types/Match.d.cts b/dist/types/Match.d.cts
+new file mode 100644
+index 0000000000000000000000000000000000000000..6bfce4e737961bd7714335b7f177409a89d6d31c
+--- /dev/null
++++ b/dist/types/Match.d.cts
+@@ -0,0 +1,111 @@
++import type * as symbols from '../internals/symbols.cjs';
++import type { Pattern, Matcher } from './Pattern.cjs';
++import type { ExtractPreciseValue } from './ExtractPreciseValue.cjs';
++import type { InvertPatternForExclude, InvertPattern } from './InvertPattern.cjs';
++import type { DeepExclude } from './DeepExclude.cjs';
++import type { WithDefault, Union, GuardValue } from './helpers.cjs';
++import type { FindSelected } from './FindSelected.cjs';
++export declare type MatchedValue<a, invpattern> = WithDefault<ExtractPreciseValue<a, invpattern>, a>;
++export declare type PickReturnValue<a, b> = a extends symbols.unset ? b : a;
++declare type NonExhaustiveError<i> = {
++    __nonExhaustive: never;
++} & i;
++/**
++ * #### Match
++ * An interface to create a pattern matching clause.
++ */
++export declare type Match<i, o, patternValueTuples extends [any, any][] = [], inferredOutput = never> = {
++    /**
++     * `.with(pattern, handler)` Registers a pattern and an handler function which
++     * will be called if this pattern matches the input value.
++     *
++     * [Read `.with()` documentation on GitHub](https://github.com/gvergnaud/ts-pattern#with)
++     **/
++    with<p extends Pattern<i>, c, value extends MatchedValue<i, InvertPattern<p>>>(pattern: p, handler: (selections: FindSelected<value, p>, value: value) => PickReturnValue<o, c>): Match<i, o, [...patternValueTuples, [p, value]], Union<inferredOutput, c>>;
++    with<p1 extends Pattern<i>, p2 extends Pattern<i>, c, p extends p1 | p2, value extends p extends any ? MatchedValue<i, InvertPattern<p>> : never>(p1: p1, p2: p2, handler: (value: value) => PickReturnValue<o, c>): Match<i, o, [
++        ...patternValueTuples,
++        [p1, value],
++        [p2, value]
++    ], Union<inferredOutput, c>>;
++    with<p1 extends Pattern<i>, p2 extends Pattern<i>, p3 extends Pattern<i>, ps extends Pattern<i>[], c, p extends p1 | p2 | p3 | ps[number], value extends p extends any ? MatchedValue<i, InvertPattern<p>> : never>(...args: [
++        p1: p1,
++        p2: p2,
++        p3: p3,
++        ...patterns: ps,
++        handler: (value: value) => PickReturnValue<o, c>
++    ]): Match<i, o, [
++        ...patternValueTuples,
++        [
++            p1,
++            value
++        ],
++        [
++            p2,
++            value
++        ],
++        [
++            p3,
++            value
++        ],
++        ...MakeTuples<ps, value>
++    ], Union<inferredOutput, c>>;
++    with<pat extends Pattern<i>, pred extends (value: MatchedValue<i, InvertPattern<pat>>) => unknown, c, value extends GuardValue<pred>>(pattern: pat, predicate: pred, handler: (selections: FindSelected<value, pat>, value: value) => PickReturnValue<o, c>): Match<i, o, pred extends (value: any) => value is infer narrowed ? [...patternValueTuples, [Matcher<unknown, narrowed>, value]] : patternValueTuples, Union<inferredOutput, c>>;
++    /**
++     * `.when(predicate, handler)` Registers a predicate function and an handler function.
++     * If the predicate returns true, the handler function will be chosen to handle the input.
++     *
++     * [Read `.when()` documentation on GitHub](https://github.com/gvergnaud/ts-pattern#when)
++     **/
++    when<pred extends (value: i) => unknown, c, value extends GuardValue<pred>>(predicate: pred, handler: (value: value) => PickReturnValue<o, c>): Match<i, o, pred extends (value: any) => value is infer narrowed ? [...patternValueTuples, [Matcher<unknown, narrowed>, value]] : patternValueTuples, Union<inferredOutput, c>>;
++    /**
++     * `.otherwise()` takes a function returning the **default value**, and
++     * will be used to handle the input value if no previous pattern matched.
++     *
++     * Equivalent to `.with(P._, () => x).exhaustive()`
++     *
++     * [Read `.otherwise()` documentation on GitHub](https://github.com/gvergnaud/ts-pattern#otherwise)
++     *
++     **/
++    otherwise<c>(handler: (value: i) => PickReturnValue<o, c>): PickReturnValue<o, Union<inferredOutput, c>>;
++    /**
++     * `.exhaustive()` runs the pattern matching expression and return the result value.
++     *
++     * If this is of type `NonExhaustiveError`, it means you aren't matching
++     * every case, and you should add another `.with(...)` clause
++     * to prevent potential runtime errors.
++     *
++     * [Read `.exhaustive()` documentation on GitHub](https://github.com/gvergnaud/ts-pattern#exhaustive)
++     *
++     * */
++    exhaustive: DeepExcludeAll<i, patternValueTuples> extends infer remainingCases ? [remainingCases] extends [never] ? () => PickReturnValue<o, inferredOutput> : NonExhaustiveError<remainingCases> : never;
++    /**
++     * `.run()` runs the pattern matching expression and return the result value.
++     * */
++    run(): PickReturnValue<o, inferredOutput>;
++};
++/**
++ * Potential for optimization here:
++ *
++ * Since DeepExclude distributes the union of the input type, it can
++ * generate very large union types on patterns touching several unions at once.
++ * If we were sorting patterns from those which distribute the smallest
++ * amount of union types to those which distribute the largest, we would eliminate
++ * cheap cases more quickly and have less cases in the input type for patterns
++ * that will be expensive to exclude.
++ *
++ * This pre supposes that we have a cheap way of telling if the number
++ * of union types a pattern touches and a cheap way of sorting the tuple
++ * of patterns.
++ * - For the first part, we could reuse `FindMatchingUnions` and pick the `length`
++ *   of the returned tuple.
++ * - For the second part though I'm not aware a cheap way of sorting a tuple.
++ */
++declare type DeepExcludeAll<a, tupleList extends any[]> = tupleList extends [
++    [
++        infer p,
++        infer v
++    ],
++    ...infer tail
++] ? DeepExcludeAll<DeepExclude<a, InvertPatternForExclude<p, v>>, tail> : a;
++declare type MakeTuples<ps extends any[], value, output extends any[] = []> = ps extends [infer p, ...infer tail] ? MakeTuples<tail, value, [...output, [p, value]]> : output;
++export {};
+diff --git a/dist/types/Pattern.d.cts b/dist/types/Pattern.d.cts
+new file mode 100644
+index 0000000000000000000000000000000000000000..ab348d4601f516b189e41bc79879965564e736e4
+--- /dev/null
++++ b/dist/types/Pattern.d.cts
+@@ -0,0 +1,61 @@
++import { None, SelectionType, Some } from './FindSelected.cjs';
++import { Primitives } from './helpers.cjs';
++
++import type * as symbols from '../internals/symbols.cjs';
++export declare type MatcherType = 'not' | 'optional' | 'or' | 'and' | 'array' | 'select' | 'default';
++export declare type MatcherProtocol<input, narrowed, matcherType extends MatcherType, selections extends SelectionType, excluded> = {
++    match: <I>(value: I | input) => MatchResult;
++    getSelectionKeys?: () => string[];
++    matcherType?: matcherType;
++};
++export declare type MatchResult = {
++    matched: boolean;
++    selections?: Record<string, any>;
++};
++/**
++ * A `Matcher` is an object implementing the match
++ * protocol. It must define a `symbols.matcher` property
++ * which returns an object with a `match()` method, taking
++ * the input value and returning whether the pattern matches
++ * or not, along with optional selections.
++ */
++export interface Matcher<input, narrowed, matcherType extends MatcherType = 'default', selections extends SelectionType = None, excluded = narrowed> {
++    [symbols.matcher](): MatcherProtocol<input, narrowed, matcherType, selections, excluded>;
++}
++declare type UnknownMatcher = Matcher<unknown, unknown, any, any>;
++export declare type OptionalP<input, p> = Matcher<input, p, 'optional'>;
++export declare type ArrayP<input, p> = Matcher<input, p, 'array'>;
++export declare type AndP<input, ps> = Matcher<input, ps, 'and'>;
++export declare type OrP<input, ps> = Matcher<input, ps, 'or'>;
++export declare type NotP<input, p> = Matcher<input, p, 'not'>;
++export declare type GuardP<input, narrowed> = Matcher<input, narrowed>;
++export declare type GuardExcludeP<input, narrowed, excluded> = Matcher<input, narrowed, 'default', None, excluded>;
++export declare type SelectP<key extends string, input = unknown, p = Matcher<unknown, unknown>> = Matcher<input, p, 'select', Some<key>>;
++export declare type AnonymousSelectP = SelectP<symbols.anonymousSelectKey>;
++export interface ToExclude<a> {
++    [symbols.toExclude]: a;
++}
++export declare type UnknownPattern = readonly [] | readonly [UnknownPattern, ...UnknownPattern[]] | {
++    readonly [k: string]: UnknownPattern;
++} | Set<UnknownPattern> | Map<unknown, UnknownPattern> | Primitives | UnknownMatcher;
++/**
++ * `Pattern<a>` is the generic type for patterns matching a value of type `a`. A pattern can be any (nested) javascript value.
++ *
++ * They can also be wildcards, like `P._`, `P.string`, `P.number`,
++ * or other matchers, like `P.when(predicate)`, `P.not(pattern)`, etc.
++ *
++ * [Read `Patterns` documentation on GitHub](https://github.com/gvergnaud/ts-pattern#patterns)
++ *
++ * @example
++ * const pattern: P.Pattern<User> = { name: P.string }
++ */
++export declare type Pattern<a> = Matcher<a, unknown, any, any> | (a extends Primitives ? a : unknown extends a ? UnknownPattern : a extends readonly (infer i)[] ? a extends readonly [infer a1, infer a2, infer a3, infer a4, infer a5] ? readonly [
++    Pattern<a1>,
++    Pattern<a2>,
++    Pattern<a3>,
++    Pattern<a4>,
++    Pattern<a5>
++] : a extends readonly [infer a1, infer a2, infer a3, infer a4] ? readonly [Pattern<a1>, Pattern<a2>, Pattern<a3>, Pattern<a4>] : a extends readonly [infer a1, infer a2, infer a3] ? readonly [Pattern<a1>, Pattern<a2>, Pattern<a3>] : a extends readonly [infer a1, infer a2] ? readonly [Pattern<a1>, Pattern<a2>] : a extends readonly [infer a1] ? readonly [Pattern<a1>] : readonly [] | readonly [Pattern<i>, ...Pattern<i>[]] : a extends Map<infer k, infer v> ? Map<k, Pattern<v>> : a extends Set<infer v> ? Set<Pattern<v>> : a extends object ? {
++    readonly [k in keyof a]?: Pattern<Exclude<a[k], undefined>>;
++} : a);
++export {};
+diff --git a/dist/types/helpers.d.cts b/dist/types/helpers.d.cts
+new file mode 100644
+index 0000000000000000000000000000000000000000..6e334b34768e85c23a57b1258d76f8ac07fb0d0d
+--- /dev/null
++++ b/dist/types/helpers.d.cts
+@@ -0,0 +1,53 @@
++export declare type ValueOf<a> = a extends any[] ? a[number] : a[keyof a];
++export declare type Values<a extends object> = UnionToTuple<ValueOf<a>>;
++/**
++ * ### LeastUpperBound
++ * An interesting one. A type taking two imbricated sets and returning the
++ * smallest one.
++ * We need that because sometimes the pattern's inferred type holds more
++ * information than the value on which we are matching (if the value is any
++ * or unknown for instance).
++ */
++export declare type LeastUpperBound<a, b> = b extends a ? b : a extends b ? a : never;
++/**
++ * if a key of an object has the never type,
++ * returns never, otherwise returns the type of object
++ **/
++export declare type ExcludeIfContainsNever<a, b> = b extends Map<any, any> | Set<any> ? a : b extends readonly [any, ...any] ? ExcludeObjectIfContainsNever<a, keyof b & ('0' | '1' | '2' | '3' | '4')> : b extends any[] ? ExcludeObjectIfContainsNever<a, keyof b & number> : ExcludeObjectIfContainsNever<a, keyof b & string>;
++export declare type ExcludeObjectIfContainsNever<a, keyConstraint = unknown> = a extends any ? {
++    [k in keyConstraint & keyof a]-?: [a[k]] extends [never] ? 'exclude' : 'include';
++}[keyConstraint & keyof a] extends infer includeOrExclude ? (includeOrExclude extends 'include' ? 'include' extends includeOrExclude ? true : false : false) extends true ? a : never : never : never;
++export declare type UnionToIntersection<union> = (union extends any ? (k: union) => void : never) extends (k: infer intersection) => void ? intersection : never;
++export declare type IsUnion<a> = [a] extends [UnionToIntersection<a>] ? false : true;
++export declare type UnionToTuple<union, output extends any[] = []> = UnionToIntersection<union extends any ? (t: union) => union : never> extends (_: any) => infer elem ? UnionToTuple<Exclude<union, elem>, [elem, ...output]> : output;
++export declare type Cast<a, b> = a extends b ? a : never;
++export declare type Flatten<xs extends any[], output extends any[] = []> = xs extends readonly [infer head, ...infer tail] ? Flatten<tail, [...output, ...Cast<head, any[]>]> : output;
++export declare type Equal<a, b> = (<T>() => T extends a ? 1 : 2) extends <T>() => T extends b ? 1 : 2 ? true : false;
++export declare type Expect<a extends true> = a;
++export declare type IsAny<a> = 0 extends 1 & a ? true : false;
++export declare type Length<it extends any[]> = it['length'];
++export declare type Iterator<n extends number, it extends any[] = []> = it['length'] extends n ? it : Iterator<n, [any, ...it]>;
++export declare type Next<it extends any[]> = [any, ...it];
++export declare type Prev<it extends any[]> = it extends readonly [any, ...infer tail] ? tail : [];
++export declare type Slice<xs extends readonly any[], it extends any[], output extends any[] = []> = Length<it> extends 0 ? output : xs extends readonly [infer head, ...infer tail] ? Slice<tail, Prev<it>, [...output, head]> : output;
++export declare type Drop<xs extends readonly any[], n extends any[]> = Length<n> extends 0 ? xs : xs extends readonly [any, ...infer tail] ? Drop<tail, Prev<n>> : [];
++export declare type BuiltInObjects = Function | Date | RegExp | Generator | {
++    readonly [Symbol.toStringTag]: string;
++} | any[];
++export declare type IsPlainObject<o, excludeUnion = BuiltInObjects> = o extends object ? o extends string | excludeUnion ? false : true : false;
++export declare type Compute<a extends any> = a extends BuiltInObjects ? a : {
++    [k in keyof a]: a[k];
++};
++export declare type IntersectObjects<a> = (a extends any ? keyof a : never) extends infer allKeys ? {
++    [k in Cast<allKeys, PropertyKey>]: a extends any ? k extends keyof a ? a[k] : never : never;
++} : never;
++export declare type WithDefault<a, def> = [a] extends [never] ? def : a;
++export declare type IsLiteral<a> = a extends null | undefined ? true : a extends string ? string extends a ? false : true : a extends number ? number extends a ? false : true : a extends boolean ? boolean extends a ? false : true : a extends symbol ? symbol extends a ? false : true : a extends bigint ? bigint extends a ? false : true : false;
++export declare type Primitives = number | boolean | string | undefined | null | symbol | bigint;
++export declare type TupleKeys = 0 | 1 | 2 | 3 | 4;
++export declare type Union<a, b> = [b] extends [a] ? a : [a] extends [b] ? b : a | b;
++/**
++ * GuardValue returns the value guarded by a type guard function.
++ */
++export declare type GuardValue<fn> = fn extends (value: any) => value is infer b ? b : fn extends (value: infer a) => unknown ? a : never;
++export declare type GuardFunction<input, narrowed> = ((value: input) => value is Cast<narrowed, input>) | ((value: input) => boolean);
+diff --git a/package.json b/package.json
+index 0730152f321e9afeb400dea5320e60131e592bb6..6291078b4c8cd4330fd785e31d6f6ca1a5512379 100644
+--- a/package.json
++++ b/package.json
+@@ -12,13 +12,13 @@
+         "default": "./dist/index.modern.js"
+       },
+       "require": {
+-        "types": "./dist/index.d.ts",
++        "types": "./dist/index.d.cts",
+         "default": "./dist/index.cjs"
+       }
+     }
+   },
+   "main": "./dist/index.cjs",
+-  "types": "dist/index.d.ts",
++  "types": "./dist/index.d.cts",
+   "module": "./dist/index.module.js",
+   "unpkg": "./dist/index.umd.js",
+   "scripts": {
