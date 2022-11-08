@@ -19,7 +19,7 @@ export async function main() {
   }
 
   async function exec(cli: Cli<BaseContext & { config: ConfigType }>) {
-    const { config } = (await getConfig()) ?? { config: {} };
+    const config = await getConfig();
 
     cli.register(SortPackageJSONCommand);
 

@@ -1,13 +1,9 @@
 import { cosmiconfig } from 'cosmiconfig';
 
-import { ConfigType } from '../contexts';
-
-type Result = {
-  config: ConfigType;
-  filepath: string;
-  isEmpty?: boolean;
-} | null;
+import { ConfigSchema } from '../contexts';
 
 export async function getConfig() {
-  return cosmiconfig('packlint').search() as Promise<Result>;
+  const { config } = (await cosmiconfig('packlint').search()) ?? {};
+
+  return ConfigSchema.parse(config);
 }
