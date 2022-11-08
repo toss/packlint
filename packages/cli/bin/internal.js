@@ -2,4 +2,4 @@
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require('ts-node').register({ project: __dirname + '/../tsconfig.json', transpileOnly: true });
-require('../src/cli.ts');
+require('../src/index.ts');
