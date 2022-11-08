@@ -31,6 +31,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       {\
         "name": "@packlint/sort",\
         "reference": "workspace:packages/sort"\
+      },\
+      {\
+        "name": "@packlint/validate",\
+        "reference": "workspace:packages/validate"\
       }\
     ],\
     "enableTopLevelFallback": true,\
@@ -39,6 +43,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
       ["@packlint/cli", ["workspace:packages/cli"]],\
       ["@packlint/core", ["workspace:packages/core"]],\
       ["@packlint/sort", ["workspace:packages/sort"]],\
+      ["@packlint/validate", ["workspace:packages/validate"]],\
       ["packlint", ["workspace:."]]\
     ],\
     "fallbackPool": [\
@@ -3000,6 +3005,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@packlint/cli", "workspace:packages/cli"],\
             ["@packlint/core", "workspace:packages/core"],\
             ["@packlint/sort", "workspace:packages/sort"],\
+            ["@packlint/validate", "workspace:packages/validate"],\
             ["@types/jest", "npm:29.2.1"],\
             ["@types/node", "npm:18.11.9"],\
             ["clipanion", "virtual:0d27f262c51418fd586c5fc95455f1b1f8df724776e2a22ed9bb8e762caf90dcef65213943d75328ad0c7ac09cb202b0281e5d37ec9886d54dd8d538c3e94d5a#npm:3.2.0-rc.13"],\
@@ -3038,6 +3044,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["fast-sort", "npm:3.2.0"],\
             ["jest", "virtual:8d700596777d88916226ccd9cb33397816f65880f832f094f1eb4bd9e0542af5e7568f052fcc23864ad7d598cc693a520e24864f3165df3b0ac97adf4480559b#npm:29.2.2"],\
             ["ts-pattern", "patch:ts-pattern@npm%3A4.0.5#.yarn/patches/ts-pattern-npm-4.0.5-7ba0b14201.patch::version=4.0.5&hash=accce1&locator=packlint%40workspace%3A."],\
+            ["typescript", "patch:typescript@npm%3A4.8.3#~builtin<compat/typescript>::version=4.8.3&hash=a1c5e5"],\
+            ["zod", "npm:3.19.1"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@packlint/validate", [\
+        ["workspace:packages/validate", {\
+          "packageLocation": "./packages/validate/",\
+          "packageDependencies": [\
+            ["@packlint/validate", "workspace:packages/validate"],\
+            ["@packlint/core", "workspace:packages/core"],\
+            ["@types/jest", "npm:29.2.1"],\
+            ["@types/node", "npm:18.11.9"],\
+            ["clipanion", "virtual:0d27f262c51418fd586c5fc95455f1b1f8df724776e2a22ed9bb8e762caf90dcef65213943d75328ad0c7ac09cb202b0281e5d37ec9886d54dd8d538c3e94d5a#npm:3.2.0-rc.13"],\
+            ["jest", "virtual:8d700596777d88916226ccd9cb33397816f65880f832f094f1eb4bd9e0542af5e7568f052fcc23864ad7d598cc693a520e24864f3165df3b0ac97adf4480559b#npm:29.2.2"],\
             ["typescript", "patch:typescript@npm%3A4.8.3#~builtin<compat/typescript>::version=4.8.3&hash=a1c5e5"],\
             ["zod", "npm:3.19.1"]\
           ],\

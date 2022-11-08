@@ -1,5 +1,6 @@
 import { ConfigType, getConfig } from '@packlint/core';
-import { SortPackageJSONCommand } from '@packlint/sort';
+import { SortCommand } from '@packlint/sort';
+import { ValidateCommand } from '@packlint/validate';
 import { BaseContext, Cli } from 'clipanion';
 
 export async function main() {
@@ -21,7 +22,8 @@ export async function main() {
   async function exec(cli: Cli<BaseContext & { config: ConfigType }>) {
     const config = await getConfig();
 
-    cli.register(SortPackageJSONCommand);
+    cli.register(SortCommand);
+    cli.register(ValidateCommand);
 
     const command = cli.process(process.argv.slice(2), { config });
 
