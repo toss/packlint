@@ -13,6 +13,7 @@
   "dependencies": {
     "@packlint/core": "workspace:^",
     "@packlint/sort": "workspace:^",
+    "@packlint/validate": "workspace:^",
     "clipanion": "^3.2.0-rc.13"
   },
   "devDependencies": {

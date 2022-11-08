@@ -6,5 +6,9 @@
     "...",
     "dependencies",
     "devDependencies"
+  ],
+  "required": [
+    "exports",
+    "typings"
   ]
 }

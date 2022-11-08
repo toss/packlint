@@ -3,7 +3,7 @@ import { BaseContext, Command } from 'clipanion';
 
 import { sortPackageJSON } from '../operations/sort-package-json';
 
-export class SortPackageJSONCommand<T extends BaseContext & { config: ConfigType }> extends Command<T> {
+export class SortCommand<T extends BaseContext & { config: ConfigType }> extends Command<T> {
   static paths = [['sort']];
 
   async execute() {
