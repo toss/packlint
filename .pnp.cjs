@@ -52,6 +52,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/preset-env", "virtual:8d700596777d88916226ccd9cb33397816f65880f832f094f1eb4bd9e0542af5e7568f052fcc23864ad7d598cc693a520e24864f3165df3b0ac97adf4480559b#npm:7.19.4"],\
             ["@babel/preset-typescript", "virtual:8d700596777d88916226ccd9cb33397816f65880f832f094f1eb4bd9e0542af5e7568f052fcc23864ad7d598cc693a520e24864f3165df3b0ac97adf4480559b#npm:7.18.6"],\
             ["@types/jest", "npm:29.2.1"],\
+            ["@types/node", "npm:18.11.9"],\
             ["@typescript-eslint/eslint-plugin", "virtual:8d700596777d88916226ccd9cb33397816f65880f832f094f1eb4bd9e0542af5e7568f052fcc23864ad7d598cc693a520e24864f3165df3b0ac97adf4480559b#npm:5.42.0"],\
             ["@typescript-eslint/parser", "virtual:8d700596777d88916226ccd9cb33397816f65880f832f094f1eb4bd9e0542af5e7568f052fcc23864ad7d598cc693a520e24864f3165df3b0ac97adf4480559b#npm:5.42.0"],\
             ["babel-jest", "virtual:8d700596777d88916226ccd9cb33397816f65880f832f094f1eb4bd9e0542af5e7568f052fcc23864ad7d598cc693a520e24864f3165df3b0ac97adf4480559b#npm:29.2.2"],\
@@ -2997,8 +2998,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/cli/",\
           "packageDependencies": [\
             ["@packlint/cli", "workspace:packages/cli"],\
+            ["@packlint/core", "workspace:packages/core"],\
+            ["@packlint/sort", "workspace:packages/sort"],\
             ["@types/jest", "npm:29.2.1"],\
-            ["jest", "virtual:8d700596777d88916226ccd9cb33397816f65880f832f094f1eb4bd9e0542af5e7568f052fcc23864ad7d598cc693a520e24864f3165df3b0ac97adf4480559b#npm:29.2.2"]\
+            ["@types/node", "npm:18.11.9"],\
+            ["clipanion", "virtual:0d27f262c51418fd586c5fc95455f1b1f8df724776e2a22ed9bb8e762caf90dcef65213943d75328ad0c7ac09cb202b0281e5d37ec9886d54dd8d538c3e94d5a#npm:3.2.0-rc.13"],\
+            ["jest", "virtual:8d700596777d88916226ccd9cb33397816f65880f832f094f1eb4bd9e0542af5e7568f052fcc23864ad7d598cc693a520e24864f3165df3b0ac97adf4480559b#npm:29.2.2"],\
+            ["ts-node", "virtual:8d700596777d88916226ccd9cb33397816f65880f832f094f1eb4bd9e0542af5e7568f052fcc23864ad7d598cc693a520e24864f3165df3b0ac97adf4480559b#npm:10.9.1"],\
+            ["typescript", "patch:typescript@npm%3A4.8.3#~builtin<compat/typescript>::version=4.8.3&hash=a1c5e5"]\
           ],\
           "linkType": "SOFT"\
         }]\
@@ -3010,6 +3017,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@packlint/core", "workspace:packages/core"],\
             ["@types/fs-extra", "npm:9.0.13"],\
             ["@types/jest", "npm:29.2.1"],\
+            ["cosmiconfig", "npm:7.0.1"],\
             ["fs-extra", "npm:10.1.0"],\
             ["jest", "virtual:8d700596777d88916226ccd9cb33397816f65880f832f094f1eb4bd9e0542af5e7568f052fcc23864ad7d598cc693a520e24864f3165df3b0ac97adf4480559b#npm:29.2.2"],\
             ["typescript", "patch:typescript@npm%3A4.8.3#~builtin<compat/typescript>::version=4.8.3&hash=a1c5e5"],\
@@ -3238,6 +3246,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-node-npm-18.11.9-d21dd6ec05-cc0aae109e.zip/node_modules/@types/node/",\
           "packageDependencies": [\
             ["@types/node", "npm:18.11.9"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@types/parse-json", [\
+        ["npm:4.0.0", {\
+          "packageLocation": "./.yarn/cache/@types-parse-json-npm-4.0.0-298522afa6-fd6bce2b67.zip/node_modules/@types/parse-json/",\
+          "packageDependencies": [\
+            ["@types/parse-json", "npm:4.0.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -4302,6 +4319,20 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["core-js-compat", "npm:3.26.0"],\
             ["browserslist", "npm:4.21.4"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["cosmiconfig", [\
+        ["npm:7.0.1", {\
+          "packageLocation": "./.yarn/cache/cosmiconfig-npm-7.0.1-dd19ae2403-4be63e7117.zip/node_modules/cosmiconfig/",\
+          "packageDependencies": [\
+            ["cosmiconfig", "npm:7.0.1"],\
+            ["@types/parse-json", "npm:4.0.0"],\
+            ["import-fresh", "npm:3.3.0"],\
+            ["parse-json", "npm:5.2.0"],\
+            ["path-type", "npm:4.0.0"],\
+            ["yaml", "npm:1.10.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -7102,6 +7133,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/preset-env", "virtual:8d700596777d88916226ccd9cb33397816f65880f832f094f1eb4bd9e0542af5e7568f052fcc23864ad7d598cc693a520e24864f3165df3b0ac97adf4480559b#npm:7.19.4"],\
             ["@babel/preset-typescript", "virtual:8d700596777d88916226ccd9cb33397816f65880f832f094f1eb4bd9e0542af5e7568f052fcc23864ad7d598cc693a520e24864f3165df3b0ac97adf4480559b#npm:7.18.6"],\
             ["@types/jest", "npm:29.2.1"],\
+            ["@types/node", "npm:18.11.9"],\
             ["@typescript-eslint/eslint-plugin", "virtual:8d700596777d88916226ccd9cb33397816f65880f832f094f1eb4bd9e0542af5e7568f052fcc23864ad7d598cc693a520e24864f3165df3b0ac97adf4480559b#npm:5.42.0"],\
             ["@typescript-eslint/parser", "virtual:8d700596777d88916226ccd9cb33397816f65880f832f094f1eb4bd9e0542af5e7568f052fcc23864ad7d598cc693a520e24864f3165df3b0ac97adf4480559b#npm:5.42.0"],\
             ["babel-jest", "virtual:8d700596777d88916226ccd9cb33397816f65880f832f094f1eb4bd9e0542af5e7568f052fcc23864ad7d598cc693a520e24864f3165df3b0ac97adf4480559b#npm:29.2.2"],\
@@ -7981,7 +8013,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@tsconfig/node12", "npm:1.0.11"],\
             ["@tsconfig/node14", "npm:1.0.3"],\
             ["@tsconfig/node16", "npm:1.0.3"],\
-            ["@types/node", null],\
+            ["@types/node", "npm:18.11.9"],\
             ["@types/swc__core", null],\
             ["@types/swc__wasm", null],\
             ["@types/typescript", null],\
@@ -8380,6 +8412,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/yallist-npm-4.0.0-b493d9e907-343617202a.zip/node_modules/yallist/",\
           "packageDependencies": [\
             ["yallist", "npm:4.0.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["yaml", [\
+        ["npm:1.10.2", {\
+          "packageLocation": "./.yarn/cache/yaml-npm-1.10.2-0e780aebdf-ce4ada136e.zip/node_modules/yaml/",\
+          "packageDependencies": [\
+            ["yaml", "npm:1.10.2"]\
           ],\
           "linkType": "HARD"\
         }]\
