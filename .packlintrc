@@ -1,0 +1,10 @@
+{
+  "order": [
+    "...",
+    "exports",
+    "publishConfig",
+    "...",
+    "dependencies",
+    "devDependencies"
+  ]
+}
