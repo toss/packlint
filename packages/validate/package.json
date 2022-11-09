@@ -1,5 +1,6 @@
 {
   "name": "@packlint/validate",
+  "version": "0.0.1",
   "exports": {
     ".": {
       "require": "./src/index.ts",
@@ -8,6 +9,7 @@
     "./package.json": "./package.json"
   },
   "publishConfig": {
+    "access": "public",
     "main": "./dist/index.js",
     "exports": {
       ".": {

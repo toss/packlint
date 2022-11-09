@@ -8,7 +8,8 @@
     "devDependencies"
   ],
   "required": [
-    "exports"
+    "exports",
+    "version"
   ],
   "include": [
     "./packages/**"
