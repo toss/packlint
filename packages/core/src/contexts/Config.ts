@@ -14,6 +14,8 @@ export const ConfigSchema = z.object({
     .default(['dependencies', 'devDependencies', 'peerDependencies', 'resolutions'])
     .optional(),
   required: z.array(PackageJSONSchema.keyof()).default(['name']).optional(),
+  include: z.array(z.string()).default(['./packages/**']).optional(),
+  exclude: z.array(z.string()).default(['./packages/**']).optional(),
 });
 
 export type ConfigType = z.infer<typeof ConfigSchema>;

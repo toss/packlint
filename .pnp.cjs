@@ -3120,6 +3120,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/fs-extra", "npm:9.0.13"],\
             ["@types/jest", "npm:29.2.1"],\
             ["cosmiconfig", "npm:7.0.1"],\
+            ["fast-glob", "npm:3.2.12"],\
             ["fs-extra", "npm:10.1.0"],\
             ["jest", "virtual:c7dbb4ecb8f75228e807e1c4667ae26c811d8a221c06d472ed51c69808622c6db1b4224748e0b96b44a89cf42933f5072fced1d61b2ca76d97d563eeb992e780#npm:29.2.2"],\
             ["rollup", "npm:2.79.1"],\
