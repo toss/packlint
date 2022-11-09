@@ -1,4 +1,4 @@
-import { ConfigType, getPackageJSON } from '@packlint/core';
+import { ConfigType, getAllPackageJSONPath, getPackageJSON } from '@packlint/core';
 import { BaseContext, Command } from 'clipanion';
 
 import { validateRequiredFields } from '../index';
@@ -8,10 +8,15 @@ export class ValidateCommand<T extends BaseContext & { config: ConfigType }> ext
 
   async execute() {
     try {
-      const dir = process.cwd();
-      const _packageJSON = await getPackageJSON(dir);
+      const paths = await getAllPackageJSONPath();
 
-      validateRequiredFields(_packageJSON, this.context.config);
+      await Promise.all(
+        paths.map(async path => {
+          const json = await getPackageJSON(path);
+
+          return validateRequiredFields(json, this.context.config);
+        })
+      );
     } catch (e) {
       console.error(e);
     }

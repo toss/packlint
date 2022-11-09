@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "cosmiconfig": "^7.0.1",
+    "fast-glob": "^3.2.12",
     "fs-extra": "^10.1.0",
     "zod": "^3.19.1"
   },

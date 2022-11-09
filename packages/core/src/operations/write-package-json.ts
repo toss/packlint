@@ -1,7 +1,7 @@
 import { writeJSON } from 'fs-extra';
 
-import { PackageJSONType } from '../index';
+import { PackageJSONPathSchema, PackageJSONType } from '../index';
 
-export function writePackageJSON(packgeJSON: PackageJSONType, dir: string) {
-  return writeJSON(`${dir}/package.json`, packgeJSON, { spaces: 2 });
+export function writePackageJSON(packgeJSON: PackageJSONType, path: string) {
+  return writeJSON(PackageJSONPathSchema.parse(path), packgeJSON, { spaces: 2 });
 }

@@ -8,7 +8,12 @@
     "devDependencies"
   ],
   "required": [
-    "exports",
-    "typings"
+    "exports"
+  ],
+  "include": [
+    "./packages/**"
+  ],
+  "exclude": [
+    "package.json"
   ]
 }
