@@ -1,6 +1,6 @@
 {
-  "name": "@packlint/cli",
-  "version": "0.0.2",
+  "name": "packlint",
+  "version": "0.0.3",
   "exports": {
     ".": {
       "require": "./src/index.ts",
@@ -24,9 +24,7 @@
     }
   },
   "main": "./src/index.ts",
-  "bin": {
-    "packlint": "./bin/internal.js"
-  },
+  "bin": "./bin/internal.js",
   "scripts": {
     "prepack": "yarn build",
     "test": "jest",
