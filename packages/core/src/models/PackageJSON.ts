@@ -145,6 +145,7 @@ export const PackageJSONSchema = z
     },
     { errorMap: PackageJSONErrorMap }
   )
+  .passthrough()
   .partial();
 
 export type PackageJSONType = z.infer<typeof PackageJSONSchema>;
