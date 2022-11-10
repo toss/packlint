@@ -11,6 +11,11 @@
     "exports",
     "version"
   ],
+  "replace": {
+    "aaa": "bbb"
+  },
+  "merge": {},
+  "remove": [],
   "include": [
     "./packages/**"
   ],

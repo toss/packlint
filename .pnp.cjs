@@ -25,8 +25,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/cli"\
       },\
       {\
+        "name": "@packlint/command",\
+        "reference": "workspace:packages/command"\
+      },\
+      {\
         "name": "@packlint/core",\
         "reference": "workspace:packages/core"\
+      },\
+      {\
+        "name": "@packlint/replace",\
+        "reference": "workspace:packages/replace"\
       },\
       {\
         "name": "@packlint/sort",\
@@ -40,7 +48,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
     "enableTopLevelFallback": true,\
     "ignorePatternData": "(^(?:\\\\.yarn\\\\/sdks(?:\\\\/(?!\\\\.{1,2}(?:\\\\/|$))(?:(?:(?!(?:^|\\\\/)\\\\.{1,2}(?:\\\\/|$)).)*?)|$))$)",\
     "fallbackExclusionList": [\
+      ["@packlint/command", ["workspace:packages/command"]],\
       ["@packlint/core", ["workspace:packages/core"]],\
+      ["@packlint/replace", ["workspace:packages/replace"]],\
       ["@packlint/sort", ["workspace:packages/sort"]],\
       ["@packlint/validate", ["workspace:packages/validate"]],\
       ["packlint", ["workspace:packages/cli"]],\
@@ -3091,6 +3101,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@packlint/command", [\
+        ["workspace:packages/command", {\
+          "packageLocation": "./packages/command/",\
+          "packageDependencies": [\
+            ["@packlint/command", "workspace:packages/command"],\
+            ["@packlint/core", "workspace:packages/core"],\
+            ["@packlint/sort", "workspace:packages/sort"],\
+            ["@toss/rollup-config", "virtual:c7dbb4ecb8f75228e807e1c4667ae26c811d8a221c06d472ed51c69808622c6db1b4224748e0b96b44a89cf42933f5072fced1d61b2ca76d97d563eeb992e780#npm:0.0.1"],\
+            ["@types/jest", "npm:29.2.1"],\
+            ["@types/node", "npm:18.11.9"],\
+            ["clipanion", "virtual:0d27f262c51418fd586c5fc95455f1b1f8df724776e2a22ed9bb8e762caf90dcef65213943d75328ad0c7ac09cb202b0281e5d37ec9886d54dd8d538c3e94d5a#npm:3.2.0-rc.13"],\
+            ["jest", "virtual:c7dbb4ecb8f75228e807e1c4667ae26c811d8a221c06d472ed51c69808622c6db1b4224748e0b96b44a89cf42933f5072fced1d61b2ca76d97d563eeb992e780#npm:29.2.2"],\
+            ["rollup", "npm:2.79.1"],\
+            ["typescript", "patch:typescript@npm%3A4.8.3#~builtin<compat/typescript>::version=4.8.3&hash=a1c5e5"],\
+            ["zod", "npm:3.19.1"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
       ["@packlint/core", [\
         ["workspace:packages/core", {\
           "packageLocation": "./packages/core/",\
@@ -3110,11 +3139,32 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT"\
         }]\
       ]],\
+      ["@packlint/replace", [\
+        ["workspace:packages/replace", {\
+          "packageLocation": "./packages/replace/",\
+          "packageDependencies": [\
+            ["@packlint/replace", "workspace:packages/replace"],\
+            ["@packlint/command", "workspace:packages/command"],\
+            ["@packlint/core", "workspace:packages/core"],\
+            ["@packlint/sort", "workspace:packages/sort"],\
+            ["@toss/rollup-config", "virtual:c7dbb4ecb8f75228e807e1c4667ae26c811d8a221c06d472ed51c69808622c6db1b4224748e0b96b44a89cf42933f5072fced1d61b2ca76d97d563eeb992e780#npm:0.0.1"],\
+            ["@types/jest", "npm:29.2.1"],\
+            ["@types/node", "npm:18.11.9"],\
+            ["clipanion", "virtual:0d27f262c51418fd586c5fc95455f1b1f8df724776e2a22ed9bb8e762caf90dcef65213943d75328ad0c7ac09cb202b0281e5d37ec9886d54dd8d538c3e94d5a#npm:3.2.0-rc.13"],\
+            ["jest", "virtual:c7dbb4ecb8f75228e807e1c4667ae26c811d8a221c06d472ed51c69808622c6db1b4224748e0b96b44a89cf42933f5072fced1d61b2ca76d97d563eeb992e780#npm:29.2.2"],\
+            ["rollup", "npm:2.79.1"],\
+            ["typescript", "patch:typescript@npm%3A4.8.3#~builtin<compat/typescript>::version=4.8.3&hash=a1c5e5"],\
+            ["zod", "npm:3.19.1"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
       ["@packlint/sort", [\
         ["workspace:packages/sort", {\
           "packageLocation": "./packages/sort/",\
           "packageDependencies": [\
             ["@packlint/sort", "workspace:packages/sort"],\
+            ["@packlint/command", "workspace:packages/command"],\
             ["@packlint/core", "workspace:packages/core"],\
             ["@toss/rollup-config", "virtual:c7dbb4ecb8f75228e807e1c4667ae26c811d8a221c06d472ed51c69808622c6db1b4224748e0b96b44a89cf42933f5072fced1d61b2ca76d97d563eeb992e780#npm:0.0.1"],\
             ["@types/jest", "npm:29.2.1"],\
@@ -3135,6 +3185,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/validate/",\
           "packageDependencies": [\
             ["@packlint/validate", "workspace:packages/validate"],\
+            ["@packlint/command", "workspace:packages/command"],\
             ["@packlint/core", "workspace:packages/core"],\
             ["@toss/rollup-config", "virtual:c7dbb4ecb8f75228e807e1c4667ae26c811d8a221c06d472ed51c69808622c6db1b4224748e0b96b44a89cf42933f5072fced1d61b2ca76d97d563eeb992e780#npm:0.0.1"],\
             ["@types/jest", "npm:29.2.1"],\
@@ -7494,6 +7545,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["packlint", "workspace:packages/cli"],\
             ["@packlint/core", "workspace:packages/core"],\
+            ["@packlint/replace", "workspace:packages/replace"],\
             ["@packlint/sort", "workspace:packages/sort"],\
             ["@packlint/validate", "workspace:packages/validate"],\
             ["@toss/rollup-config", "virtual:c7dbb4ecb8f75228e807e1c4667ae26c811d8a221c06d472ed51c69808622c6db1b4224748e0b96b44a89cf42933f5072fced1d61b2ca76d97d563eeb992e780#npm:0.0.1"],\

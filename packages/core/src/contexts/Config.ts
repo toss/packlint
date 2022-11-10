@@ -15,6 +15,8 @@ export const ConfigSchema = z
       .default(['dependencies', 'devDependencies', 'peerDependencies', 'resolutions'])
       .optional(),
     required: z.array(PackageJSONSchema.keyof()).default(['name']).optional(),
+    replace: PackageJSONSchema.optional(),
+    merge: PackageJSONSchema.optional(),
     include: z.array(z.string()).default(['./packages/**']).optional(),
     exclude: z.array(z.string()).default(['./packages/**']).optional(),
   })

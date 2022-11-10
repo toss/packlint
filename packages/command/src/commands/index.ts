@@ -1,11 +1,4 @@
-import {
-  ConfigType,
-  getAllPackageJSONPath,
-  getPackageJSON,
-  PackageJSONSchema,
-  PackageJSONType,
-  writePackageJSON,
-} from '@packlint/core';
+import { ConfigType, getAllPackageJSONPath, getPackageJSON, PackageJSONType, writePackageJSON } from '@packlint/core';
 import { BaseContext, Command } from 'clipanion';
 
 export abstract class PacklintCommand<T extends BaseContext & { config: ConfigType }> extends Command<T> {

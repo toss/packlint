@@ -1,4 +1,5 @@
 import { ConfigType, getConfig } from '@packlint/core';
+import { ReplaceCommand } from '@packlint/replace';
 import { SortCommand } from '@packlint/sort';
 import { ValidateCommand } from '@packlint/validate';
 import { BaseContext, Cli } from 'clipanion';
@@ -24,6 +25,7 @@ export async function main() {
 
     cli.register(SortCommand);
     cli.register(ValidateCommand);
+    cli.register(ReplaceCommand);
 
     const command = cli.process(process.argv.slice(2), { config });
 
