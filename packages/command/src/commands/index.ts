@@ -1,34 +1,47 @@
-import { ConfigType, getAllPackageJSONPath, getPackageJSON, PackageJSONType, writePackageJSON } from '@packlint/core';
-import { BaseContext, Command } from 'clipanion';
+import {
+  ConfigType,
+  getAllPackageJSONPath,
+  getPackageJSON,
+  PackageJSONPathSchema,
+  PackageJSONType,
+  writePackageJSON,
+} from '@packlint/core';
+import { BaseContext, Command, Option } from 'clipanion';
 
 export abstract class PacklintCommand<T extends BaseContext & { config: ConfigType }> extends Command<T> {
+  recursive = Option.Boolean('--recursive,-R', false);
+
   abstract write: boolean;
+
   abstract action(json: PackageJSONType): Promise<PackageJSONType>;
 
+  async run(_path = process.cwd()) {
+    const path = PackageJSONPathSchema.parse(_path);
+    const json = await getPackageJSON(path);
+
+    const res = await this.action.call(this, json);
+
+    if (this.write) {
+      await writePackageJSON(res, path);
+    }
+
+    return res;
+  }
+
   async runAll() {
-    const jsons = await Promise.all(
-      (
-        await getAllPackageJSONPath()
-      ).map(async path => ({
-        json: await getPackageJSON(path),
-        path,
-      }))
-    );
+    const paths = await getAllPackageJSONPath();
+    const jsons = await Promise.all(paths.map(path => this.run.call(this, path)));
 
-    return jsons.map(async ({ json, path }) => {
-      const res = await this.action(json);
-
-      if (this.write) {
-        await writePackageJSON(res, path);
-      }
-
-      return res;
-    });
+    return jsons;
   }
 
   async execute() {
     try {
-      await this.runAll();
+      if (this.recursive) {
+        await this.runAll();
+        return;
+      }
+      await this.run();
     } catch (e) {
       console.error(e);
     }
