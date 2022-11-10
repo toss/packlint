@@ -1,24 +1,15 @@
-import { ConfigType, getAllPackageJSONPath, getPackageJSON, writePackageJSON } from '@packlint/core';
-import { BaseContext, Command } from 'clipanion';
+import { PacklintCommand } from '@packlint/command';
+import { ConfigType, PackageJSONType } from '@packlint/core';
+import { BaseContext } from 'clipanion';
 
 import { sortPackageJSON } from '../operations/sort-package-json';
 
-export class SortCommand<T extends BaseContext & { config: ConfigType }> extends Command<T> {
+export class SortCommand<T extends BaseContext & { config: ConfigType }> extends PacklintCommand<T> {
   static paths = [['sort']];
 
-  async execute() {
-    try {
-      const paths = await getAllPackageJSONPath();
+  write = true;
 
-      await Promise.all(
-        paths.map(async path => {
-          const json = sortPackageJSON(await getPackageJSON(path), this.context.config);
-
-          return writePackageJSON(json, path);
-        })
-      );
-    } catch (e) {
-      console.error(e);
-    }
+  async action(_json: PackageJSONType) {
+    return sortPackageJSON(_json, this.context.config);
   }
 }
