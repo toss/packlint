@@ -6,6 +6,7 @@ import { REGEX } from '../utils/regex';
 export const ExportsEntryPathSchema = z.string().regex(REGEX.packageExportsEntryPath);
 
 /** @see https://nodejs.org/api/packages.html#package-entry-points */
+// 또 다른 게 생길 수도 있어서..
 export const ExportsEntryConditionSchema = z.enum([
   'require',
   'import',
@@ -13,6 +14,7 @@ export const ExportsEntryConditionSchema = z.enum([
   'types',
   'node-addons',
   'node',
+  // 오타
   'browswer',
   'react-native',
   'deno',

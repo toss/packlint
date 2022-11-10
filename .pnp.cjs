@@ -25,6 +25,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/cli"\
       },\
       {\
+        "name": "@packlint/command",\
+        "reference": "workspace:packages/command"\
+      },\
+      {\
         "name": "@packlint/core",\
         "reference": "workspace:packages/core"\
       },\
@@ -40,6 +44,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
     "enableTopLevelFallback": true,\
     "ignorePatternData": "(^(?:\\\\.yarn\\\\/sdks(?:\\\\/(?!\\\\.{1,2}(?:\\\\/|$))(?:(?:(?!(?:^|\\\\/)\\\\.{1,2}(?:\\\\/|$)).)*?)|$))$)",\
     "fallbackExclusionList": [\
+      ["@packlint/command", ["workspace:packages/command"]],\
       ["@packlint/core", ["workspace:packages/core"]],\
       ["@packlint/sort", ["workspace:packages/sort"]],\
       ["@packlint/validate", ["workspace:packages/validate"]],\
@@ -3091,6 +3096,25 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@packlint/command", [\
+        ["workspace:packages/command", {\
+          "packageLocation": "./packages/command/",\
+          "packageDependencies": [\
+            ["@packlint/command", "workspace:packages/command"],\
+            ["@packlint/core", "workspace:packages/core"],\
+            ["@packlint/sort", "workspace:packages/sort"],\
+            ["@toss/rollup-config", "virtual:c7dbb4ecb8f75228e807e1c4667ae26c811d8a221c06d472ed51c69808622c6db1b4224748e0b96b44a89cf42933f5072fced1d61b2ca76d97d563eeb992e780#npm:0.0.1"],\
+            ["@types/jest", "npm:29.2.1"],\
+            ["@types/node", "npm:18.11.9"],\
+            ["clipanion", "virtual:11dc9905ba267e8c7fe5f048d5f46e25e912224b097aaae2bac44653d5c3c53312bb880aae8ad4df75b50c55701e4090b3c8a3d789323ab3738e84895c900b6b#npm:3.2.0-rc.13"],\
+            ["jest", "virtual:c7dbb4ecb8f75228e807e1c4667ae26c811d8a221c06d472ed51c69808622c6db1b4224748e0b96b44a89cf42933f5072fced1d61b2ca76d97d563eeb992e780#npm:29.2.2"],\
+            ["rollup", "npm:2.79.1"],\
+            ["typescript", "patch:typescript@npm%3A4.8.3#~builtin<compat/typescript>::version=4.8.3&hash=a1c5e5"],\
+            ["zod", "npm:3.19.1"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
       ["@packlint/core", [\
         ["workspace:packages/core", {\
           "packageLocation": "./packages/core/",\
@@ -3115,11 +3139,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/sort/",\
           "packageDependencies": [\
             ["@packlint/sort", "workspace:packages/sort"],\
+            ["@packlint/command", "workspace:packages/command"],\
             ["@packlint/core", "workspace:packages/core"],\
             ["@toss/rollup-config", "virtual:c7dbb4ecb8f75228e807e1c4667ae26c811d8a221c06d472ed51c69808622c6db1b4224748e0b96b44a89cf42933f5072fced1d61b2ca76d97d563eeb992e780#npm:0.0.1"],\
             ["@types/jest", "npm:29.2.1"],\
             ["@types/node", "npm:18.11.9"],\
-            ["clipanion", "virtual:0d27f262c51418fd586c5fc95455f1b1f8df724776e2a22ed9bb8e762caf90dcef65213943d75328ad0c7ac09cb202b0281e5d37ec9886d54dd8d538c3e94d5a#npm:3.2.0-rc.13"],\
+            ["clipanion", "virtual:11dc9905ba267e8c7fe5f048d5f46e25e912224b097aaae2bac44653d5c3c53312bb880aae8ad4df75b50c55701e4090b3c8a3d789323ab3738e84895c900b6b#npm:3.2.0-rc.13"],\
             ["fast-sort", "npm:3.2.0"],\
             ["jest", "virtual:c7dbb4ecb8f75228e807e1c4667ae26c811d8a221c06d472ed51c69808622c6db1b4224748e0b96b44a89cf42933f5072fced1d61b2ca76d97d563eeb992e780#npm:29.2.2"],\
             ["rollup", "npm:2.79.1"],\
@@ -3135,11 +3160,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/validate/",\
           "packageDependencies": [\
             ["@packlint/validate", "workspace:packages/validate"],\
+            ["@packlint/command", "workspace:packages/command"],\
             ["@packlint/core", "workspace:packages/core"],\
             ["@toss/rollup-config", "virtual:c7dbb4ecb8f75228e807e1c4667ae26c811d8a221c06d472ed51c69808622c6db1b4224748e0b96b44a89cf42933f5072fced1d61b2ca76d97d563eeb992e780#npm:0.0.1"],\
             ["@types/jest", "npm:29.2.1"],\
             ["@types/node", "npm:18.11.9"],\
-            ["clipanion", "virtual:0d27f262c51418fd586c5fc95455f1b1f8df724776e2a22ed9bb8e762caf90dcef65213943d75328ad0c7ac09cb202b0281e5d37ec9886d54dd8d538c3e94d5a#npm:3.2.0-rc.13"],\
+            ["clipanion", "virtual:11dc9905ba267e8c7fe5f048d5f46e25e912224b097aaae2bac44653d5c3c53312bb880aae8ad4df75b50c55701e4090b3c8a3d789323ab3738e84895c900b6b#npm:3.2.0-rc.13"],\
             ["jest", "virtual:c7dbb4ecb8f75228e807e1c4667ae26c811d8a221c06d472ed51c69808622c6db1b4224748e0b96b44a89cf42933f5072fced1d61b2ca76d97d563eeb992e780#npm:29.2.2"],\
             ["rollup", "npm:2.79.1"],\
             ["typescript", "patch:typescript@npm%3A4.8.3#~builtin<compat/typescript>::version=4.8.3&hash=a1c5e5"],\
@@ -4500,10 +4526,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:0d27f262c51418fd586c5fc95455f1b1f8df724776e2a22ed9bb8e762caf90dcef65213943d75328ad0c7ac09cb202b0281e5d37ec9886d54dd8d538c3e94d5a#npm:3.2.0-rc.13", {\
-          "packageLocation": "./.yarn/__virtual__/clipanion-virtual-c634535b96/0/cache/clipanion-npm-3.2.0-rc.13-2d06809312-354fee2b12.zip/node_modules/clipanion/",\
+        ["virtual:11dc9905ba267e8c7fe5f048d5f46e25e912224b097aaae2bac44653d5c3c53312bb880aae8ad4df75b50c55701e4090b3c8a3d789323ab3738e84895c900b6b#npm:3.2.0-rc.13", {\
+          "packageLocation": "./.yarn/__virtual__/clipanion-virtual-309e3b74b7/0/cache/clipanion-npm-3.2.0-rc.13-2d06809312-354fee2b12.zip/node_modules/clipanion/",\
           "packageDependencies": [\
-            ["clipanion", "virtual:0d27f262c51418fd586c5fc95455f1b1f8df724776e2a22ed9bb8e762caf90dcef65213943d75328ad0c7ac09cb202b0281e5d37ec9886d54dd8d538c3e94d5a#npm:3.2.0-rc.13"],\
+            ["clipanion", "virtual:11dc9905ba267e8c7fe5f048d5f46e25e912224b097aaae2bac44653d5c3c53312bb880aae8ad4df75b50c55701e4090b3c8a3d789323ab3738e84895c900b6b#npm:3.2.0-rc.13"],\
             ["@types/typanion", null],\
             ["typanion", "npm:3.12.1"]\
           ],\
@@ -7499,7 +7525,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@toss/rollup-config", "virtual:c7dbb4ecb8f75228e807e1c4667ae26c811d8a221c06d472ed51c69808622c6db1b4224748e0b96b44a89cf42933f5072fced1d61b2ca76d97d563eeb992e780#npm:0.0.1"],\
             ["@types/jest", "npm:29.2.1"],\
             ["@types/node", "npm:18.11.9"],\
-            ["clipanion", "virtual:0d27f262c51418fd586c5fc95455f1b1f8df724776e2a22ed9bb8e762caf90dcef65213943d75328ad0c7ac09cb202b0281e5d37ec9886d54dd8d538c3e94d5a#npm:3.2.0-rc.13"],\
+            ["clipanion", "virtual:11dc9905ba267e8c7fe5f048d5f46e25e912224b097aaae2bac44653d5c3c53312bb880aae8ad4df75b50c55701e4090b3c8a3d789323ab3738e84895c900b6b#npm:3.2.0-rc.13"],\
             ["jest", "virtual:c7dbb4ecb8f75228e807e1c4667ae26c811d8a221c06d472ed51c69808622c6db1b4224748e0b96b44a89cf42933f5072fced1d61b2ca76d97d563eeb992e780#npm:29.2.2"],\
             ["rollup", "npm:2.79.1"],\
             ["ts-node", "virtual:6c631fc27b3e83fdb7c1c1db9be14c509409d5912b8658b3a044ebe9a194cfd4dd27b5f665792af4d00d6e052ebb1667cc3c9b4128d47e33107efa7f1262b0d7#npm:10.9.1"],\

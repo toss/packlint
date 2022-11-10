@@ -2,6 +2,7 @@ import { cosmiconfig } from 'cosmiconfig';
 
 import { ConfigSchema } from '../contexts';
 
+// test
 export async function getConfig() {
   const { config } = (await cosmiconfig('packlint').search()) ?? {};
 

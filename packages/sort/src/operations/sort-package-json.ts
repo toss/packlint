@@ -8,6 +8,7 @@ export function sortPackageJSON(packageJSON: PackageJSONType, context: ConfigTyp
   return sortObjectByKeys(packageJSON, { order: parsePackageJSONOrder(context), deep: context.deep });
 }
 
+// 정리
 function parsePackageJSONOrder({ order = [] }: ConfigType) {
   const parsed = order.reduce<Array<keyof PackageJSONType>>((o, _key, i) => {
     return match([_key, order[i + 1]] as const)
