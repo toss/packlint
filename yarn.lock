@@ -1862,6 +1862,11 @@ __metadata:
   peerDependencies:
     fast-check: "*"
     zod-fast-check: "*"
+  peerDependenciesMeta:
+    fast-check:
+      optional: true
+    zod-fast-check:
+      optional: true
   languageName: unknown
   linkType: soft
 
@@ -1872,6 +1877,23 @@ __metadata:
     "@packlint/command": "workspace:^"
     "@packlint/core": "workspace:^"
     "@packlint/sort": "workspace:^"
+    "@toss/rollup-config": ^0.0.1
+    "@types/jest": ^29.2.1
+    "@types/node": ^18.11.9
+    clipanion: ^3.2.0-rc.13
+    jest: ^29.2.2
+    rollup: 2.79.1
+    typescript: 4.8.3
+    zod: 3.19.1
+  languageName: unknown
+  linkType: soft
+
+"@packlint/required@workspace:^, @packlint/required@workspace:packages/required":
+  version: 0.0.0-use.local
+  resolution: "@packlint/required@workspace:packages/required"
+  dependencies:
+    "@packlint/command": "workspace:^"
+    "@packlint/core": "workspace:^"
     "@toss/rollup-config": ^0.0.1
     "@types/jest": ^29.2.1
     "@types/node": ^18.11.9
@@ -1901,23 +1923,6 @@ __metadata:
     typescript: 4.8.3
     zod: ^3.19.1
     zod-fast-check: ^0.8.0
-  languageName: unknown
-  linkType: soft
-
-"@packlint/validate@workspace:^, @packlint/validate@workspace:packages/validate":
-  version: 0.0.0-use.local
-  resolution: "@packlint/validate@workspace:packages/validate"
-  dependencies:
-    "@packlint/command": "workspace:^"
-    "@packlint/core": "workspace:^"
-    "@toss/rollup-config": ^0.0.1
-    "@types/jest": ^29.2.1
-    "@types/node": ^18.11.9
-    clipanion: ^3.2.0-rc.13
-    jest: ^29.2.2
-    rollup: 2.79.1
-    typescript: 4.8.3
-    zod: 3.19.1
   languageName: unknown
   linkType: soft
 
@@ -5468,8 +5473,8 @@ __metadata:
   dependencies:
     "@packlint/core": "workspace:^"
     "@packlint/replace": "workspace:^"
+    "@packlint/required": "workspace:^"
     "@packlint/sort": "workspace:^"
-    "@packlint/validate": "workspace:^"
     "@toss/rollup-config": ^0.0.1
     "@types/jest": ^29.2.1
     "@types/node": ^18.11.9
