@@ -1,6 +1,5 @@
 import { ConfigType, DEFAULT_ORDER, DefaultConfig, PackageJSONType } from '@packlint/core';
 import { sort } from 'fast-sort';
-import { match, P } from 'ts-pattern';
 
 import { createPriorityMap } from '../utils/createPriorityMap';
 
@@ -9,20 +8,32 @@ export function sortPackageJSON(packageJSON: PackageJSONType, context: ConfigTyp
 }
 
 function parsePackageJSONOrder({ order = [] }: ConfigType) {
-  const parsed = order.reduce<Array<keyof PackageJSONType>>((o, _key, i) => {
-    return match([_key, order[i + 1]] as const)
-      .with([P.not('...'), P._], ([key]) => [...o.filter(x => x !== key), key])
-      .with(
-        ['...', P.not('...')],
-        ([, end]) => end !== undefined,
-        ([, end]) => [...o, ...DEFAULT_ORDER.slice(0, DEFAULT_ORDER.indexOf(end))]
-      )
-      .otherwise(() => {
-        throw new Error('use ... syntax correct way');
-      });
-  }, []);
+  const set = order.reduce<Set<keyof PackageJSONType>>((s, _key, i) => {
+    const next = order[i + 1];
 
-  return [...new Set([...parsed, ...DEFAULT_ORDER])];
+    if (_key !== '...') {
+      s.delete(_key);
+      s.add(_key);
+      return s;
+    }
+
+    if (next === undefined) {
+      throw new Error('... should not be the last item of order');
+    }
+
+    if (next === '...') {
+      throw new Error('... should not be the next item of another ...');
+    }
+
+    const spreaded = DEFAULT_ORDER.slice(0, DEFAULT_ORDER.indexOf(next));
+    spreaded.forEach(x => s.add(x));
+
+    return s;
+  }, new Set());
+
+  DEFAULT_ORDER.forEach(x => set.add(x));
+
+  return [...set];
 }
 
 function sortObjectByKeys<T extends Record<string, unknown>>(
