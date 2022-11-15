@@ -5,6 +5,8 @@ import { RequiredCommand } from '@packlint/required';
 import { SortCommand } from '@packlint/sort';
 import { BaseContext, Cli } from 'clipanion';
 
+import { AllCommand } from './commands/index';
+
 export async function main() {
   async function run() {
     const cli = new Cli<BaseContext & { config: ConfigType }>({
@@ -28,6 +30,7 @@ export async function main() {
     cli.register(RequiredCommand);
     cli.register(ReplaceCommand);
     cli.register(MergeCommand);
+    cli.register(AllCommand);
 
     const command = cli.process(process.argv.slice(2), { config });
 

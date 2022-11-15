@@ -7636,6 +7636,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./packages/cli/",\
           "packageDependencies": [\
             ["packlint", "workspace:packages/cli"],\
+            ["@packlint/command", "workspace:packages/command"],\
             ["@packlint/core", "virtual:11dc9905ba267e8c7fe5f048d5f46e25e912224b097aaae2bac44653d5c3c53312bb880aae8ad4df75b50c55701e4090b3c8a3d789323ab3738e84895c900b6b#workspace:packages/core"],\
             ["@packlint/merge", "workspace:packages/merge"],\
             ["@packlint/replace", "workspace:packages/replace"],\

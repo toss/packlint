@@ -5490,6 +5490,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "packlint@workspace:packages/cli"
   dependencies:
+    "@packlint/command": "workspace:^"
     "@packlint/core": "workspace:^"
     "@packlint/merge": "workspace:^"
     "@packlint/replace": "workspace:^"

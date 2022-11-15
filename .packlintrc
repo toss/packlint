@@ -11,12 +11,9 @@
     "exports",
     "version"
   ],
-  "replace": {
-    "aaa": "bbb"
-  },
   "merge": {
     "publishConfig": {
-      "access": "restricted"
+      "access": "public"
     }
   },
   "remove": [],
