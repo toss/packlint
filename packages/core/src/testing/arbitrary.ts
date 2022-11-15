@@ -6,7 +6,7 @@ import { PackageJSONSchema } from '../models';
 
 const filterUndefinedKeys = <T extends Record<string, unknown>>(x: T): T =>
   Object.keys(x)
-    .filter(key => x[key] !== undefined)
+    .filter(key => x[key] !== undefined && key !== '__proto__')
     .reduce(
       (acc, key) => ({
         ...acc,

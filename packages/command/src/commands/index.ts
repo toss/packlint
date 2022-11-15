@@ -10,13 +10,14 @@ import { BaseContext, Command, Option } from 'clipanion';
 
 export abstract class PacklintCommand<T extends BaseContext & { config: ConfigType }> extends Command<T> {
   recursive = Option.Boolean('--recursive,-R', false);
+  file = Option.String('--file');
 
   abstract write: boolean;
 
   abstract action(json: PackageJSONType): Promise<PackageJSONType>;
 
   async run(_path = process.cwd()) {
-    const path = parsePackageJSONPath(_path);
+    const path = parsePackageJSONPath(this.file ?? _path);
     const json = await getPackageJSON(path);
 
     const res = await this.action.call(this, json);

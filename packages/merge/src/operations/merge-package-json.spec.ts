@@ -23,4 +23,14 @@ describe('mergePackageJSON', () => {
       })
     );
   });
+
+  it('Result should keep target object`s key order', () => {
+    fc.assert(
+      fc.property(PackageJSONArbitrary, PackageJSONArbitrary, (target, source) => {
+        const merged = mergePackageJSON(target, { merge: source });
+
+        expect(Object.keys(merged)).toEqual(Object.keys(Object.assign(target, source)));
+      })
+    );
+  });
 });
