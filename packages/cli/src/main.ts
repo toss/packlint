@@ -1,4 +1,5 @@
 import { ConfigType, getConfig } from '@packlint/core';
+import { MergeCommand } from '@packlint/merge';
 import { ReplaceCommand } from '@packlint/replace';
 import { RequiredCommand } from '@packlint/required';
 import { SortCommand } from '@packlint/sort';
@@ -26,6 +27,7 @@ export async function main() {
     cli.register(SortCommand);
     cli.register(RequiredCommand);
     cli.register(ReplaceCommand);
+    cli.register(MergeCommand);
 
     const command = cli.process(process.argv.slice(2), { config });
 

@@ -33,6 +33,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/core"\
       },\
       {\
+        "name": "@packlint/merge",\
+        "reference": "workspace:packages/merge"\
+      },\
+      {\
         "name": "@packlint/replace",\
         "reference": "workspace:packages/replace"\
       },\
@@ -50,6 +54,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
     "fallbackExclusionList": [\
       ["@packlint/command", ["workspace:packages/command"]],\
       ["@packlint/core", ["virtual:0d27f262c51418fd586c5fc95455f1b1f8df724776e2a22ed9bb8e762caf90dcef65213943d75328ad0c7ac09cb202b0281e5d37ec9886d54dd8d538c3e94d5a#workspace:packages/core", "virtual:11dc9905ba267e8c7fe5f048d5f46e25e912224b097aaae2bac44653d5c3c53312bb880aae8ad4df75b50c55701e4090b3c8a3d789323ab3738e84895c900b6b#workspace:packages/core", "workspace:packages/core"]],\
+      ["@packlint/merge", ["workspace:packages/merge"]],\
       ["@packlint/replace", ["workspace:packages/replace"]],\
       ["@packlint/required", ["workspace:packages/required"]],\
       ["@packlint/sort", ["workspace:packages/sort"]],\
@@ -3184,6 +3189,27 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["fast-check", "npm:3.3.0"],\
             ["fast-glob", "npm:3.2.12"],\
             ["fs-extra", "npm:10.1.0"],\
+            ["jest", "virtual:0d27f262c51418fd586c5fc95455f1b1f8df724776e2a22ed9bb8e762caf90dcef65213943d75328ad0c7ac09cb202b0281e5d37ec9886d54dd8d538c3e94d5a#npm:29.2.2"],\
+            ["rollup", "npm:2.79.1"],\
+            ["typescript", "patch:typescript@npm%3A4.8.3#~builtin<compat/typescript>::version=4.8.3&hash=a1c5e5"],\
+            ["zod", "npm:3.19.1"],\
+            ["zod-fast-check", "virtual:0d27f262c51418fd586c5fc95455f1b1f8df724776e2a22ed9bb8e762caf90dcef65213943d75328ad0c7ac09cb202b0281e5d37ec9886d54dd8d538c3e94d5a#npm:0.8.0"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@packlint/merge", [\
+        ["workspace:packages/merge", {\
+          "packageLocation": "./packages/merge/",\
+          "packageDependencies": [\
+            ["@packlint/merge", "workspace:packages/merge"],\
+            ["@packlint/command", "workspace:packages/command"],\
+            ["@packlint/core", "virtual:0d27f262c51418fd586c5fc95455f1b1f8df724776e2a22ed9bb8e762caf90dcef65213943d75328ad0c7ac09cb202b0281e5d37ec9886d54dd8d538c3e94d5a#workspace:packages/core"],\
+            ["@toss/rollup-config", "virtual:0d27f262c51418fd586c5fc95455f1b1f8df724776e2a22ed9bb8e762caf90dcef65213943d75328ad0c7ac09cb202b0281e5d37ec9886d54dd8d538c3e94d5a#npm:0.0.1"],\
+            ["@types/jest", "npm:29.2.1"],\
+            ["@types/node", "npm:18.11.9"],\
+            ["clipanion", "virtual:0d27f262c51418fd586c5fc95455f1b1f8df724776e2a22ed9bb8e762caf90dcef65213943d75328ad0c7ac09cb202b0281e5d37ec9886d54dd8d538c3e94d5a#npm:3.2.0-rc.13"],\
+            ["fast-check", "npm:3.3.0"],\
             ["jest", "virtual:0d27f262c51418fd586c5fc95455f1b1f8df724776e2a22ed9bb8e762caf90dcef65213943d75328ad0c7ac09cb202b0281e5d37ec9886d54dd8d538c3e94d5a#npm:29.2.2"],\
             ["rollup", "npm:2.79.1"],\
             ["typescript", "patch:typescript@npm%3A4.8.3#~builtin<compat/typescript>::version=4.8.3&hash=a1c5e5"],\
@@ -7611,6 +7637,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["packlint", "workspace:packages/cli"],\
             ["@packlint/core", "virtual:11dc9905ba267e8c7fe5f048d5f46e25e912224b097aaae2bac44653d5c3c53312bb880aae8ad4df75b50c55701e4090b3c8a3d789323ab3738e84895c900b6b#workspace:packages/core"],\
+            ["@packlint/merge", "workspace:packages/merge"],\
             ["@packlint/replace", "workspace:packages/replace"],\
             ["@packlint/required", "workspace:packages/required"],\
             ["@packlint/sort", "workspace:packages/sort"],\

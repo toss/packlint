@@ -14,7 +14,11 @@
   "replace": {
     "aaa": "bbb"
   },
-  "merge": {},
+  "merge": {
+    "publishConfig": {
+      "access": "restricted"
+    }
+  },
   "remove": [],
   "include": [
     "./packages/**/package.json"
