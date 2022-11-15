@@ -2,8 +2,8 @@ import {
   ConfigType,
   getAllPackageJSONPath,
   getPackageJSON,
-  PackageJSONPathSchema,
   PackageJSONType,
+  parsePackageJSONPath,
   writePackageJSON,
 } from '@packlint/core';
 import { BaseContext, Command, Option } from 'clipanion';
@@ -16,7 +16,7 @@ export abstract class PacklintCommand<T extends BaseContext & { config: ConfigTy
   abstract action(json: PackageJSONType): Promise<PackageJSONType>;
 
   async run(_path = process.cwd()) {
-    const path = PackageJSONPathSchema.parse(_path);
+    const path = parsePackageJSONPath(_path);
     const json = await getPackageJSON(path);
 
     const res = await this.action.call(this, json);

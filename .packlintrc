@@ -17,9 +17,6 @@
   "merge": {},
   "remove": [],
   "include": [
-    "./packages/**"
-  ],
-  "exclude": [
-    "package.json"
+    "./packages/**/package.json"
   ]
 }

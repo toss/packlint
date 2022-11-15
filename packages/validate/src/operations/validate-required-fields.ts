@@ -9,4 +9,6 @@ export async function validateRequiredFields(
   if (missingFields.length > 0) {
     throw new Error(`Field ${missingFields.join(',')} are required, but not in package.json of ${packageJSON.name}`);
   }
+
+  return packageJSON;
 }

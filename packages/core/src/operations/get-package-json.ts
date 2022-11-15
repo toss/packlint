@@ -1,5 +1,7 @@
-import { PackageJSONFromPathSchema } from '../models';
+import { readJSON } from 'fs-extra';
 
-export async function getPackageJSON(_path: string) {
-  return PackageJSONFromPathSchema.parseAsync(_path);
+import { PackageJSONPath, PackageJSONSchema } from '../models';
+
+export async function getPackageJSON(path: PackageJSONPath) {
+  return readJSON(path).then(PackageJSONSchema.parse);
 }

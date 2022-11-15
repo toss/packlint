@@ -1,24 +1,8 @@
-import { readJSON } from 'fs-extra';
-import { z } from 'zod';
+export type PackageJSONPath = string & { __endsWith: 'packageJSON' };
+export function parsePackageJSONPath(s: string) {
+  if (!s.endsWith('package.json')) {
+    throw new Error(`${s} must be end with package.json.`);
+  }
 
-import { PackageJSONSchema } from './PackageJSON';
-
-export const PackageJSONPathSchema = z
-  .string()
-  .default(process.cwd())
-  .transform(s => {
-    if (s.endsWith('package.json')) {
-      return s;
-    }
-
-    if (s.endsWith('/')) {
-      return `${s}package.json`;
-    }
-
-    return `${s}/package.json`;
-  });
-
-export const PackageJSONFromPathSchema = z
-  .string()
-  .transform(PackageJSONPathSchema.parse)
-  .transform(x => readJSON(x).then(PackageJSONSchema.parse));
+  return s as PackageJSONPath;
+}
