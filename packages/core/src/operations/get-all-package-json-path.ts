@@ -1,6 +1,6 @@
 import fg from 'fast-glob';
 
-import { parsePackageJSONPath } from '../index';
+import { parsePackageJSONPath } from '../models';
 import { getConfig } from './get-config';
 
 export async function getAllPackageJSONPath() {

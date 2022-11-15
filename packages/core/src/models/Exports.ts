@@ -1,9 +1,7 @@
 import { z } from 'zod';
 
-import { REGEX } from '../utils/regex';
-
 /** file entry path must start with './'  */
-export const ExportsEntryPathSchema = z.string().regex(REGEX.packageExportsEntryPath);
+export const ExportsEntryPathSchema = z.string();
 
 /** @see https://nodejs.org/api/packages.html#package-entry-points */
 export const ExportsEntryConditionSchema = z.enum([
