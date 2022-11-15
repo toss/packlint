@@ -1,6 +1,5 @@
 import { z } from 'zod';
 
-import { REGEX } from '../utils/regex';
 import { ExportsSchema } from './Exports';
 import { PackageJSONErrorMap } from './PackageJSONError';
 import { PersonSchema } from './Person';
@@ -8,8 +7,8 @@ import { PersonSchema } from './Person';
 export const PackageJSONSchema = z
   .object(
     {
-      name: z.string().regex(REGEX.name),
-      version: z.string().regex(REGEX.version),
+      name: z.string(),
+      version: z.string(),
       private: z.boolean(),
       description: z.string(),
       keywords: z.array(z.string()),
@@ -38,10 +37,7 @@ export const PackageJSONSchema = z
       author: z.union([PersonSchema, z.string()]),
       contributors: z.array(PersonSchema),
       sideEffects: z.boolean(),
-      packageManager: z
-        .string()
-        .regex(REGEX.packageManager)
-        .describe('Experimental: https://nodejs.org/api/packages.html#packagemanager'),
+      packageManager: z.string().describe('Experimental: https://nodejs.org/api/packages.html#packagemanager'),
       type: z.enum(['commonjs', 'module']),
       exports: ExportsSchema,
       main: z.string(),
@@ -53,7 +49,7 @@ export const PackageJSONSchema = z
         .record(
           z
             .object({
-              '*': z.array(z.string().regex(REGEX.typesVersions)).optional(),
+              '*': z.array(z.string()).optional(),
             })
             .strict()
         )

@@ -7,7 +7,7 @@ export function sortPackageJSON(packageJSON: PackageJSONType, context: ConfigTyp
   return sortObjectByKeys(packageJSON, { order: parsePackageJSONOrder(context), deep: context.deep });
 }
 
-function parsePackageJSONOrder({ order = [] }: ConfigType) {
+export function parsePackageJSONOrder({ order = [] }: ConfigType) {
   const set = order.reduce<Set<keyof PackageJSONType>>((s, _key, i) => {
     const next = order[i + 1];
 
@@ -48,11 +48,10 @@ function sortObjectByKeys<T extends Record<string, unknown>>(
 }
 
 function sortByOrders<T>(keys: Array<T>, order?: Array<T>) {
-  if (order != null) {
+  if (order != null && order.length > 0) {
     const priority = createPriorityMap(order);
     return sort(keys).desc(key => priority.get(key) ?? 0);
   }
 
   return sort(keys).asc();
 }
-``;

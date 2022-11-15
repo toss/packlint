@@ -3170,12 +3170,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/jest", "npm:29.2.1"],\
             ["@types/node", "npm:18.11.9"],\
             ["clipanion", "virtual:0d27f262c51418fd586c5fc95455f1b1f8df724776e2a22ed9bb8e762caf90dcef65213943d75328ad0c7ac09cb202b0281e5d37ec9886d54dd8d538c3e94d5a#npm:3.2.0-rc.13"],\
+            ["fast-check", "npm:3.3.0"],\
             ["fast-sort", "npm:3.2.0"],\
             ["jest", "virtual:c7dbb4ecb8f75228e807e1c4667ae26c811d8a221c06d472ed51c69808622c6db1b4224748e0b96b44a89cf42933f5072fced1d61b2ca76d97d563eeb992e780#npm:29.2.2"],\
             ["rollup", "npm:2.79.1"],\
             ["ts-pattern", "patch:ts-pattern@npm%3A4.0.5#.yarn/patches/ts-pattern-npm-4.0.5-7ba0b14201.patch::version=4.0.5&hash=accce1&locator=packlint-monorepo%40workspace%3A."],\
             ["typescript", "patch:typescript@npm%3A4.8.3#~builtin<compat/typescript>::version=4.8.3&hash=a1c5e5"],\
-            ["zod", "npm:3.19.1"]\
+            ["zod", "npm:3.19.1"],\
+            ["zod-fast-check", "virtual:0d27f262c51418fd586c5fc95455f1b1f8df724776e2a22ed9bb8e762caf90dcef65213943d75328ad0c7ac09cb202b0281e5d37ec9886d54dd8d538c3e94d5a#npm:0.8.0"]\
           ],\
           "linkType": "SOFT"\
         }]\
@@ -5453,6 +5455,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["jest-matcher-utils", "npm:29.2.2"],\
             ["jest-message-util", "npm:29.2.1"],\
             ["jest-util", "npm:29.2.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["fast-check", [\
+        ["npm:3.3.0", {\
+          "packageLocation": "./.yarn/cache/fast-check-npm-3.3.0-4a9a3ca773-9476797159.zip/node_modules/fast-check/",\
+          "packageDependencies": [\
+            ["fast-check", "npm:3.3.0"],\
+            ["pure-rand", "npm:5.0.3"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -7786,6 +7798,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["pure-rand", [\
+        ["npm:5.0.3", {\
+          "packageLocation": "./.yarn/cache/pure-rand-npm-5.0.3-c2ee3dc8dc-a898ab8a40.zip/node_modules/pure-rand/",\
+          "packageDependencies": [\
+            ["pure-rand", "npm:5.0.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["queue-microtask", [\
         ["npm:1.2.3", {\
           "packageLocation": "./.yarn/cache/queue-microtask-npm-1.2.3-fcc98e4e2d-b676f8c040.zip/node_modules/queue-microtask/",\
@@ -8931,6 +8952,32 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/zod-npm-3.19.1-5084a5dfc9-56e420ea58.zip/node_modules/zod/",\
           "packageDependencies": [\
             ["zod", "npm:3.19.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["zod-fast-check", [\
+        ["npm:0.8.0", {\
+          "packageLocation": "./.yarn/cache/zod-fast-check-npm-0.8.0-79c6351540-b54668ee99.zip/node_modules/zod-fast-check/",\
+          "packageDependencies": [\
+            ["zod-fast-check", "npm:0.8.0"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:0d27f262c51418fd586c5fc95455f1b1f8df724776e2a22ed9bb8e762caf90dcef65213943d75328ad0c7ac09cb202b0281e5d37ec9886d54dd8d538c3e94d5a#npm:0.8.0", {\
+          "packageLocation": "./.yarn/__virtual__/zod-fast-check-virtual-000972fc6a/0/cache/zod-fast-check-npm-0.8.0-79c6351540-b54668ee99.zip/node_modules/zod-fast-check/",\
+          "packageDependencies": [\
+            ["zod-fast-check", "virtual:0d27f262c51418fd586c5fc95455f1b1f8df724776e2a22ed9bb8e762caf90dcef65213943d75328ad0c7ac09cb202b0281e5d37ec9886d54dd8d538c3e94d5a#npm:0.8.0"],\
+            ["@types/fast-check", null],\
+            ["@types/zod", null],\
+            ["fast-check", "npm:3.3.0"],\
+            ["zod", "npm:3.19.1"]\
+          ],\
+          "packagePeers": [\
+            "@types/fast-check",\
+            "@types/zod",\
+            "fast-check",\
+            "zod"\
           ],\
           "linkType": "HARD"\
         }]\
