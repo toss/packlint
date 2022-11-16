@@ -16,7 +16,7 @@ export abstract class PacklintCommand<T extends BaseContext & { config: ConfigTy
 
   abstract action(json: PackageJSONType): Promise<PackageJSONType>;
 
-  async run(_path = process.cwd()) {
+  async run(_path = `${process.cwd()}/package.json`) {
     const path = parsePackageJSONPath(this.file ?? _path);
     const json = await getPackageJSON(path);
 
