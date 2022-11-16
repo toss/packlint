@@ -9,6 +9,7 @@ export const PackageJSONSchema = z
     {
       name: z.string(),
       version: z.string(),
+      packlint: z.boolean(),
       private: z.boolean(),
       description: z.string(),
       keywords: z.array(z.string()),

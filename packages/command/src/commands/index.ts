@@ -20,6 +20,10 @@ export abstract class PacklintCommand<T extends BaseContext & { config: ConfigTy
     const path = parsePackageJSONPath(this.file ?? _path);
     const json = await getPackageJSON(path);
 
+    if (json.packlint === false) {
+      return json;
+    }
+
     const res = await this.action.call(this, json);
 
     if (this.write) {
