@@ -1,13 +1,13 @@
 import { ConfigType, DEFAULT_ORDER, DefaultConfig, PackageJSONType } from '@packlint/core';
-import { sort } from 'fast-sort';
-
-import { createPriorityMap } from '../utils/createPriorityMap';
 
 export function sortPackageJSON(packageJSON: PackageJSONType, context: ConfigType = DefaultConfig) {
-  return sortObjectByKeys(packageJSON, { order: parsePackageJSONOrder(context), deep: context.deep });
+  return sortObjectByKeys(packageJSON, {
+    keys: parseOrderToKeys(context),
+    deep: context.deep,
+  });
 }
 
-export function parsePackageJSONOrder({ order = [] }: ConfigType) {
+export function parseOrderToKeys({ order = [] }: ConfigType) {
   const set = order.reduce<Set<keyof PackageJSONType>>((s, _key, i) => {
     const next = order[i + 1];
 
@@ -38,20 +38,15 @@ export function parsePackageJSONOrder({ order = [] }: ConfigType) {
 
 function sortObjectByKeys<T extends Record<string, unknown>>(
   obj: T,
-  { order, deep = [] }: { order?: Array<keyof T>; deep?: Array<keyof T> } = {}
+  { keys = [], deep = [] }: { keys?: Array<keyof T>; deep?: Array<keyof T> } = {}
 ): T {
   return Object.fromEntries(
-    sortByOrders(Object.keys(obj), order).map(key =>
+    sortByOrders(Object.keys(obj), keys).map(key =>
       deep.includes(key) ? [key, sortObjectByKeys(obj[key] as Record<string, unknown>)] : [key, obj[key]]
     )
   );
 }
 
-function sortByOrders<T>(keys: Array<T>, order?: Array<T>) {
-  if (order != null && order.length > 0) {
-    const priority = createPriorityMap(order);
-    return sort(keys).desc(key => priority.get(key) ?? 0);
-  }
-
-  return sort(keys).asc();
+function sortByOrders<T>(target: Array<T>, source: Array<T>) {
+  return [...new Set([...source.filter(key => target.includes(key)), ...target])];
 }
