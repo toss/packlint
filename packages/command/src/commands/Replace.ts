@@ -1,8 +1,8 @@
-import { PacklintCommand } from '@packlint/command';
 import { ConfigType, PackageJSONType } from '@packlint/core';
 import { BaseContext } from 'clipanion';
 
-import { replaceFields } from '../index';
+import { replaceFields } from '../operations';
+import { PacklintCommand } from './Base';
 
 export class ReplaceCommand<T extends BaseContext & { config: ConfigType }> extends PacklintCommand<T> {
   static paths = [['replace']];

@@ -1,9 +1,11 @@
-import { PacklintCommand } from '@packlint/command';
-import { ConfigType, PackageJSONType } from '@packlint/core';
-import { mergePackageJSON } from '@packlint/merge';
-import { replaceFields } from '@packlint/replace';
-import { validateRequiredFields } from '@packlint/required';
-import { sortPackageJSON } from '@packlint/sort';
+import {
+  mergePackageJSON,
+  PacklintCommand,
+  replaceFields,
+  sortPackageJSON,
+  validateRequiredFields,
+} from '@packlint/command';
+import type { ConfigType, PackageJSONType } from '@packlint/core';
 import { BaseContext, Command, Option } from 'clipanion';
 
 export class AllCommand<T extends BaseContext & { config: ConfigType }> extends PacklintCommand<T> {

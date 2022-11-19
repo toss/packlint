@@ -1,8 +1,8 @@
-import { PacklintCommand } from '@packlint/command';
 import { ConfigType, PackageJSONType } from '@packlint/core';
 import { BaseContext } from 'clipanion';
 
-import { sortPackageJSON } from '../operations/sort-package-json';
+import { sortPackageJSON } from '../operations';
+import { PacklintCommand } from './Base';
 
 export class SortCommand<T extends BaseContext & { config: ConfigType }> extends PacklintCommand<T> {
   static paths = [['sort']];

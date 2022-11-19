@@ -1,8 +1,5 @@
+import { MergeCommand, ReplaceCommand, RequiredCommand, SortCommand } from '@packlint/command';
 import { ConfigType, getConfig } from '@packlint/core';
-import { MergeCommand } from '@packlint/merge';
-import { ReplaceCommand } from '@packlint/replace';
-import { RequiredCommand } from '@packlint/required';
-import { SortCommand } from '@packlint/sort';
 import { BaseContext, Cli } from 'clipanion';
 
 import { AllCommand } from './commands/index';

@@ -34,10 +34,6 @@
   "dependencies": {
     "@packlint/command": "workspace:^",
     "@packlint/core": "workspace:^",
-    "@packlint/merge": "workspace:^",
-    "@packlint/replace": "workspace:^",
-    "@packlint/required": "workspace:^",
-    "@packlint/sort": "workspace:^",
     "clipanion": "^3.2.0-rc.13"
   },
   "devDependencies": {
