@@ -1,7 +1,7 @@
 import { ConfigType, PackageJSONType } from '@packlint/core';
 import { BaseContext } from 'clipanion';
 
-import { replaceFields } from '../operations';
+import { replacePackageJSONFields } from '../operations';
 import { PacklintCommand } from './Base';
 
 export class ReplaceCommand<T extends BaseContext & { config: ConfigType }> extends PacklintCommand<T> {
@@ -10,6 +10,6 @@ export class ReplaceCommand<T extends BaseContext & { config: ConfigType }> exte
   write = true;
 
   async action(json: PackageJSONType) {
-    return replaceFields(json, this.context.config);
+    return replacePackageJSONFields(json, this.context.config);
   }
 }

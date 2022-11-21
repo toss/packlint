@@ -37,7 +37,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
     "ignorePatternData": "(^(?:\\\\.yarn\\\\/sdks(?:\\\\/(?!\\\\.{1,2}(?:\\\\/|$))(?:(?:(?!(?:^|\\\\/)\\\\.{1,2}(?:\\\\/|$)).)*?)|$))$)",\
     "fallbackExclusionList": [\
       ["@packlint/command", ["workspace:packages/command"]],\
-      ["@packlint/core", ["virtual:11dc9905ba267e8c7fe5f048d5f46e25e912224b097aaae2bac44653d5c3c53312bb880aae8ad4df75b50c55701e4090b3c8a3d789323ab3738e84895c900b6b#workspace:packages/core", "workspace:packages/core"]],\
+      ["@packlint/core", ["virtual:11dc9905ba267e8c7fe5f048d5f46e25e912224b097aaae2bac44653d5c3c53312bb880aae8ad4df75b50c55701e4090b3c8a3d789323ab3738e84895c900b6b#workspace:packages/core", "virtual:6c631fc27b3e83fdb7c1c1db9be14c509409d5912b8658b3a044ebe9a194cfd4dd27b5f665792af4d00d6e052ebb1667cc3c9b4128d47e33107efa7f1262b0d7#workspace:packages/core", "workspace:packages/core"]],\
       ["packlint", ["workspace:packages/cli"]],\
       ["packlint-monorepo", ["workspace:."]]\
     ],\
@@ -3095,12 +3095,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@toss/rollup-config", "virtual:11dc9905ba267e8c7fe5f048d5f46e25e912224b097aaae2bac44653d5c3c53312bb880aae8ad4df75b50c55701e4090b3c8a3d789323ab3738e84895c900b6b#npm:0.0.1"],\
             ["@types/jest", "npm:29.2.1"],\
             ["@types/node", "npm:18.11.9"],\
+            ["@types/ramda", "npm:0.28.20"],\
             ["clipanion", "virtual:11dc9905ba267e8c7fe5f048d5f46e25e912224b097aaae2bac44653d5c3c53312bb880aae8ad4df75b50c55701e4090b3c8a3d789323ab3738e84895c900b6b#npm:3.2.0-rc.13"],\
             ["fast-check", "npm:3.3.0"],\
             ["jest", "virtual:11dc9905ba267e8c7fe5f048d5f46e25e912224b097aaae2bac44653d5c3c53312bb880aae8ad4df75b50c55701e4090b3c8a3d789323ab3738e84895c900b6b#npm:29.2.2"],\
+            ["ramda", "npm:0.28.0"],\
             ["rollup", "npm:2.79.1"],\
             ["typescript", "patch:typescript@npm%3A4.8.3#~builtin<compat/typescript>::version=4.8.3&hash=a1c5e5"],\
-            ["zod", "npm:3.19.1"]\
+            ["zod", "npm:3.19.1"],\
+            ["zod-fast-check", "virtual:11dc9905ba267e8c7fe5f048d5f46e25e912224b097aaae2bac44653d5c3c53312bb880aae8ad4df75b50c55701e4090b3c8a3d789323ab3738e84895c900b6b#npm:0.8.0"]\
           ],\
           "linkType": "SOFT"\
         }]\
@@ -3123,12 +3126,38 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["rollup", "npm:2.79.1"],\
             ["typescript", "patch:typescript@npm%3A4.8.3#~builtin<compat/typescript>::version=4.8.3&hash=a1c5e5"],\
             ["zod", "npm:3.19.1"],\
-            ["zod-fast-check", "virtual:6d18b2d27b927c9de24f3914b5c047688c4509d700f42bd9e4ef9b3a7abae4e8ad5f4678ffd0aaa8e22b3114289d67edaa53e2d8b2a6bf475be6b525c8ef9099#npm:0.8.0"]\
+            ["zod-fast-check", "virtual:11dc9905ba267e8c7fe5f048d5f46e25e912224b097aaae2bac44653d5c3c53312bb880aae8ad4df75b50c55701e4090b3c8a3d789323ab3738e84895c900b6b#npm:0.8.0"]\
           ],\
           "packagePeers": [\
             "@types/fast-check",\
             "@types/zod-fast-check",\
-            "fast-check"\
+            "fast-check",\
+            "zod-fast-check"\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:6c631fc27b3e83fdb7c1c1db9be14c509409d5912b8658b3a044ebe9a194cfd4dd27b5f665792af4d00d6e052ebb1667cc3c9b4128d47e33107efa7f1262b0d7#workspace:packages/core", {\
+          "packageLocation": "./.yarn/__virtual__/@packlint-core-virtual-2528cb267b/1/packages/core/",\
+          "packageDependencies": [\
+            ["@packlint/core", "virtual:6c631fc27b3e83fdb7c1c1db9be14c509409d5912b8658b3a044ebe9a194cfd4dd27b5f665792af4d00d6e052ebb1667cc3c9b4128d47e33107efa7f1262b0d7#workspace:packages/core"],\
+            ["@toss/rollup-config", "virtual:11dc9905ba267e8c7fe5f048d5f46e25e912224b097aaae2bac44653d5c3c53312bb880aae8ad4df75b50c55701e4090b3c8a3d789323ab3738e84895c900b6b#npm:0.0.1"],\
+            ["@types/fast-check", null],\
+            ["@types/fs-extra", "npm:9.0.13"],\
+            ["@types/jest", "npm:29.2.1"],\
+            ["@types/zod-fast-check", null],\
+            ["cosmiconfig", "npm:7.0.1"],\
+            ["fast-check", "npm:3.3.0"],\
+            ["fast-glob", "npm:3.2.12"],\
+            ["fs-extra", "npm:10.1.0"],\
+            ["jest", "virtual:11dc9905ba267e8c7fe5f048d5f46e25e912224b097aaae2bac44653d5c3c53312bb880aae8ad4df75b50c55701e4090b3c8a3d789323ab3738e84895c900b6b#npm:29.2.2"],\
+            ["rollup", "npm:2.79.1"],\
+            ["typescript", "patch:typescript@npm%3A4.8.3#~builtin<compat/typescript>::version=4.8.3&hash=a1c5e5"],\
+            ["zod", "npm:3.19.1"],\
+            ["zod-fast-check", "virtual:11dc9905ba267e8c7fe5f048d5f46e25e912224b097aaae2bac44653d5c3c53312bb880aae8ad4df75b50c55701e4090b3c8a3d789323ab3738e84895c900b6b#npm:0.8.0"]\
+          ],\
+          "packagePeers": [\
+            "@types/fast-check",\
+            "@types/zod-fast-check"\
           ],\
           "linkType": "SOFT"\
         }],\
@@ -3147,7 +3176,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["rollup", "npm:2.79.1"],\
             ["typescript", "patch:typescript@npm%3A4.8.3#~builtin<compat/typescript>::version=4.8.3&hash=a1c5e5"],\
             ["zod", "npm:3.19.1"],\
-            ["zod-fast-check", "virtual:6d18b2d27b927c9de24f3914b5c047688c4509d700f42bd9e4ef9b3a7abae4e8ad5f4678ffd0aaa8e22b3114289d67edaa53e2d8b2a6bf475be6b525c8ef9099#npm:0.8.0"]\
+            ["zod-fast-check", "virtual:11dc9905ba267e8c7fe5f048d5f46e25e912224b097aaae2bac44653d5c3c53312bb880aae8ad4df75b50c55701e4090b3c8a3d789323ab3738e84895c900b6b#npm:0.8.0"]\
           ],\
           "linkType": "SOFT"\
         }]\
@@ -3549,6 +3578,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-prettier-npm-2.7.1-d46ada27e6-5e3f58e229.zip/node_modules/@types/prettier/",\
           "packageDependencies": [\
             ["@types/prettier", "npm:2.7.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@types/ramda", [\
+        ["npm:0.28.20", {\
+          "packageLocation": "./.yarn/cache/@types-ramda-npm-0.28.20-633f49d471-02c1e958a0.zip/node_modules/@types/ramda/",\
+          "packageDependencies": [\
+            ["@types/ramda", "npm:0.28.20"],\
+            ["ts-toolbelt", "npm:6.15.5"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -7499,7 +7538,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["packlint", "workspace:packages/cli"],\
             ["@packlint/command", "workspace:packages/command"],\
-            ["@packlint/core", "virtual:11dc9905ba267e8c7fe5f048d5f46e25e912224b097aaae2bac44653d5c3c53312bb880aae8ad4df75b50c55701e4090b3c8a3d789323ab3738e84895c900b6b#workspace:packages/core"],\
+            ["@packlint/core", "virtual:6c631fc27b3e83fdb7c1c1db9be14c509409d5912b8658b3a044ebe9a194cfd4dd27b5f665792af4d00d6e052ebb1667cc3c9b4128d47e33107efa7f1262b0d7#workspace:packages/core"],\
             ["@toss/rollup-config", "virtual:11dc9905ba267e8c7fe5f048d5f46e25e912224b097aaae2bac44653d5c3c53312bb880aae8ad4df75b50c55701e4090b3c8a3d789323ab3738e84895c900b6b#npm:0.0.1"],\
             ["@types/jest", "npm:29.2.1"],\
             ["@types/node", "npm:18.11.9"],\
@@ -7752,6 +7791,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/queue-microtask-npm-1.2.3-fcc98e4e2d-b676f8c040.zip/node_modules/queue-microtask/",\
           "packageDependencies": [\
             ["queue-microtask", "npm:1.2.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["ramda", [\
+        ["npm:0.28.0", {\
+          "packageLocation": "./.yarn/cache/ramda-npm-0.28.0-6a5fe8f6cc-44ea6e5010.zip/node_modules/ramda/",\
+          "packageDependencies": [\
+            ["ramda", "npm:0.28.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -8458,6 +8506,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["ts-toolbelt", [\
+        ["npm:6.15.5", {\
+          "packageLocation": "./.yarn/cache/ts-toolbelt-npm-6.15.5-e42f89942f-24ad00cfd9.zip/node_modules/ts-toolbelt/",\
+          "packageDependencies": [\
+            ["ts-toolbelt", "npm:6.15.5"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["tsconfig-paths", [\
         ["npm:3.14.1", {\
           "packageLocation": "./.yarn/cache/tsconfig-paths-npm-3.14.1-17a815b5c5-8afa01c673.zip/node_modules/tsconfig-paths/",\
@@ -8895,10 +8952,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "SOFT"\
         }],\
-        ["virtual:6d18b2d27b927c9de24f3914b5c047688c4509d700f42bd9e4ef9b3a7abae4e8ad5f4678ffd0aaa8e22b3114289d67edaa53e2d8b2a6bf475be6b525c8ef9099#npm:0.8.0", {\
-          "packageLocation": "./.yarn/__virtual__/zod-fast-check-virtual-0ef0e5ac19/0/cache/zod-fast-check-npm-0.8.0-79c6351540-b54668ee99.zip/node_modules/zod-fast-check/",\
+        ["virtual:11dc9905ba267e8c7fe5f048d5f46e25e912224b097aaae2bac44653d5c3c53312bb880aae8ad4df75b50c55701e4090b3c8a3d789323ab3738e84895c900b6b#npm:0.8.0", {\
+          "packageLocation": "./.yarn/__virtual__/zod-fast-check-virtual-694fd11be9/0/cache/zod-fast-check-npm-0.8.0-79c6351540-b54668ee99.zip/node_modules/zod-fast-check/",\
           "packageDependencies": [\
-            ["zod-fast-check", "virtual:6d18b2d27b927c9de24f3914b5c047688c4509d700f42bd9e4ef9b3a7abae4e8ad5f4678ffd0aaa8e22b3114289d67edaa53e2d8b2a6bf475be6b525c8ef9099#npm:0.8.0"],\
+            ["zod-fast-check", "virtual:11dc9905ba267e8c7fe5f048d5f46e25e912224b097aaae2bac44653d5c3c53312bb880aae8ad4df75b50c55701e4090b3c8a3d789323ab3738e84895c900b6b#npm:0.8.0"],\
             ["@types/fast-check", null],\
             ["@types/zod", null],\
             ["fast-check", "npm:3.3.0"],\

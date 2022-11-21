@@ -1,28 +1,14 @@
 import { ConfigType, DefaultConfig, PackageJSONType } from '@packlint/core';
+import { mergeDeepRight } from 'ramda';
 
-export function mergePackageJSON(packageJSON: PackageJSONType, { merge: _merge = {} }: ConfigType = DefaultConfig) {
-  return merge(packageJSON, _merge);
-}
-
-function merge<K extends string, T extends Record<K, unknown>>(target: T, source: T): T {
-  return Object.keys(source).reduce(
-    (acc, _key) => {
-      /** @note this is for type assertion */
-      const key = _key as K;
-      const targetVal = target[key];
-      const sourceVal = source[key];
-
-      if (isPureObject(targetVal) && isPureObject(sourceVal)) {
-        acc[key] = merge(targetVal, sourceVal);
-      } else {
-        acc[key] = source[key];
-      }
-      return acc;
-    },
-    { ...target } as T
-  );
-}
-
-export function isPureObject(obj: unknown): obj is Record<string, unknown> {
-  return typeof obj === 'object' && !Array.isArray(obj) && obj != null;
+export function mergePackageJSON(packageJSON: PackageJSONType, config: ConfigType = DefaultConfig) {
+  /**
+   * @see https://ramdajs.com/docs/#mergeDeepRight
+   *
+   * Creates a new object with the own properties of the first object merged with the own properties of the second object.
+   * If a key exists in both objects:
+   * a. and both values are objects, the two values will be recursively merged
+   * b. otherwise the value from the second object will be used.
+   */
+  return mergeDeepRight(packageJSON, config.merge ?? {}) as PackageJSONType;
 }

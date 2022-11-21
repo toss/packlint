@@ -2,7 +2,7 @@ import { DEFAULT_ORDER, PackageJSONSchema, PackageJSONType } from '@packlint/cor
 import { PackageJSONArbitrary } from '@packlint/core/testing';
 import * as fc from 'fast-check';
 
-import { parseOrderToKeys, sortPackageJSON } from './sort-package-json';
+import { parseOrderToPackageJSONKeys, sortPackageJSON } from './sort-package-json';
 
 const shuffle = <T>(x: T[]) => x.sort(() => Math.random() - 0.5);
 const shuffleObjectByKeys = <T extends Record<string, unknown>>(x: T): T =>
@@ -24,7 +24,7 @@ describe('sortPackageJSON', () => {
 
         expect(PackageJSONSchema.safeParse(sorted).success).toBe(true);
 
-        const keys = parseOrderToKeys({ order });
+        const keys = parseOrderToPackageJSONKeys({ order });
 
         let cursor = 0;
         for (const key of Object.keys(sorted) as Array<keyof PackageJSONType>) {
@@ -39,7 +39,7 @@ describe('sortPackageJSON', () => {
   it('parse config order not including ... syntax to keys ', () => {
     fc.assert(
       fc.property(NonSpreadOrderArbitrary, _order => {
-        const order = parseOrderToKeys({ order: _order });
+        const order = parseOrderToPackageJSONKeys({ order: _order });
 
         expect(order.length).toBe(DEFAULT_ORDER.length);
 
@@ -50,7 +50,7 @@ describe('sortPackageJSON', () => {
   it('parse order including ... syntax to keys', () => {
     fc.assert(
       fc.property(SpreadOrderArbitrary, _order => {
-        const order = parseOrderToKeys({ order: _order });
+        const order = parseOrderToPackageJSONKeys({ order: _order });
 
         expect(order.length).toBe(DEFAULT_ORDER.length);
       })

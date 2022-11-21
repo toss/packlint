@@ -4,32 +4,17 @@ import * as fc from 'fast-check';
 
 import { mergePackageJSON } from './merge-package-json';
 
+const MergeConfigArbitrary = fc.record({
+  merge: PackageJSONArbitrary,
+});
+
 describe('mergePackageJSON', () => {
-  it('Result should be a form of PackageJSON', () => {
+  test('The result should be the form of package.json', () => {
     fc.assert(
-      fc.property(PackageJSONArbitrary, PackageJSONArbitrary, (target, source) => {
-        const { success } = PackageJSONSchema.safeParse(mergePackageJSON(target, { merge: source }));
+      fc.property(PackageJSONArbitrary, MergeConfigArbitrary, (target, config) => {
+        const { success } = PackageJSONSchema.safeParse(mergePackageJSON(target, config));
 
         return success;
-      })
-    );
-  });
-  it('Result should contain values from the source object', () => {
-    fc.assert(
-      fc.property(PackageJSONArbitrary, PackageJSONArbitrary, (target, source) => {
-        const merged = mergePackageJSON(target, { merge: source });
-
-        expect(merged).toMatchObject(source);
-      })
-    );
-  });
-
-  it('Result should keep target object`s key order', () => {
-    fc.assert(
-      fc.property(PackageJSONArbitrary, PackageJSONArbitrary, (target, source) => {
-        const merged = mergePackageJSON(target, { merge: source });
-
-        expect(Object.keys(merged)).toEqual(Object.keys(Object.assign(target, source)));
       })
     );
   });
