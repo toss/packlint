@@ -16,7 +16,6 @@
       "access": "public"
     }
   },
-  "remove": [],
   "include": [
     "./packages/**/package.json"
   ]

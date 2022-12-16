@@ -1832,12 +1832,10 @@ __metadata:
   dependencies:
     "@packlint/core": "workspace:^"
     "@toss/rollup-config": ^0.0.1
-    "@types/jest": ^29.2.1
     "@types/node": ^18.11.9
     "@types/ramda": ^0.28.20
     clipanion: ^3.2.0-rc.13
     fast-check: ^3.3.0
-    jest: ^29.2.2
     ramda: ^0.28.0
     rollup: 2.79.1
     typescript: 4.8.3
@@ -1852,12 +1850,10 @@ __metadata:
   dependencies:
     "@toss/rollup-config": ^0.0.1
     "@types/fs-extra": ^9.0.13
-    "@types/jest": ^29.2.1
     cosmiconfig: ^7.0.1
     fast-check: ^3.3.0
     fast-glob: ^3.2.12
     fs-extra: ^10.1.0
-    jest: ^29.2.2
     rollup: 2.79.1
     typescript: 4.8.3
     zod: ^3.19.1
@@ -5423,10 +5419,8 @@ __metadata:
     "@packlint/command": "workspace:^"
     "@packlint/core": "workspace:^"
     "@toss/rollup-config": ^0.0.1
-    "@types/jest": ^29.2.1
     "@types/node": ^18.11.9
     clipanion: ^3.2.0-rc.13
-    jest: ^29.2.2
     rollup: 2.79.1
     ts-node: ^10.9.1
     typescript: 4.8.3
