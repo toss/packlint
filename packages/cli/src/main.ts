@@ -2,7 +2,7 @@ import { MergeCommand, ReplaceCommand, RequiredCommand, SortCommand } from '@pac
 import { ConfigType, getConfig } from '@packlint/core';
 import { BaseContext, Cli } from 'clipanion';
 
-import { AllCommand } from './commands/index';
+import { AllCommand } from './commands/index.js';
 
 export async function main() {
   async function run() {

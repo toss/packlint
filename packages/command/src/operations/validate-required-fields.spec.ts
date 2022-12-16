@@ -4,7 +4,7 @@ import * as fc from 'fast-check';
 import * as R from 'ramda';
 import { ZodFastCheck } from 'zod-fast-check';
 
-import { validateRequiredFields } from './validate-required-fields';
+import { validateRequiredFields } from './validate-required-fields.js';
 
 const RequiredConfigArbitrary = fc.record({
   required: fc.uniqueArray(ZodFastCheck().inputOf(PackageJSONSchema.keyof()), {

@@ -1,7 +1,7 @@
 import fg from 'fast-glob';
 
-import { parsePackageJSONPath } from '../models';
-import { getConfig } from './get-config';
+import { parsePackageJSONPath } from '../models/index.js';
+import { getConfig } from './get-config.js';
 
 export async function getAllPackageJSONPath() {
   const { include = ['./**/package.json'], exclude = [] } = await getConfig();

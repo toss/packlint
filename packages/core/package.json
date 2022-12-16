@@ -1,38 +1,22 @@
 {
   "name": "@packlint/core",
   "version": "0.0.8",
+  "type": "module",
   "exports": {
     ".": {
-      "require": "./src/index.ts",
-      "import": "./src/index.ts"
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
     },
     "./testing": {
-      "require": "./src/testing/index.ts",
-      "import": "./src/testing/index.ts"
+      "types": "./dist/testing/index.d.ts",
+      "default": "./dist/testing/index.js"
     },
     "./package.json": "./package.json"
   },
-  "publishConfig": {
-    "access": "public",
-    "main": "./dist/index.js",
-    "exports": {
-      ".": {
-        "require": "./dist/index.js",
-        "import": "./esm/index.mjs",
-        "types": "./dist/index.d.ts"
-      },
-      "./testing": {
-        "require": "./dist/testing/index.js",
-        "import": "./esm/testing/index.mjs",
-        "types": "./dist/testing/index.d.ts"
-      },
-      "./package.json": "./package.json"
-    }
-  },
-  "main": "./src/index.ts",
+  "main": "./dist/index.js",
   "scripts": {
     "prepack": "yarn build",
-    "build": "rm -rf dist esm && tsc --declaration --emitDeclarationOnly --declarationDir dist && rollup -c rollup.config.js",
+    "build": "rm -rf dist && tsup ./src/index.ts ./src/testing/index.ts --format esm --dts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -42,10 +26,9 @@
     "zod": "^3.19.1"
   },
   "devDependencies": {
-    "@toss/rollup-config": "^0.0.1",
     "@types/fs-extra": "^9.0.13",
     "fast-check": "^3.3.0",
-    "rollup": "2.79.1",
+    "tsup": "^6.5.0",
     "typescript": "4.8.3",
     "zod-fast-check": "^0.8.0"
   },

@@ -2,7 +2,7 @@ import { PackageJSONSchema } from '@packlint/core';
 import { PackageJSONArbitrary } from '@packlint/core/testing';
 import * as fc from 'fast-check';
 
-import { replacePackageJSONFields } from './replace-package-json-fields';
+import { replacePackageJSONFields } from './replace-package-json-fields.js';
 
 const ReplaceConfigArbitrary = fc.record({
   replace: PackageJSONArbitrary,

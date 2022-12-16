@@ -1,6 +1,6 @@
 import { readJSON } from 'fs-extra';
 
-import { PackageJSONPath, PackageJSONSchema } from '../models';
+import { PackageJSONPath, PackageJSONSchema } from '../models/index.js';
 
 export async function getPackageJSON(path: PackageJSONPath) {
   const json = await readJSON(path);

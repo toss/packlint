@@ -1,7 +1,7 @@
 import {
   mergePackageJSON,
   PacklintCommand,
-  replaceFields,
+  replacePackageJSONFields,
   sortPackageJSON,
   validateRequiredFields,
 } from '@packlint/command';
@@ -23,7 +23,7 @@ export class AllCommand<T extends BaseContext & { config: ConfigType }> extends 
       validateRequiredFields(json);
     }
 
-    const replaced = this.replace ? replaceFields(json, this.context.config) : json;
+    const replaced = this.replace ? replacePackageJSONFields(json, this.context.config) : json;
     const merged = this.merge ? mergePackageJSON(replaced, this.context.config) : replaced;
     const sorted = this.sort ? sortPackageJSON(merged, this.context.config) : merged;
 

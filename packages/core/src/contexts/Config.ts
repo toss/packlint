@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { PackageJSONSchema } from '../models/PackageJSON';
+import { PackageJSONSchema } from '../models/index.js';
 
 export const DEFAULT_ORDER = PackageJSONSchema.keyof().options;
 

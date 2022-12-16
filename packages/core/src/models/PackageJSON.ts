@@ -1,8 +1,8 @@
 import { z } from 'zod';
 
-import { ExportsSchema } from './Exports';
-import { PackageJSONErrorMap } from './PackageJSONError';
-import { PersonSchema } from './Person';
+import { ExportsSchema } from './Exports.js';
+import { PackageJSONErrorMap } from './PackageJSONError.js';
+import { PersonSchema } from './Person.js';
 
 export const PackageJSONSchema = z
   .object(

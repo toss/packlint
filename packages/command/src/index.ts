@@ -1,2 +1,2 @@
-export * from './commands';
-export * from './operations';
+export * from './commands/index.js';
+export * from './operations/index.js';

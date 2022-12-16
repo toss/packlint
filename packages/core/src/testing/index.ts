@@ -1,1 +1,1 @@
-export * from './arbitrary';
+export * from './arbitrary.js';

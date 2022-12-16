@@ -1,34 +1,19 @@
 {
   "name": "packlint",
   "version": "0.0.8",
+  "type": "module",
   "exports": {
     ".": {
-      "require": "./src/index.ts",
-      "import": "./src/index.ts"
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
     },
     "./package.json": "./package.json"
   },
-  "publishConfig": {
-    "access": "public",
-    "main": "./dist/index.js",
-    "exports": {
-      ".": {
-        "require": "./dist/index.js",
-        "import": "./esm/index.mjs",
-        "types": "./dist/index.d.ts"
-      },
-      "./package.json": "./package.json"
-    },
-    "bin": {
-      "packlint": "./bin/index.js"
-    }
-  },
-  "main": "./src/index.ts",
-  "bin": "./bin/internal.js",
+  "main": "./dist/index.js",
+  "bin": "./bin/index.js",
   "scripts": {
     "prepack": "yarn build",
-    "test": "jest",
-    "build": "rm -rf dist esm && tsc --declaration --emitDeclarationOnly --declarationDir dist && rollup -c rollup.config.js",
+    "build": "rm -rf dist && tsup ./src/index.ts --format esm --dts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -37,10 +22,8 @@
     "clipanion": "^3.2.0-rc.13"
   },
   "devDependencies": {
-    "@toss/rollup-config": "^0.0.1",
     "@types/node": "^18.11.9",
-    "rollup": "2.79.1",
-    "ts-node": "^10.9.1",
+    "tsup": "^6.5.0",
     "typescript": "4.8.3"
   }
 }

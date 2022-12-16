@@ -2,7 +2,7 @@ import { DEFAULT_ORDER, PackageJSONSchema, PackageJSONType } from '@packlint/cor
 import { PackageJSONArbitrary } from '@packlint/core/testing';
 import * as fc from 'fast-check';
 
-import { parseOrderToPackageJSONKeys, sortPackageJSON } from './sort-package-json';
+import { parseOrderToPackageJSONKeys, sortPackageJSON } from './sort-package-json.js';
 
 const shuffle = <T>(x: T[]) => x.sort(() => Math.random() - 0.5);
 const shuffleObjectByKeys = <T extends Record<string, unknown>>(x: T): T =>

@@ -1,8 +1,8 @@
 import { shuffledSubarray } from 'fast-check';
 import { ZodFastCheck } from 'zod-fast-check';
 
-import { DEFAULT_ORDER } from '../contexts';
-import { PackageJSONSchema } from '../models';
+import { DEFAULT_ORDER } from '../contexts/index.js';
+import { PackageJSONSchema } from '../models/index.js';
 
 const filterUndefinedKeys = <T extends Record<string, unknown>>(x: T): T =>
   Object.keys(x)
