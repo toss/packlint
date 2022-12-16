@@ -15,8 +15,8 @@
   },
   "main": "./dist/index.js",
   "scripts": {
-    "prepack": "yarn build",
     "build": "rm -rf dist && tsup ./src/index.ts ./src/testing/index.ts --format esm --dts",
+    "prepack": "yarn build",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -43,5 +43,8 @@
     "zod-fast-check": {
       "optional": true
     }
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

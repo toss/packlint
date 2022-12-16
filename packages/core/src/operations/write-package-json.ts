@@ -1,7 +1,7 @@
-import { writeJSON } from 'fs-extra';
+import fs from 'fs-extra';
 
 import { PackageJSONPath, PackageJSONType } from '../index.js';
 
 export function writePackageJSON(packgeJSON: PackageJSONType, path: PackageJSONPath) {
-  return writeJSON(path, packgeJSON, { spaces: 2 });
+  return fs.writeJSON(path, packgeJSON, { spaces: 2 });
 }
