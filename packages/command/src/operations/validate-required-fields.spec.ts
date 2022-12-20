@@ -2,6 +2,7 @@ import { PackageJSONSchema } from '@packlint/core';
 import { PackageJSONArbitrary } from '@packlint/core/testing';
 import * as fc from 'fast-check';
 import * as R from 'ramda';
+import { describe, expect, test } from 'vitest';
 import { ZodFastCheck } from 'zod-fast-check';
 
 import { validateRequiredFields } from './validate-required-fields.js';

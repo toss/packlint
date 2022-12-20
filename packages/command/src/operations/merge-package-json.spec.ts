@@ -1,6 +1,7 @@
 import { PackageJSONSchema } from '@packlint/core';
 import { PackageJSONArbitrary } from '@packlint/core/testing';
 import * as fc from 'fast-check';
+import { describe, test } from 'vitest';
 
 import { mergePackageJSON } from './merge-package-json.js';
 

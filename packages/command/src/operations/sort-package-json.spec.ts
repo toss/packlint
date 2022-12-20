@@ -1,6 +1,7 @@
 import { DEFAULT_ORDER, PackageJSONSchema, PackageJSONType } from '@packlint/core';
 import { PackageJSONArbitrary } from '@packlint/core/testing';
 import * as fc from 'fast-check';
+import { describe, expect, it } from 'vitest';
 
 import { parseOrderToPackageJSONKeys, sortPackageJSON } from './sort-package-json.js';
 
