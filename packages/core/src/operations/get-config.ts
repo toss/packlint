@@ -1,4 +1,4 @@
-import { cosmiconfig } from 'cosmiconfig';
+import { cosmiconfig, cosmiconfigSync } from 'cosmiconfig';
 
 import { ConfigSchema } from '../contexts/index.js';
 
@@ -7,3 +7,9 @@ export async function getConfig() {
 
   return ConfigSchema.parse(config);
 }
+
+getConfig.sync = function () {
+  const { config } = cosmiconfigSync('packlint').search() ?? {};
+
+  return ConfigSchema.parse(config);
+};

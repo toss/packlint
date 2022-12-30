@@ -1,9 +1,8 @@
-import { DEFAULT_ORDER, PackageJSONSchema, PackageJSONType } from '@packlint/core';
-import { PackageJSONArbitrary } from '@packlint/core/testing';
+import { ConfigArbitrary, PackageJSONArbitrary } from '@packlint/core/testing';
 import * as fc from 'fast-check';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, test } from 'vitest';
 
-import { parseOrderToPackageJSONKeys, sortPackageJSON } from './sort-package-json.js';
+import { sortPackageJSON } from './sort-package-json.js';
 
 const shuffle = <T>(x: T[]) => x.sort(() => Math.random() - 0.5);
 const shuffleObjectByKeys = <T extends Record<string, unknown>>(x: T): T =>
@@ -11,49 +10,38 @@ const shuffleObjectByKeys = <T extends Record<string, unknown>>(x: T): T =>
 
 const ShuffledPackageJSONArbitrary = PackageJSONArbitrary.map(shuffleObjectByKeys);
 
-const OrderArbitrary = fc
-  .shuffledSubarray([...DEFAULT_ORDER, '...' as const], { minLength: 1 })
-  .filter(x => x[x.length - 1] !== '...');
-const NonSpreadOrderArbitrary = OrderArbitrary.filter(x => !x.some(y => y === '...'));
-const SpreadOrderArbitrary = OrderArbitrary.filter(x => x.some(y => y === '...'));
-
 describe('sortPackageJSON', () => {
-  it('sorts package.json properties by given order in config', () => {
+  /**
+   * Sorting result of config A and config B within the same package.json are same :
+   * A. a config that includes some items that does not exists in package.json
+   * B. a list which has filtered out the items (the ones that does not exists in package.json) in A
+   */
+  test(`Sorting Result of A and B are same`, () => {
     fc.assert(
-      fc.property(ShuffledPackageJSONArbitrary, OrderArbitrary, (json, order) => {
-        const sorted = sortPackageJSON(json, { order });
-
-        expect(PackageJSONSchema.safeParse(sorted).success).toBe(true);
-
-        const keys = parseOrderToPackageJSONKeys({ order });
-
-        let cursor = 0;
-        for (const key of Object.keys(sorted) as Array<keyof PackageJSONType>) {
-          const prev = cursor;
-          cursor = keys.indexOf(key);
-
-          expect(cursor).toBeGreaterThanOrEqual(prev);
+      fc.property(
+        ShuffledPackageJSONArbitrary,
+        ConfigArbitrary,
+        fc.array(fc.string()),
+        (p, config, randomStringArray) => {
+          expect(sortPackageJSON(p, config)).toMatchObject(
+            sortPackageJSON(p, { order: [...config.order, ...randomStringArray] })
+          );
         }
-      })
+      )
     );
   });
-  it('parse config order not including ... syntax to keys ', () => {
+
+  /**
+   * let all items in config are properties of package.json
+   * let An to be the nth item in config, let Bn to be the nth property of the sorted package.json
+   */
+  test(`An === Bn`, () => {
     fc.assert(
-      fc.property(NonSpreadOrderArbitrary, _order => {
-        const order = parseOrderToPackageJSONKeys({ order: _order });
+      fc.property(ShuffledPackageJSONArbitrary, ConfigArbitrary, (p, config) => {
+        fc.pre(config.order.every(item => Object.keys(p).includes(item)));
 
-        expect(order.length).toBe(DEFAULT_ORDER.length);
-
-        _order.forEach((_, i) => expect(order[i]).toBe(_order[i]));
-      })
-    );
-  });
-  it('parse order including ... syntax to keys', () => {
-    fc.assert(
-      fc.property(SpreadOrderArbitrary, _order => {
-        const order = parseOrderToPackageJSONKeys({ order: _order });
-
-        expect(order.length).toBe(DEFAULT_ORDER.length);
+        const res = sortPackageJSON(p, config);
+        config.order.forEach((item, i) => expect(item).toBe(Object.keys(res)[i]));
       })
     );
   });

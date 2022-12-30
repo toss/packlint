@@ -620,6 +620,8 @@ __metadata:
     fs-extra: ^10.1.0
     tsup: ^6.5.0
     typescript: 4.8.3
+    vite: ^4.0.2
+    vitest: ^0.26.1
     zod: ^3.19.1
     zod-fast-check: ^0.8.0
   peerDependencies:
@@ -3570,6 +3572,8 @@ __metadata:
     packlint: "workspace:^"
     prettier: ^2.7.1
     typescript: 4.8.3
+    vite: ^4.0.2
+    vitest: ^0.26.1
   languageName: unknown
   linkType: soft
 
@@ -3583,6 +3587,8 @@ __metadata:
     clipanion: ^3.2.0-rc.13
     tsup: ^6.5.0
     typescript: 4.8.3
+    vite: ^4.0.2
+    vitest: ^0.26.1
   bin:
     packlint: ./bin/index.js
   languageName: unknown

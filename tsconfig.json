@@ -10,7 +10,6 @@
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "strict": true,
 
     /* Language and Environment */
     "experimentalDecorators": true,
@@ -35,5 +34,6 @@
     "allowJs": false,
     "skipLibCheck": true
   },
-  "exclude": ["**/dist/*", "**/esm/*", "**/__testfixtures__/*"]
+  "exclude": ["**/dist/*", "**/esm/*", "**/__testfixtures__/*"],
+  "include": ["vitest.config.mjs"]
 }

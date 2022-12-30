@@ -1,11 +1,12 @@
-import { shuffledSubarray } from 'fast-check';
+import { Arbitrary, shuffledSubarray } from 'fast-check';
+import { SafeParseSuccess, ZodSchema } from 'zod';
 import { ZodFastCheck } from 'zod-fast-check';
 
-import { DEFAULT_ORDER } from '../contexts/index.js';
+import { ConfigSchema, DEFAULT_ORDER } from '../contexts/index.js';
 import { PackageJSONSchema } from '../models/index.js';
 
 const filterUndefinedKeys = <T extends Record<string, unknown>>(x: T): T =>
-  Object.keys(x)
+  Object.keys(x ?? {})
     .filter(key => x[key] !== undefined && key !== '__proto__')
     .reduce(
       (acc, key) => ({
@@ -18,9 +19,15 @@ const filterUndefinedKeys = <T extends Record<string, unknown>>(x: T): T =>
       {} as T
     );
 
-export const PackageJSONArbitrary = ZodFastCheck()
-  .inputOf(PackageJSONSchema)
-  .filter(x => PackageJSONSchema.safeParse(x).success)
-  .map(filterUndefinedKeys);
+export function createArbitraryFromZodObject<T extends Record<string, unknown>>(schema: ZodSchema<T>): Arbitrary<T> {
+  return ZodFastCheck()
+    .inputOf(schema)
+    .filter(x => schema.safeParse(x).success)
+    .map(x => (schema.safeParse(x) as SafeParseSuccess<T>).data)
+    .map(filterUndefinedKeys);
+}
 
-export const OrderArbitrary = shuffledSubarray([...DEFAULT_ORDER, '...' as const], { minLength: 1 });
+export const PackageJSONArbitrary = createArbitraryFromZodObject(PackageJSONSchema);
+
+export const OrderArbitrary = shuffledSubarray(DEFAULT_ORDER, { minLength: 1 });
+export const ConfigArbitrary = createArbitraryFromZodObject(ConfigSchema);

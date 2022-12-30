@@ -1,6 +1,6 @@
 import {
   ConfigType,
-  getAllPackageJSONPath,
+  getAllPackageJSONPathByConfig,
   getPackageJSON,
   PackageJSONType,
   parsePackageJSONPath,
@@ -34,7 +34,7 @@ export abstract class PacklintCommand<T extends BaseContext & { config: ConfigTy
   }
 
   async runAll() {
-    const paths = await getAllPackageJSONPath();
+    const paths = await getAllPackageJSONPathByConfig();
     const jsons = await Promise.all(paths.map(path => this.run.call(this, path)));
 
     return jsons;

@@ -11,8 +11,8 @@
   },
   "main": "./dist/index.js",
   "scripts": {
-    "build": "rm -rf dist && tsup ./src/index.ts --format esm --dts",
     "prepack": "yarn build",
+    "build": "rm -rf dist && tsup ./src/index.ts --format esm --dts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

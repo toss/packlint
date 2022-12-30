@@ -6,19 +6,22 @@ export const DEFAULT_ORDER = PackageJSONSchema.keyof().options;
 
 export const ConfigSchema = z
   .object({
-    order: z
-      .array(z.union([PackageJSONSchema.keyof(), z.literal('...')]))
-      .default(PackageJSONSchema.keyof().options)
-      .optional(),
+    order: z.array(z.string()).default(PackageJSONSchema.keyof().options),
     deep: z
-      .array(PackageJSONSchema.keyof())
-      .default(['dependencies', 'devDependencies', 'peerDependencies', 'resolutions'])
-      .optional(),
-    required: z.array(PackageJSONSchema.keyof()).default(['name']).optional(),
-    replace: PackageJSONSchema.optional(),
-    merge: PackageJSONSchema.optional(),
-    include: z.array(z.string()).default(['./packages/**']).optional(),
-    exclude: z.array(z.string()).default(['./packages/**']).optional(),
+      .array(z.string())
+      .default([
+        'dependencies',
+        'devDependencies',
+        'peerDependencies',
+        'peerDependenciesMeta',
+        'resolutions',
+        'scripts',
+      ]),
+    required: z.array(z.string()).optional(),
+    replace: z.record(z.any()).optional(),
+    merge: z.record(z.any()).optional(),
+    include: z.array(z.string()).optional(),
+    exclude: z.array(z.string()).optional(),
   })
   .default({});
 

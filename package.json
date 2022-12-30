@@ -18,7 +18,9 @@
     "eslint-plugin-simple-import-sort": "^8.0.0",
     "packlint": "workspace:^",
     "prettier": "^2.7.1",
-    "typescript": "4.8.3"
+    "typescript": "4.8.3",
+    "vite": "^4.0.2",
+    "vitest": "^0.26.1"
   },
   "resolutions": {
     "ts-pattern": "patch:ts-pattern@npm:4.0.5#.yarn/patches/ts-pattern-npm-4.0.5-7ba0b14201.patch",
