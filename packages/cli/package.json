@@ -12,8 +12,9 @@
   "main": "./dist/index.js",
   "bin": "./bin/index.js",
   "scripts": {
-    "prepack": "yarn build",
     "build": "rm -rf dist && tsup ./src/index.ts --format esm --dts",
+    "dev": "yarn run build --watch",
+    "prepack": "yarn build",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

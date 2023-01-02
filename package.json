@@ -6,8 +6,9 @@
     "./packages/**"
   ],
   "scripts": {
-    "test": "yarn vitest run",
-    "lint": "yarn eslint --fix"
+    "test:all": "yarn vitest run",
+    "lint:all": "yarn eslint --fix",
+    "packlint:all": "yarn packlint -R"
   },
   "devDependencies": {
     "@babel/core": "^7.19.6",

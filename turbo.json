@@ -8,11 +8,15 @@
     "dev": {
       "cache": false
     },
-    "//#test": {
+    "//#test:all": {
       "dependsOn": ["@packlint/core#build", "@packlint/command#build"],
       "outputs": []
     },
-    "//#lint": {
+    "//#lint:all": {
+      "outputs": []
+    },
+    "//#packlint:all": {
+      "dependsOn": ["packlint#build"],
       "outputs": []
     },
     "prepack": {
