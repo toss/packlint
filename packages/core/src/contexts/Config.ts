@@ -7,7 +7,7 @@ export const DEFAULT_ORDER = PackageJSONSchema.keyof().options;
 export const ConfigSchema = z
   .object({
     files: z.array(z.string()).default(['./package.json']),
-    ignore: z.array(z.string()).optional(),
+    ignores: z.array(z.string()).optional(),
     extends: z.string().optional(),
     rules: z
       .object({

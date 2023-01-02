@@ -4,9 +4,9 @@ import { parsePackageJSONPath } from '../models/index.js';
 import { getConfig } from './get-config.js';
 
 export async function getAllPackageJSONPathByConfig() {
-  const { files = ['./package.json'], ignore = [] } = await getConfig();
+  const { files = ['./package.json'], ignores = [] } = await getConfig();
 
   return fg(files.map(parsePackageJSONPath), {
-    ignore: ignore.concat(['node_modules/**']),
+    ignore: ignores.concat(['node_modules/**']),
   });
 }
