@@ -60,6 +60,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-simple-import-sort", "virtual:32dc9a44bcf99bd0876cfbbf8527a3c4a394a3cddee3a9cbeda35324e59c3290cfc80bd7c70ad57c9305d9873b89b8603cac9f1e80042e4b9a6ce8edc099563b#npm:8.0.0"],\
             ["packlint", "workspace:packages/cli"],\
             ["prettier", "npm:2.7.1"],\
+            ["turbo", "npm:1.6.3"],\
             ["typescript", "patch:typescript@npm%3A4.8.3#~builtin<compat/typescript>::version=4.8.3&hash=a1c5e5"],\
             ["vite", "virtual:11dc9905ba267e8c7fe5f048d5f46e25e912224b097aaae2bac44653d5c3c53312bb880aae8ad4df75b50c55701e4090b3c8a3d789323ab3738e84895c900b6b#npm:4.0.2"],\
             ["vitest", "virtual:11dc9905ba267e8c7fe5f048d5f46e25e912224b097aaae2bac44653d5c3c53312bb880aae8ad4df75b50c55701e4090b3c8a3d789323ab3738e84895c900b6b#npm:0.26.1"]\
@@ -4285,6 +4286,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-simple-import-sort", "virtual:32dc9a44bcf99bd0876cfbbf8527a3c4a394a3cddee3a9cbeda35324e59c3290cfc80bd7c70ad57c9305d9873b89b8603cac9f1e80042e4b9a6ce8edc099563b#npm:8.0.0"],\
             ["packlint", "workspace:packages/cli"],\
             ["prettier", "npm:2.7.1"],\
+            ["turbo", "npm:1.6.3"],\
             ["typescript", "patch:typescript@npm%3A4.8.3#~builtin<compat/typescript>::version=4.8.3&hash=a1c5e5"],\
             ["vite", "virtual:11dc9905ba267e8c7fe5f048d5f46e25e912224b097aaae2bac44653d5c3c53312bb880aae8ad4df75b50c55701e4090b3c8a3d789323ab3738e84895c900b6b#npm:4.0.2"],\
             ["vitest", "virtual:11dc9905ba267e8c7fe5f048d5f46e25e912224b097aaae2bac44653d5c3c53312bb880aae8ad4df75b50c55701e4090b3c8a3d789323ab3738e84895c900b6b#npm:0.26.1"]\
@@ -5298,6 +5300,75 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packagePeers": [\
             "@types/typescript",\
             "typescript"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["turbo", [\
+        ["npm:1.6.3", {\
+          "packageLocation": "./.yarn/unplugged/turbo-npm-1.6.3-f17021fca7/node_modules/turbo/",\
+          "packageDependencies": [\
+            ["turbo", "npm:1.6.3"],\
+            ["turbo-darwin-64", "npm:1.6.3"],\
+            ["turbo-darwin-arm64", "npm:1.6.3"],\
+            ["turbo-linux-64", "npm:1.6.3"],\
+            ["turbo-linux-arm64", "npm:1.6.3"],\
+            ["turbo-windows-64", "npm:1.6.3"],\
+            ["turbo-windows-arm64", "npm:1.6.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["turbo-darwin-64", [\
+        ["npm:1.6.3", {\
+          "packageLocation": "./.yarn/unplugged/turbo-darwin-64-npm-1.6.3-ced0c215dc/node_modules/turbo-darwin-64/",\
+          "packageDependencies": [\
+            ["turbo-darwin-64", "npm:1.6.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["turbo-darwin-arm64", [\
+        ["npm:1.6.3", {\
+          "packageLocation": "./.yarn/unplugged/turbo-darwin-arm64-npm-1.6.3-10bca44324/node_modules/turbo-darwin-arm64/",\
+          "packageDependencies": [\
+            ["turbo-darwin-arm64", "npm:1.6.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["turbo-linux-64", [\
+        ["npm:1.6.3", {\
+          "packageLocation": "./.yarn/unplugged/turbo-linux-64-npm-1.6.3-ec15c461eb/node_modules/turbo-linux-64/",\
+          "packageDependencies": [\
+            ["turbo-linux-64", "npm:1.6.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["turbo-linux-arm64", [\
+        ["npm:1.6.3", {\
+          "packageLocation": "./.yarn/unplugged/turbo-linux-arm64-npm-1.6.3-4702fd438e/node_modules/turbo-linux-arm64/",\
+          "packageDependencies": [\
+            ["turbo-linux-arm64", "npm:1.6.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["turbo-windows-64", [\
+        ["npm:1.6.3", {\
+          "packageLocation": "./.yarn/unplugged/turbo-windows-64-npm-1.6.3-2209fed478/node_modules/turbo-windows-64/",\
+          "packageDependencies": [\
+            ["turbo-windows-64", "npm:1.6.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["turbo-windows-arm64", [\
+        ["npm:1.6.3", {\
+          "packageLocation": "./.yarn/unplugged/turbo-windows-arm64-npm-1.6.3-31a03f5c04/node_modules/turbo-windows-arm64/",\
+          "packageDependencies": [\
+            ["turbo-windows-arm64", "npm:1.6.3"]\
           ],\
           "linkType": "HARD"\
         }]\

@@ -1,0 +1,26 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "pipeline": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["./dist/**"]
+    },
+    "dev": {
+      "cache": false
+    },
+    "//#test": {
+      "dependsOn": ["@packlint/core#build", "@packlint/command#build"],
+      "outputs": []
+    },
+    "//#lint": {
+      "outputs": []
+    },
+    "prepack": {
+      "dependsOn": ["build"],
+      "outputs": []
+    },
+    "deploy": {
+      "dependsOn": ["prepack ", "test", "lint"]
+    }
+  }
+}

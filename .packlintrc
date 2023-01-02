@@ -2,15 +2,6 @@
   "include": [
     "./packages/**/package.json"
   ],
-  "order": [
-    "...",
-    "exports",
-    "...",
-    "dependencies",
-    "devDependencies",
-    "...",
-    "publishConfig"
-  ],
   "merge": {
     "type": "module",
     "exports": {
@@ -24,6 +15,7 @@
     "scripts": {
       "prepack": "yarn build",
       "build": "rm -rf dist && tsup ./src/index.ts --format esm --dts",
+      "dev": "yarn run build --watch",
       "typecheck": "tsc --noEmit"
     },
     "devDependencies": {
