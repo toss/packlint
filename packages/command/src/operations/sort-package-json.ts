@@ -3,8 +3,8 @@ import * as R from 'ramda';
 
 export function sortPackageJSON(packageJSON: PackageJSONType, config: ConfigType = DefaultConfig) {
   return sortObjectByKeyOrders(packageJSON, {
-    keys: R.uniq([...config.order, ...DEFAULT_ORDER]),
-    deep: config.deep,
+    keys: R.uniq([...(config.rules?.order ?? []), ...DEFAULT_ORDER]),
+    deep: ['dependencies', 'devDependencies', 'peerDependencies', 'peerDependenciesMeta', 'resolutions', 'scripts'],
   });
 }
 

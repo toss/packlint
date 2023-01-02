@@ -24,7 +24,7 @@ describe('sortPackageJSON', () => {
         fc.array(fc.string()),
         (p, config, randomStringArray) => {
           expect(sortPackageJSON(p, config)).toMatchObject(
-            sortPackageJSON(p, { order: [...config.order, ...randomStringArray] })
+            sortPackageJSON(p, { rules: { order: [...(config.rules?.order ?? []), ...randomStringArray] } })
           );
         }
       )
@@ -38,10 +38,10 @@ describe('sortPackageJSON', () => {
   test(`An === Bn`, () => {
     fc.assert(
       fc.property(ShuffledPackageJSONArbitrary, ConfigArbitrary, (p, config) => {
-        fc.pre(config.order.every(item => Object.keys(p).includes(item)));
+        fc.pre((config.rules?.order ?? []).every(item => Object.keys(p).includes(item)));
 
         const res = sortPackageJSON(p, config);
-        config.order.forEach((item, i) => expect(item).toBe(Object.keys(res)[i]));
+        (config.rules?.order ?? []).forEach((item, i) => expect(item).toBe(Object.keys(res)[i]));
       })
     );
   });

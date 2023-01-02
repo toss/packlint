@@ -9,7 +9,7 @@ export class SortCommand<T extends BaseContext & { config: ConfigType }> extends
 
   write = true;
 
-  async action(_json: PackageJSONType) {
-    return sortPackageJSON(_json, this.context.config);
+  async action(json: PackageJSONType, config: ConfigType) {
+    return sortPackageJSON(json, config);
   }
 }

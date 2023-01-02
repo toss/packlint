@@ -1,19 +1,19 @@
 {
   "name": "packlint-monorepo",
-  "packageManager": "yarn@3.2.3",
   "private": true,
+  "packageManager": "yarn@3.2.3",
   "workspaces": [
     "./packages/**"
   ],
   "scripts": {
     "build": "turbo run build",
+    "deploy": "yarn turbo run deploy && yarn lerna publish from-git --no-verify-access --yes",
     "dev": "turbo run dev",
-    "prepack": "turbo run prepack",
-    "test:all": "yarn vitest run",
     "lint:all": "yarn eslint --fix",
     "packlint:all": "yarn packlint -R",
-    "version": "yarn turbo run version && yarn lerna version --conventional-commits --yes --git-remote origin",
-    "deploy": "yarn turbo run deploy && yarn lerna publish from-git --no-verify-access --yes"
+    "prepack": "turbo run prepack",
+    "test:all": "yarn vitest run",
+    "version": "yarn turbo run version && yarn lerna version --conventional-commits --yes --git-remote origin"
   },
   "devDependencies": {
     "@babel/core": "^7.19.6",

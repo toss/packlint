@@ -21,9 +21,12 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@types/ramda": "^0.28.20",
     "cosmiconfig": "^7.0.1",
     "fast-glob": "^3.2.12",
+    "find-up": "^6.3.0",
     "fs-extra": "^10.1.0",
+    "ramda": "^0.28.0",
     "zod": "^3.19.1"
   },
   "devDependencies": {

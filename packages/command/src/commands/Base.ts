@@ -1,30 +1,33 @@
 import {
   ConfigType,
   getAllPackageJSONPathByConfig,
+  getConfig,
   getPackageJSON,
   PackageJSONType,
   parsePackageJSONPath,
   writePackageJSON,
 } from '@packlint/core';
 import { BaseContext, Command, Option } from 'clipanion';
+import nodePath from 'path';
 
 export abstract class PacklintCommand<T extends BaseContext & { config: ConfigType }> extends Command<T> {
   recursive = Option.Boolean('--recursive,-R', false);
-  file = Option.String('--file');
 
   abstract write: boolean;
 
-  abstract action(json: PackageJSONType): Promise<PackageJSONType>;
+  abstract action(json: PackageJSONType, config: ConfigType): Promise<PackageJSONType>;
 
   async run(_path = `${process.cwd()}/package.json`) {
-    const path = parsePackageJSONPath(this.file ?? _path);
+    const path = parsePackageJSONPath(_path);
     const json = await getPackageJSON(path);
 
     if (json.packlint === false) {
       return json;
     }
 
-    const res = await this.action.call(this, json);
+    const config = await getConfig({ cwd: nodePath.resolve(path) });
+
+    const res = await this.action.call(this, json, config);
 
     if (this.write) {
       await writePackageJSON(res, path);

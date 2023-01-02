@@ -10,5 +10,6 @@ export function mergePackageJSON(packageJSON: PackageJSONType, config: ConfigTyp
    * a. and both values are objects, the two values will be recursively merged
    * b. otherwise the value from the second object will be used.
    */
-  return mergeDeepRight(packageJSON, config.merge ?? {}) as PackageJSONType;
+
+  return mergeDeepRight(packageJSON, config.rules?.merge ?? {}) as PackageJSONType;
 }

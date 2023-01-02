@@ -9,7 +9,7 @@ export class MergeCommand<T extends BaseContext & { config: ConfigType }> extend
 
   write = true;
 
-  async action(json: PackageJSONType) {
-    return mergePackageJSON(json, this.context.config);
+  async action(json: PackageJSONType, config: ConfigType) {
+    return mergePackageJSON(json, config);
   }
 }

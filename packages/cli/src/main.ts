@@ -1,8 +1,6 @@
-import { MergeCommand, ReplaceCommand, RequiredCommand, SortCommand } from '@packlint/command';
+import { AllCommand, MergeCommand, SortCommand } from '@packlint/command';
 import { ConfigType, getConfig } from '@packlint/core';
 import { BaseContext, Cli } from 'clipanion';
-
-import { AllCommand } from './commands/index.js';
 
 export async function main() {
   async function run() {
@@ -24,8 +22,6 @@ export async function main() {
     const config = await getConfig();
 
     cli.register(SortCommand);
-    cli.register(RequiredCommand);
-    cli.register(ReplaceCommand);
     cli.register(MergeCommand);
     cli.register(AllCommand);
 
