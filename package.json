@@ -6,9 +6,14 @@
     "./packages/**"
   ],
   "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "prepack": "turbo run prepack",
     "test:all": "yarn vitest run",
     "lint:all": "yarn eslint --fix",
-    "packlint:all": "yarn packlint -R"
+    "packlint:all": "yarn packlint -R",
+    "version": "yarn turbo run version && yarn lerna version --conventional-commits --yes --git-remote origin",
+    "deploy": "yarn turbo run deploy && yarn lerna publish from-git --no-verify-access --yes"
   },
   "devDependencies": {
     "@babel/core": "^7.19.6",

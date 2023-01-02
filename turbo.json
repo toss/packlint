@@ -3,10 +3,22 @@
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["./dist/**"]
+      "outputs": ["dist/**"]
     },
     "dev": {
       "cache": false
+    },
+    "prepack": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"]
+    },
+    "version": {
+      "dependsOn": ["prepack", "//#test:all", "//#lint:all"],
+      "outputs": []
+    },
+    "deploy": {
+      "dependsOn": ["version"],
+      "outputs": []
     },
     "//#test:all": {
       "dependsOn": ["@packlint/core#build", "@packlint/command#build"],
@@ -18,13 +30,6 @@
     "//#packlint:all": {
       "dependsOn": ["packlint#build"],
       "outputs": []
-    },
-    "prepack": {
-      "dependsOn": ["build"],
-      "outputs": []
-    },
-    "deploy": {
-      "dependsOn": ["prepack ", "test", "lint"]
     }
   }
 }
