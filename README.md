@@ -49,7 +49,7 @@ The Packlint configuration file is named `packlint.config.mjs`. It should be pla
 // packlint.config.mjs
 export default {
   files: ['./packages/**/package.json'],
-  ignore: ['./package.json'],
+  ignores: ['./package.json'],
   rules: {
     merge: {
       type: 'module',
