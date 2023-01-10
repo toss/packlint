@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.4](https://github.com/toss/packlint/compare/v0.2.3...v0.2.4) (2023-01-10)
+
+### Bug Fixes
+
+* typo in repository field ([6f18872](https://github.com/toss/packlint/commit/6f1887294e442dbffd00cafb48780c080b1a3220))
+
 ## [0.2.3](https://github.com/toss/packlint/compare/v0.2.2...v0.2.3) (2023-01-10)
 
 ### Bug Fixes
