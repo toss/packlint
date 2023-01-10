@@ -1,6 +1,21 @@
 {
   "name": "packlint",
   "version": "0.2.2",
+  "keywords": [
+    "cli",
+    "monorepo",
+    "multi-package",
+    "npm",
+    "package",
+    "package-json",
+    "package.json",
+    "packages",
+    "workspace",
+    "lint",
+    "eslint",
+    "format",
+    "organize"
+  ],
   "homepage": "https://github.com/toss/packlint#readme",
   "repository": {
     "type": "git",
