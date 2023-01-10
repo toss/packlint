@@ -1,6 +1,11 @@
 {
   "name": "packlint",
   "version": "0.2.1",
+  "homepage": "https://github.com/toss/packlint#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.toss.com/toss/packlint.git"
+  },
   "type": "module",
   "exports": {
     ".": {
