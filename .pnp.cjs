@@ -1331,6 +1331,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/fs-extra", "npm:9.0.13"],\
             ["@types/ramda", "npm:0.28.20"],\
             ["@types/zod-fast-check", null],\
+            ["chalk", "npm:5.2.0"],\
             ["cosmiconfig", "npm:7.0.1"],\
             ["fast-check", "npm:3.3.0"],\
             ["fast-glob", "npm:3.2.12"],\
@@ -1360,6 +1361,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/fs-extra", "npm:9.0.13"],\
             ["@types/ramda", "npm:0.28.20"],\
             ["@types/zod-fast-check", null],\
+            ["chalk", "npm:5.2.0"],\
             ["cosmiconfig", "npm:7.0.1"],\
             ["fast-check", "npm:3.3.0"],\
             ["fast-glob", "npm:3.2.12"],\
@@ -1385,6 +1387,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@packlint/core", "workspace:packages/core"],\
             ["@types/fs-extra", "npm:9.0.13"],\
             ["@types/ramda", "npm:0.28.20"],\
+            ["chalk", "npm:5.2.0"],\
             ["cosmiconfig", "npm:7.0.1"],\
             ["fast-check", "npm:3.3.0"],\
             ["fast-glob", "npm:3.2.12"],\
@@ -1999,6 +2002,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ansi-styles", "npm:5.2.0"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:6.1.0", {\
+          "packageLocation": "./.yarn/cache/ansi-styles-npm-6.1.0-4f6a594d04-7a7f8528c0.zip/node_modules/ansi-styles/",\
+          "packageDependencies": [\
+            ["ansi-styles", "npm:6.1.0"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["any-promise", [\
@@ -2452,6 +2462,21 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["chalk", "npm:4.1.2"],\
             ["ansi-styles", "npm:4.3.0"],\
             ["supports-color", "npm:7.2.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:5.2.0", {\
+          "packageLocation": "./.yarn/cache/chalk-npm-5.2.0-bedd808592-03d8060277.zip/node_modules/chalk/",\
+          "packageDependencies": [\
+            ["chalk", "npm:5.2.0"],\
+            ["#ansi-styles", [\
+              "ansi-styles",\
+              "npm:6.1.0"\
+            ]],\
+            ["#supports-color", [\
+              "supports-color",\
+              "npm:9.2.2"\
+            ]]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -7892,6 +7917,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["supports-color", "npm:7.2.0"],\
             ["has-flag", "npm:4.0.0"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:9.2.2", {\
+          "packageLocation": "./.yarn/cache/supports-color-npm-9.2.2-d003069e84-976d848774.zip/node_modules/supports-color/",\
+          "packageDependencies": [\
+            ["supports-color", "npm:9.2.2"]\
           ],\
           "linkType": "HARD"\
         }]\

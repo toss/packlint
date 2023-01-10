@@ -1,6 +1,7 @@
 // eslint-disable-next-line import/no-default-export
 export default {
   files: ['./packages/**/package.json'],
+  ignore: ['./package.json'],
   rules: {
     merge: {
       type: 'module',

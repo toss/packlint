@@ -9,7 +9,7 @@
     },
     "./package.json": "./package.json"
   },
-  "main": "./dist/index.js",
+  "main": true,
   "bin": "./bin/index.js",
   "scripts": {
     "build": "rm -rf dist && tsup ./src/index.ts --format esm --dts",

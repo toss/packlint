@@ -4,6 +4,7 @@ import {
   getConfig,
   getPackageJSON,
   PackageJSONType,
+  PacklintError,
   parsePackageJSONPath,
   writePackageJSON,
 } from '@packlint/core';
@@ -17,23 +18,27 @@ export abstract class PacklintCommand<T extends BaseContext & { config: ConfigTy
 
   abstract action(json: PackageJSONType, config: ConfigType): Promise<PackageJSONType>;
 
-  async run(_path = `${process.cwd()}/package.json`) {
-    const path = parsePackageJSONPath(_path);
-    const json = await getPackageJSON(path);
+  async run(_path = `${process.cwd()}/package.json`): Promise<PackageJSONType> {
+    try {
+      const path = parsePackageJSONPath(_path);
+      const json = await getPackageJSON(path);
 
-    if (json.packlint === false) {
-      return json;
+      if (json.packlint === false) {
+        return json;
+      }
+
+      const config = await getConfig({ cwd: nodePath.resolve(path) });
+
+      const res = await this.action.call(this, json, config);
+
+      if (this.write) {
+        await writePackageJSON(res, path);
+      }
+
+      return res;
+    } catch (e) {
+      throw PacklintError.of(e, _path);
     }
-
-    const config = await getConfig({ cwd: nodePath.resolve(path) });
-
-    const res = await this.action.call(this, json, config);
-
-    if (this.write) {
-      await writePackageJSON(res, path);
-    }
-
-    return res;
   }
 
   async runAll() {
@@ -51,7 +56,11 @@ export abstract class PacklintCommand<T extends BaseContext & { config: ConfigTy
       }
       await this.run();
     } catch (e) {
-      console.error(e);
+      if (e instanceof PacklintError) {
+        console.log(e.display);
+      } else {
+        console.error(e);
+      }
     }
   }
 }
