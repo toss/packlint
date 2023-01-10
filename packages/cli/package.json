@@ -19,7 +19,7 @@
   "homepage": "https://github.com/toss/packlint#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.toss.com/toss/packlint.git"
+    "url": "https://github.com/toss/packlint.git"
   },
   "type": "module",
   "exports": {
