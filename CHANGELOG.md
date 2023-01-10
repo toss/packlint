@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.2.3](https://github.com/toss/packlint/compare/v0.2.2...v0.2.3) (2023-01-10)
+
+### Bug Fixes
+
+* Add keywords ([65664df](https://github.com/toss/packlint/commit/65664dfc807502a3dc0f21650b4c26ed5995f800))
+
 ## [0.2.2](https://github.com/toss/packlint/compare/v0.2.1...v0.2.2) (2023-01-10)
 
 ### Bug Fixes
