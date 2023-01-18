@@ -11,7 +11,7 @@ npm install --dev packlint
 or with yarn
 
 ```sh
-yarn install --dev packlint
+yarn add --dev packlint
 ```
 
 ## Usage
