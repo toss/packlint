@@ -2,8 +2,6 @@ import { AllCommand, MergeCommand, SortCommand } from '@packlint/command';
 import { ConfigType, getConfig } from '@packlint/core';
 import { BaseContext, Cli } from 'clipanion';
 
-import { PacklintError } from './models/PacklintError';
-
 export async function main() {
   async function run() {
     const cli = new Cli<BaseContext & { config: ConfigType }>({
