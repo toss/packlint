@@ -1,7 +1,7 @@
 {
   "name": "packlint-monorepo",
   "private": true,
-  "packageManager": "yarn@3.2.3",
+  "packageManager": "yarn@4.10.2",
   "workspaces": [
     "./packages/**"
   ],
