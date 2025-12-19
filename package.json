@@ -28,7 +28,7 @@
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "globals": "^16.5.0",
     "packlint": "workspace:^",
-    "prettier": "^2.7.1",
+    "prettier": "^3.7.4",
     "turbo": "^1.6.3",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.50.0",

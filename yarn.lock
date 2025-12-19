@@ -3268,7 +3268,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^9":
+"eslint@npm:^9.39.2":
   version: 9.39.2
   resolution: "eslint@npm:9.39.2"
   dependencies:
@@ -5606,14 +5606,14 @@ __metadata:
     "@lerna-lite/cli": "npm:^1.13.0"
     "@types/jest": "npm:^29.2.1"
     "@types/node": "npm:^18.11.9"
-    eslint: "npm:^9"
+    eslint: "npm:^9.39.2"
     eslint-config-prettier: "npm:^8.5.0"
     eslint-plugin-import-x: "npm:^4.16.1"
     eslint-plugin-jest: "npm:^29.5.0"
     eslint-plugin-simple-import-sort: "npm:^12.1.1"
     globals: "npm:^16.5.0"
     packlint: "workspace:^"
-    prettier: "npm:^2.7.1"
+    prettier: "npm:^3.7.4"
     turbo: "npm:^1.6.3"
     typescript: "npm:^5.9.3"
     typescript-eslint: "npm:^8.50.0"
@@ -5937,12 +5937,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:^2.7.1":
-  version: 2.7.1
-  resolution: "prettier@npm:2.7.1"
+"prettier@npm:^3.7.4":
+  version: 3.7.4
+  resolution: "prettier@npm:3.7.4"
   bin:
-    prettier: bin-prettier.js
-  checksum: 10c0/359d2b7ecf36bd52924a48331cae506d335f18637fde6c686212f952b9ce678ce9f554a80571049b36ec2897a8a6c40094b776dea371cc5c04c481cf5b78504b
+    prettier: bin/prettier.cjs
+  checksum: 10c0/9675d2cd08eacb1faf1d1a2dbfe24bfab6a912b059fc9defdb380a408893d88213e794a40a2700bd29b140eb3172e0b07c852853f6e22f16f3374659a1a13389
   languageName: node
   linkType: hard
 
