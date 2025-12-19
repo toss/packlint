@@ -21,7 +21,7 @@ export default {
       },
       devDependencies: {
         tsup: '^6.5.0',
-        typescript: '4.8.3',
+        typescript: '^5.9.3',
         vite: '^4.0.2',
         vitest: '^0.26.1',
       },
