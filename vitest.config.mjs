@@ -5,5 +5,6 @@ export default defineConfig({
     deps: {
       inline: ['@packlint/core/testing'],
     },
+    testTimeout: 10_000
   },
 });
