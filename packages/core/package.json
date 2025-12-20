@@ -35,8 +35,7 @@
     "fast-check": "^3.3.0",
     "tsup": "^6.5.0",
     "typescript": "^5.9.3",
-    "vite": "^4.0.2",
-    "vitest": "^0.26.1",
+    "vitest": "^4.0.16",
     "zod-fast-check": "^0.8.0"
   },
   "peerDependencies": {

@@ -32,8 +32,7 @@
     "turbo": "^1.6.3",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.50.0",
-    "vite": "^4.0.2",
-    "vitest": "^0.26.1"
+    "vitest": "^4.0.16"
   },
   "resolutions": {
     "ts-pattern": "patch:ts-pattern@npm:4.0.5#.yarn/patches/ts-pattern-npm-4.0.5-7ba0b14201.patch",
