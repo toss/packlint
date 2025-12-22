@@ -9,7 +9,7 @@
       "cache": false
     },
     "typecheck": {
-      "cache": false
+      "dependsOn": ["^build"]
     },
     "prepack": {
       "dependsOn": ["^build"],
