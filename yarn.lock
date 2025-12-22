@@ -5,20 +5,6 @@ __metadata:
   version: 8
   cacheKey: 10c0
 
-"#ansi-styles@npm:ansi-styles@6.1.0":
-  version: 6.1.0
-  resolution: "ansi-styles@npm:6.1.0"
-  checksum: 10c0/39d4ffae6559b24716db7c84b5e750aef6b0b433651f7b4a789f40b41be24ee7ea532afe540cea9cedb518baf334f9d9029af47d851ae5dcbdb2ca5a4862b8b8
-  languageName: node
-  linkType: hard
-
-"#supports-color@npm:supports-color@9.2.2":
-  version: 9.2.2
-  resolution: "supports-color@npm:9.2.2"
-  checksum: 10c0/630bfaba6144df9c92935c1a84d268aea4fdc58ada9bf54e2f4d2e38ac3239f892e8bbbd493f9d5be52f8a1ee84a7d830ead9ea9d3536446151f197b8a287fcf
-  languageName: node
-  linkType: hard
-
 "@babel/code-frame@npm:^7.0.0":
   version: 7.18.6
   resolution: "@babel/code-frame@npm:7.18.6"
@@ -862,12 +848,12 @@ __metadata:
   dependencies:
     "@types/fs-extra": "npm:^9.0.13"
     "@types/ramda": "npm:^0.28.20"
-    chalk: "npm:^5.2.0"
     cosmiconfig: "npm:^7.0.1"
     fast-check: "npm:^3.3.0"
     fast-glob: "npm:^3.3.3"
     find-up: "npm:^6.3.0"
     fs-extra: "npm:^10.1.0"
+    picocolors: "npm:^1.1.1"
     ramda: "npm:^0.28.0"
     tsdown: "npm:^0.18.2"
     typescript: "npm:^5.9.3"
@@ -1888,13 +1874,6 @@ __metadata:
     ansi-styles: "npm:^4.1.0"
     supports-color: "npm:^7.1.0"
   checksum: 10c0/4a3fef5cc34975c898ffe77141450f679721df9dde00f6c304353fa9c8b571929123b26a0e4617bde5018977eb655b31970c297b91b63ee83bb82aeb04666880
-  languageName: node
-  linkType: hard
-
-"chalk@npm:^5.2.0":
-  version: 5.2.0
-  resolution: "chalk@npm:5.2.0"
-  checksum: 10c0/8a519b35c239f96e041b7f1ed8fdd79d3ca2332a8366cb957378b8a1b8a4cdfb740d19628e8bf74654d4c0917aa10cf39c20752e177a1304eac29a1168a740e9
   languageName: node
   linkType: hard
 
