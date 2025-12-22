@@ -16,11 +16,9 @@
     "version": "yarn turbo run version && yarn lerna version --conventional-commits --yes --git-remote origin"
   },
   "devDependencies": {
-    "@babel/core": "^7.19.6",
     "@eslint/js": "^9.39.2",
     "@lerna-lite/cli": "^1.13.0",
-    "@types/jest": "^29.2.1",
-    "@types/node": "^18.11.9",
+    "@types/node": "^24.10.0",
     "eslint": "^9.39.2",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import-x": "^4.16.1",
