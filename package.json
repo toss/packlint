@@ -7,13 +7,13 @@
   ],
   "scripts": {
     "build": "turbo run build",
-    "deploy": "yarn turbo run build && yarn changeset publish",
     "dev": "turbo run dev",
+    "changeset:publish": "changeset publish",
+    "changeset:version": "changeset version",
     "lint:all": "yarn eslint --fix",
     "packlint:all": "yarn packlint -R",
     "prepack": "turbo run prepack",
-    "test:all": "yarn vitest run",
-    "version": "yarn changeset version"
+    "test:all": "yarn vitest run"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.8",
