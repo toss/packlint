@@ -8,6 +8,7 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
+    "typecheck": "turbo run typecheck",
     "changeset:publish": "changeset publish",
     "changeset:version": "changeset version",
     "lint:all": "yarn eslint --fix",
