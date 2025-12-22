@@ -3,7 +3,7 @@ export default {
   rules: {
     merge: {
       scripts: {
-        build: 'rm -rf dist && tsup ./src/index.ts ./src/testing/index.ts --format esm --dts',
+        build: 'tsdown',
       },
     },
   },
