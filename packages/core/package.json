@@ -15,8 +15,8 @@
   },
   "main": "./dist/index.js",
   "scripts": {
-    "build": "rm -rf dist && tsup ./src/index.ts ./src/testing/index.ts --format esm --dts",
-    "dev": "yarn run build --watch",
+    "build": "tsdown",
+    "dev": "tsdown --watch",
     "prepack": "yarn build",
     "typecheck": "tsc --noEmit"
   },
@@ -33,7 +33,7 @@
   "devDependencies": {
     "@types/fs-extra": "^9.0.13",
     "fast-check": "^3.3.0",
-    "tsup": "^6.5.0",
+    "tsdown": "^0.18.2",
     "typescript": "^5.9.3",
     "vitest": "^4.0.16",
     "zod-fast-check": "^0.8.0"
