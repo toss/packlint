@@ -1350,7 +1350,7 @@ __metadata:
     clipanion: "npm:^3.2.0-rc.13"
     fast-check: "npm:^3.3.0"
     ramda: "npm:^0.28.0"
-    tsup: "npm:^6.5.0"
+    tsdown: "npm:^0.18.2"
     typescript: "npm:^5.9.3"
     vitest: "npm:^4.0.16"
     zod: "npm:3.19.1"
