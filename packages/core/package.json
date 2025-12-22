@@ -24,7 +24,7 @@
     "@types/ramda": "^0.28.20",
     "chalk": "^5.2.0",
     "cosmiconfig": "^7.0.1",
-    "fast-glob": "^3.2.12",
+    "fast-glob": "^3.3.3",
     "find-up": "^6.3.0",
     "fs-extra": "^10.1.0",
     "ramda": "^0.28.0",
