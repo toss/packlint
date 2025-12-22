@@ -1,4 +1,4 @@
-import chalk from 'chalk';
+import * as pc from 'picocolors';
 
 import { isZodError, parseZodError } from './PackageJSONError.js';
 
@@ -13,7 +13,7 @@ export class PacklintError extends Error {
   }
 
   formatMessage() {
-    return `${chalk.red('➤')} ${chalk.underline.bold(this.name)}\n  ${chalk.red(this.message)}`;
+    return `${pc.red('➤')} ${pc.underline(pc.bold(this.name))}\n  ${pc.red(this.message)}`;
   }
 
   static of(e: unknown, name: string) {
