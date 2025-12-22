@@ -24,16 +24,16 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
+      "types": "./dist/index.d.mts",
+      "default": "./dist/index.mjs"
     },
     "./package.json": "./package.json"
   },
-  "main": "./dist/index.js",
+  "main": "./dist/index.mjs",
   "bin": "./bin/index.js",
   "scripts": {
-    "build": "rm -rf dist && tsup ./src/index.ts --format esm --dts",
-    "dev": "yarn run build --watch",
+    "build": "tsdown",
+    "dev": "tsdown --watch",
     "prepack": "yarn build",
     "typecheck": "tsc --noEmit"
   },
@@ -44,7 +44,7 @@
   },
   "devDependencies": {
     "@types/node": "^18.11.9",
-    "tsup": "^6.5.0",
+    "tsdown": "^0.18.2",
     "typescript": "^5.9.3",
     "vitest": "^4.0.16"
   },

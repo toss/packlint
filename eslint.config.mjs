@@ -51,8 +51,6 @@ export default tseslint.config(
       'import-x/no-absolute-path': 'error',
       // disallow AMD require/define
       'import-x/no-amd': 'error',
-      // forbid default exports - we want to standardize on named exports so that imported names are consistent
-      'import-x/no-default-export': 'error',
       // disallow imports from duplicate paths
       'import-x/no-duplicates': 'error',
       // Forbid the use of extraneous packages
