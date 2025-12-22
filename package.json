@@ -11,6 +11,7 @@
     "changeset:publish": "changeset publish",
     "changeset:version": "changeset version",
     "lint:all": "yarn eslint --fix",
+    "typecheck:all": "turbo run typecheck",
     "packlint:all": "yarn packlint -R",
     "prepack": "turbo run prepack",
     "test:all": "yarn vitest run"
