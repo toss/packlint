@@ -33,7 +33,6 @@
     "vitest": "^4.0.16"
   },
   "resolutions": {
-    "ts-pattern": "patch:ts-pattern@npm:4.0.5#.yarn/patches/ts-pattern-npm-4.0.5-7ba0b14201.patch",
     "zod": "3.19.1"
   }
 }
