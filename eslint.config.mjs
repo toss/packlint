@@ -1,9 +1,9 @@
 // @ts-check
 
-import js from '@eslint/js';
-import { defineConfig } from 'eslint/config';
+import eslint from '@eslint/js';
 import importX from 'eslint-plugin-import-x';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
+import { defineConfig } from 'eslint/config';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
@@ -11,27 +11,28 @@ export default defineConfig(
   {
     ignores: ['**/node_modules/**', '**/dist/**', '.yarn/**'],
   },
-  js.configs.recommended,
-  ...tseslint.configs.recommended,
+  eslint.configs.recommended,
+  tseslint.configs.recommended,
   {
+    files: ['**/*.{ts,tsx}'],
+    languageOptions: {
+      parser: tseslint.parser,
+      parserOptions: {
+        project: ['./tsconfig.json', './packages/**/tsconfig.json'],
+      },
+    },
+    rules: {
+      '@typescript-eslint/strict-boolean-expressions': 'error',
+    },
+  },
+  {
+    files: ['**/*.{js,mjs,cjs,ts,tsx}'],
     languageOptions: {
       globals: {
         ...globals.es2026,
         ...globals.node,
       },
     },
-  },
-  {
-    files: ['**/*.{ts,tsx}'],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.json', './packages/*/tsconfig.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-    },
-  },
-  {
-    files: ['**/*.{js,mjs,cjs,ts,tsx}'],
     plugins: {
       'simple-import-sort': simpleImportSort,
       'import-x': importX,

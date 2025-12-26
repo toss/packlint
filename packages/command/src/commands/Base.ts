@@ -16,6 +16,7 @@ export abstract class PacklintCommand<T extends BaseContext & { config: ConfigTy
 
   abstract write: boolean;
 
+  // eslint-disable-next-line no-unused-vars
   abstract action(json: PackageJSONType, config: ConfigType): Promise<PackageJSONType>;
 
   async run(_path = `${process.cwd()}/package.json`): Promise<PackageJSONType> {

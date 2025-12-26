@@ -19,7 +19,7 @@ export async function getConfig({ cwd }: { cwd: string } = { cwd: process.cwd() 
 
   const parentPath = path.resolve(path.dirname(_path), config.extends);
 
-  if (!pathExists(parentPath)) {
+  if (!(await pathExists(parentPath))) {
     return config;
   }
 
