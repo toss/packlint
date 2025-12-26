@@ -30,4 +30,5 @@ export function createArbitraryFromZodObject<T extends Record<string, unknown>>(
 export const PackageJSONArbitrary = createArbitraryFromZodObject(PackageJSONSchema);
 
 export const OrderArbitrary = shuffledSubarray(DEFAULT_ORDER, { minLength: 1 });
+// @ts-expect-error FIXME: error after turning strict on.
 export const ConfigArbitrary = createArbitraryFromZodObject(ConfigSchema);

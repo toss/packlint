@@ -9,6 +9,7 @@ describe('mergePackageJSON', () => {
   test('The result should be the form of package.json', () => {
     fc.assert(
       fc.property(PackageJSONArbitrary, ConfigArbitrary, (target, config) => {
+        // @ts-expect-error FIXME: error after turning strict on.
         const { success } = PackageJSONSchema.safeParse(mergePackageJSON(target, config));
 
         return success;

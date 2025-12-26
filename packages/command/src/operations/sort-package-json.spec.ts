@@ -23,7 +23,9 @@ describe('sortPackageJSON', () => {
         ConfigArbitrary,
         fc.array(fc.string()),
         (p, config, randomStringArray) => {
+          // @ts-expect-error FIXME: error after turning strict on.
           expect(sortPackageJSON(p, config)).toMatchObject(
+            // @ts-expect-error FIXME: error after turning strict on.
             sortPackageJSON(p, { rules: { order: [...(config.rules?.order ?? []), ...randomStringArray] } })
           );
         }
@@ -38,9 +40,12 @@ describe('sortPackageJSON', () => {
   test(`An === Bn`, () => {
     fc.assert(
       fc.property(ShuffledPackageJSONArbitrary, ConfigArbitrary, (p, config) => {
+        // @ts-expect-error FIXME: error after turning strict on.
         fc.pre((config.rules?.order ?? []).every(item => Object.keys(p).includes(item)));
 
+        // @ts-expect-error FIXME: error after turning strict on.
         const res = sortPackageJSON(p, config);
+        // @ts-expect-error FIXME: error after turning strict on.
         (config.rules?.order ?? []).forEach((item, i) => expect(item).toBe(Object.keys(res)[i]));
       })
     );
