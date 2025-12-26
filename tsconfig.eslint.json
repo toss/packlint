@@ -1,4 +1,0 @@
-{
-  "extends": "./tsconfig.json",
-  "include": ["./.eslintrc.js", "./**/packlint.config.mjs", "./vitest.config.mjs", "./packages/**/tsdown.config.ts"]
-}

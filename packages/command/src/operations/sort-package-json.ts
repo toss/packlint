@@ -15,12 +15,14 @@ export function sortPackageJSON(packageJSON: PackageJSONType, config: ConfigType
  *
  * sortObjectByKeys(target, source) // {b:2, c:3, a:1. d:4}
  */
+// @ts-expect-error FIXME: error after turning strict on.
 function sortObjectByKeyOrders<T extends Record<string, unknown>>(
   obj: T,
   { keys = [], deep = [] }: { keys?: string[]; deep?: string[] } = {}
 ) {
   return R.pipe(
     sortByOrders(Object.keys(obj)),
+    // @ts-expect-error FIXME: error after turning strict on.
     R.map(key => [
       key,
       /**
