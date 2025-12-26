@@ -24,7 +24,7 @@
       "outputs": []
     },
     "//#test:all": {
-      "dependsOn": ["@packlint/core#build", "@packlint/command#build"],
+      "dependsOn": ["@packlint/core#build"],
       "outputs": []
     },
     "//#lint:all": {

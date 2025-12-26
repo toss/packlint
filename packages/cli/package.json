@@ -30,7 +30,7 @@
     "./package.json": "./package.json"
   },
   "main": "./dist/index.mjs",
-  "bin": "./bin/index.js",
+  "bin": "./dist/index.mjs",
   "scripts": {
     "build": "tsdown",
     "dev": "tsdown --watch",
@@ -38,9 +38,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@packlint/command": "workspace:^",
     "@packlint/core": "workspace:^",
-    "clipanion": "^3.2.0-rc.13"
+    "commander": "^14.0.2"
   },
   "devDependencies": {
     "@types/node": "^24.10.0",

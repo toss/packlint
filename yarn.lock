@@ -824,24 +824,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@packlint/command@workspace:^, @packlint/command@workspace:packages/command":
-  version: 0.0.0-use.local
-  resolution: "@packlint/command@workspace:packages/command"
-  dependencies:
-    "@packlint/core": "workspace:^"
-    "@types/node": "npm:^24.10.0"
-    "@types/ramda": "npm:^0.28.20"
-    clipanion: "npm:^3.2.0-rc.13"
-    fast-check: "npm:^3.3.0"
-    ramda: "npm:^0.28.0"
-    tsdown: "npm:^0.18.2"
-    typescript: "npm:^5.9.3"
-    vitest: "npm:^4.0.16"
-    zod: "npm:3.19.1"
-    zod-fast-check: "npm:^0.8.0"
-  languageName: unknown
-  linkType: soft
-
 "@packlint/core@workspace:^, @packlint/core@workspace:packages/core":
   version: 0.0.0-use.local
   resolution: "@packlint/core@workspace:packages/core"
@@ -1905,17 +1887,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"clipanion@npm:^3.2.0-rc.13":
-  version: 3.2.0-rc.13
-  resolution: "clipanion@npm:3.2.0-rc.13"
-  dependencies:
-    typanion: "npm:^3.8.0"
-  peerDependencies:
-    typanion: "*"
-  checksum: 10c0/1a5e9a4dccd8412de539e443c1f4ec4114dbc44c6cda4c249599854dce0028571a4719a981ef5a856f899d5e155ad351dc8c55d0e5dd5f67a12bb6b7512106ff
-  languageName: node
-  linkType: hard
-
 "color-convert@npm:^1.9.0":
   version: 1.9.3
   resolution: "color-convert@npm:1.9.3"
@@ -1954,6 +1925,13 @@ __metadata:
   bin:
     color-support: bin.js
   checksum: 10c0/8ffeaa270a784dc382f62d9be0a98581db43e11eee301af14734a6d089bd456478b1a8b3e7db7ca7dc5b18a75f828f775c44074020b51c05fc00e6d0992b1cc6
+  languageName: node
+  linkType: hard
+
+"commander@npm:^14.0.2":
+  version: 14.0.2
+  resolution: "commander@npm:14.0.2"
+  checksum: 10c0/245abd1349dbad5414cb6517b7b5c584895c02c4f7836ff5395f301192b8566f9796c82d7bd6c92d07eba8775fe4df86602fca5d86d8d10bcc2aded1e21c2aeb
   languageName: node
   linkType: hard
 
@@ -3634,15 +3612,14 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "packlint@workspace:packages/cli"
   dependencies:
-    "@packlint/command": "workspace:^"
     "@packlint/core": "workspace:^"
     "@types/node": "npm:^24.10.0"
-    clipanion: "npm:^3.2.0-rc.13"
+    commander: "npm:^14.0.2"
     tsdown: "npm:^0.18.2"
     typescript: "npm:^5.9.3"
     vitest: "npm:^4.0.16"
   bin:
-    packlint: ./bin/index.js
+    packlint: ./dist/index.mjs
   languageName: unknown
   linkType: soft
 
@@ -4509,13 +4486,6 @@ __metadata:
   bin:
     turbo: bin/turbo
   checksum: 10c0/9335cd7f676b4e439ac1f66eba496fe31f3f9a7d09346824f94c26d7b8602ff2231056441a448b739ec2d68c3e4ae43f07c9cd79a73d94275a89fc1f9a19475a
-  languageName: node
-  linkType: hard
-
-"typanion@npm:^3.8.0":
-  version: 3.12.1
-  resolution: "typanion@npm:3.12.1"
-  checksum: 10c0/90cf558a34011144d4b741d85615423f594ac769c9850677989e9c42ef6f5e1ea9be5d55c6ff00291038058273a9bc25d7271bec5db0bd05e26af9a0872fb8e6
   languageName: node
   linkType: hard
 
