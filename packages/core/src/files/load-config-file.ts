@@ -1,5 +1,5 @@
 import { findUp } from 'find-up';
-import type { PacklintConfigFile } from '../config/types.js';
+import type { PacklintConfigFile } from '../types/index.js';
 
 const SUPPORTED_CONFIG_PATTERN = [
   'packlint.config.js',

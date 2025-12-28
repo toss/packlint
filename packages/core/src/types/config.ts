@@ -1,3 +1,5 @@
+import type { Plugin } from './plugin.js';
+
 export interface PacklintConfig {
   /**
    * Glob patterns to match package.json files to lint.
@@ -14,27 +16,16 @@ export interface PacklintConfig {
 
   /**
    * Whether to sort package.json files.
+   * If an array is provided, it will be used as the sort order.
    *
    * @default true
    */
-  sort?: boolean;
+  sort?: boolean | string[];
 
   /**
    * Plugins to use.
    *
    * @default []
    */
-  plugins?: any[]; // TODO: define plugin type
-}
-
-export interface PacklintConfigFile {
-  /**
-   * Configuration object.
-   */
-  config: PacklintConfig; // TODO: add supports for PacklintConfig[]
-
-  /**
-   * Path to the configuration file.
-   */
-  filepath: string;
+  plugins?: Plugin[];
 }

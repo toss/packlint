@@ -1,7 +1,10 @@
-import { findPackageJsonFiles, loadConfigFile, resolveConfigFile } from '@packlint/core';
+import { findPackageJsonFiles, LintTarget, loadConfigFile, packlint, resolveConfigFile } from '@packlint/core';
 import { Command } from 'commander';
 import { createConsola, LogLevels } from 'consola';
+import fs from 'node:fs';
 import path from 'node:path';
+import * as pc from 'picocolors';
+import type { PackageJson } from 'type-fest';
 import pkg from '../package.json' with { type: 'json' };
 import { pluralize } from './utils.js';
 
@@ -24,62 +27,44 @@ async function runPacklint(options: PacklintCliOptions) {
   consola.level = options.debug ? LogLevels.debug : LogLevels.info;
 
   const configFile = await loadConfigFile(options.cwd);
-  consola.debug(
-    configFile?.filepath
-      ? `Using config file at ${path.relative(options.cwd, configFile.filepath)}`
-      : 'Using default config'
-  );
-
   const resolvedConfig = resolveConfigFile(configFile);
 
-  const files = await findPackageJsonFiles(resolvedConfig.files, options.cwd);
-
-  consola.debug(`Found ${files.length} package.json ${pluralize('file', files.length)}`);
-
-  const packlint = async (..._args: any[]): Promise<any> => ({
-    errorCount: 4,
-    errors: [
-      {
-        message: 'test',
-        filepath: './package.json',
-      },
-      {
-        message:
-          'very very long error message. very very long error message. very very long error message. very very long error message.',
-        filepath: './package.json',
-      },
-      {
-        message:
-          'very very long error message. very very long error message. very very long error message. very very long error message.',
-        filepath: './package.json',
-      },
-      {
-        message:
-          'very very long error message. very very long error message. very very long error message. very very long error message.',
-        filepath: './package.json',
-      },
-    ],
+  const filepaths = await findPackageJsonFiles(resolvedConfig.files, options.cwd);
+  const targets: LintTarget[] = filepaths.map(file => {
+    const absPath = path.resolve(options.cwd, file);
+    return {
+      filepath: absPath,
+      content: JSON.parse(fs.readFileSync(absPath, 'utf-8')) as PackageJson,
+    };
   });
 
-  const result = await packlint({
-    files,
-    config: resolvedConfig,
-  });
+  consola.debug('Using config:', configFile?.filepath ? path.relative(options.cwd, configFile.filepath) : 'default');
+  consola.debug('Found packages:', targets.length);
 
-  if (result.errorCount > 0) {
-    if (options.fix === true) {
-      // fix
-      consola.success('Fixed!');
-      return;
+  const result = await packlint(targets, resolvedConfig);
+
+  if (options.fix) {
+    let totalFixed = 0;
+    for (const file of result.files) {
+      if (file.isDirty) {
+        // await writePackage(file.filepath, file.output);
+        result.files = result.files.filter(f => f.filepath !== file.filepath);
+        result.issueCount -= file.issues.length;
+        totalFixed++;
+      }
     }
 
-    consola.error(`Found ${result.errorCount} ${pluralize('error', result.errorCount)}`);
-    console.error(result.errors.map((error: any) => `${error.filepath}: ${error.message}`).join('\n'));
+    if (totalFixed > 0) {
+      consola.log(`${pc.green('ℹ')} ${totalFixed} ${pluralize('issue', totalFixed)} fixed.`);
+    }
+  }
 
+  if (result.issueCount > 0) {
+    consola.log(`${pc.red('✖')} ${result.issueCount} ${pluralize('issue', result.issueCount)} found.`);
     process.exit(1);
   }
 
-  consola.success('Linting passed!');
+  process.exit(0);
 }
 
 export function createProgram() {

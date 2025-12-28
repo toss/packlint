@@ -1,5 +1,6 @@
-import { defaultConfig } from './default-config.js';
-import type { PacklintConfig, PacklintConfigFile } from './types.js';
+import { SORT_PLUGIN_NAME, sortPlugin } from '../plugin/plugin-sort.js';
+import type { PacklintConfig, PacklintConfigFile } from '../types/index.js';
+import { DEFAULT_CONFIG } from './default-config.js';
 
 /**
  * Resolves the configuration file. Returns the default configuration if the configuration file is not found.
@@ -8,12 +9,22 @@ import type { PacklintConfig, PacklintConfigFile } from './types.js';
  * @returns The resolved configuration.
  */
 export function resolveConfigFile(configFile: PacklintConfigFile | null): Required<PacklintConfig> {
-  if (configFile === null) {
-    return defaultConfig;
+  const userConfig = configFile?.config ?? {};
+  const mergedConfig = {
+    ...DEFAULT_CONFIG,
+    ...userConfig,
+  };
+
+  let plugins = (userConfig.plugins ?? [...DEFAULT_CONFIG.plugins]).filter(p => p.name !== SORT_PLUGIN_NAME);
+
+  if (mergedConfig.sort !== false) {
+    const sortOrder = Array.isArray(mergedConfig.sort) ? mergedConfig.sort : undefined; // use default sort order
+
+    plugins.push(sortPlugin(sortOrder));
   }
 
   return {
-    ...defaultConfig,
-    ...configFile.config,
+    ...mergedConfig,
+    plugins,
   };
 }
