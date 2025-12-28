@@ -1,6 +1,7 @@
 {
   "name": "packlint-monorepo",
   "private": true,
+  "type": "module",
   "packageManager": "yarn@4.12.0",
   "workspaces": [
     "./packages/**"
@@ -12,7 +13,6 @@
     "changeset:publish": "changeset publish",
     "changeset:version": "changeset version",
     "lint:all": "yarn eslint --fix",
-    "packlint:all": "packlint",
     "prepack": "turbo run prepack",
     "test:all": "yarn vitest run"
   },

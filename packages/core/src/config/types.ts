@@ -2,7 +2,7 @@ export interface PacklintConfig {
   /**
    * Glob patterns to match package.json files to lint.
    *
-   * @default ["package.json"]
+   * @default ["package.json", "**\/package.json"]
    * @example
    * ```ts
    * {
@@ -24,5 +24,17 @@ export interface PacklintConfig {
    *
    * @default []
    */
-  plugins?: any[];
+  plugins?: any[]; // TODO: define plugin type
+}
+
+export interface PacklintConfigFile {
+  /**
+   * Configuration object.
+   */
+  config: PacklintConfig; // TODO: add supports for PacklintConfig[]
+
+  /**
+   * Path to the configuration file.
+   */
+  filepath: string;
 }

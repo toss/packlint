@@ -1,2 +1,2 @@
-export { loadConfigFile } from './load-config-file.js';
-export type * from './types.js';
+export * from './resolve-config-file.js';
+export * from './types.js';

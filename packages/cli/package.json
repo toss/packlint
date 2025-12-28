@@ -24,12 +24,11 @@
   "type": "module",
   "exports": {
     "./config": {
-      "types": "./dist/config.d.mts",
-      "default": "./dist/config.mjs"
-    },
-    "./package.json": "./package.json"
+      "types": "./dist/define-config.d.mts",
+      "default": "./dist/define-config.mjs"
+    }
   },
-  "bin": "./dist/index.mjs",
+  "bin": "./dist/run.mjs",
   "scripts": {
     "build": "tsdown",
     "dev": "tsdown --watch",
@@ -42,12 +41,15 @@
     "consola": "^3.4.2"
   },
   "devDependencies": {
-    "@types/node": "^24.10.0",
+    "@types/node": "^22.2.0",
     "tsdown": "^0.18.2",
     "typescript": "^5.9.3",
     "vitest": "^4.0.16"
   },
   "publishConfig": {
     "access": "public"
+  },
+  "engines": {
+    "node": ">=22.2.0"
   }
 }

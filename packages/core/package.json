@@ -17,17 +17,18 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "cosmiconfig": "^9.0.0",
-    "fast-glob": "^3.3.3",
-    "picocolors": "^1.1.1"
+    "find-up": "^8.0.0"
   },
   "devDependencies": {
-    "@types/node": "^24.10.0",
+    "@types/node": "^22.2.0",
     "tsdown": "^0.18.2",
     "typescript": "^5.9.3",
     "vitest": "^4.0.16"
   },
   "publishConfig": {
     "access": "public"
+  },
+  "engines": {
+    "node": ">=22.2.0"
   }
 }

@@ -26,5 +26,5 @@
     "skipLibCheck": true
   },
   "exclude": ["**/dist/*"],
-  "include": ["*.config.*", "**/tsdown.config.ts"]
+  "include": ["*.config.*", "**/tsdown.config.ts", "packlint.config.cjs"]
 }
