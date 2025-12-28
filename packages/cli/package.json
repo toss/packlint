@@ -23,13 +23,12 @@
   },
   "type": "module",
   "exports": {
-    ".": {
-      "types": "./dist/index.d.mts",
-      "default": "./dist/index.mjs"
+    "./config": {
+      "types": "./dist/config.d.mts",
+      "default": "./dist/config.mjs"
     },
     "./package.json": "./package.json"
   },
-  "main": "./dist/index.mjs",
   "bin": "./dist/index.mjs",
   "scripts": {
     "build": "tsdown",
@@ -39,7 +38,8 @@
   },
   "dependencies": {
     "@packlint/core": "workspace:^",
-    "commander": "^14.0.2"
+    "commander": "^14.0.2",
+    "consola": "^3.4.2"
   },
   "devDependencies": {
     "@types/node": "^24.10.0",
