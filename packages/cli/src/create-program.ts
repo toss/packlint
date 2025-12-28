@@ -62,7 +62,8 @@ async function runPacklint(options: PacklintCliOptions) {
 
   for (const file of result.files) {
     file.issues.forEach(issue => {
-      consola.log(`${pc.red('✖')} ${issue.message} ${pc.dim(`(${issue.filepath})`)}`);
+      const relativePath = path.relative(options.cwd, file.filepath);
+      consola.log(`${pc.red('✖')} ${issue.message} ${pc.dim(`(${relativePath})`)}`);
     });
   }
 
