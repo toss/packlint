@@ -5,6 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import * as pc from 'picocolors';
 import type { PackageJson } from 'type-fest';
+import { writePackage } from 'write-pkg';
 import pkg from '../package.json' with { type: 'json' };
 import { pluralize } from './utils.js';
 
@@ -44,27 +45,34 @@ async function runPacklint(options: PacklintCliOptions) {
   const result = await packlint(targets, resolvedConfig);
 
   if (options.fix) {
-    let totalFixed = 0;
+    let totalFixedFileCount = 0;
     for (const file of result.files) {
       if (file.isDirty) {
-        // await writePackage(file.filepath, file.output);
+        await writePackage(file.filepath, file.fixedContent);
         result.files = result.files.filter(f => f.filepath !== file.filepath);
         result.issueCount -= file.issues.length;
-        totalFixed++;
+        totalFixedFileCount++;
       }
     }
 
-    if (totalFixed > 0) {
-      consola.log(`${pc.green('ℹ')} ${totalFixed} ${pluralize('issue', totalFixed)} fixed.`);
+    if (totalFixedFileCount > 0) {
+      consola.log(`${pc.green('ℹ')} ${totalFixedFileCount} ${pluralize('issue', totalFixedFileCount)} fixed.`);
     }
   }
 
-  if (result.issueCount > 0) {
-    consola.log(`${pc.red('✖')} ${result.issueCount} ${pluralize('issue', result.issueCount)} found.`);
-    process.exit(1);
+  for (const file of result.files) {
+    file.issues.forEach(issue => {
+      consola.log(`${pc.red('✖')} ${issue.message} ${pc.dim(`(${issue.filepath})`)}`);
+    });
   }
 
-  process.exit(0);
+  if (result.issueCount > 0) {
+    consola.error(pc.red(`${result.issueCount} ${pluralize('issue', result.issueCount)} found.`));
+    process.exit(1);
+  } else {
+    consola.success(pc.green('No issues found.'));
+    process.exit(0);
+  }
 }
 
 export function createProgram() {

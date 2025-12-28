@@ -812,6 +812,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@packlint/core@workspace:packages/core"
   dependencies:
+    "@standard-schema/spec": "npm:^1.1.0"
     "@types/node": "npm:^22.2.0"
     find-up: "npm:^8.0.0"
     tsdown: "npm:^0.18.2"
@@ -1084,7 +1085,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@standard-schema/spec@npm:^1.0.0":
+"@standard-schema/spec@npm:^1.0.0, @standard-schema/spec@npm:^1.1.0":
   version: 1.1.0
   resolution: "@standard-schema/spec@npm:1.1.0"
   checksum: 10c0/d90f55acde4b2deb983529c87e8025fa693de1a5e8b49ecc6eb84d1fd96328add0e03d7d551442156c7432fd78165b2c26ff561b970a9a881f046abb78d6a526
@@ -3499,6 +3500,7 @@ __metadata:
   dependencies:
     "@changesets/cli": "npm:^2.29.8"
     "@eslint/js": "npm:^9.39.2"
+    "@packlint/core": "workspace:^"
     "@types/node": "npm:^24.10.0"
     eslint: "npm:^9.39.2"
     eslint-plugin-import-x: "npm:^4.16.1"
@@ -3510,6 +3512,7 @@ __metadata:
     typescript: "npm:^5.9.3"
     typescript-eslint: "npm:^8.50.0"
     vitest: "npm:^4.0.16"
+    zod: "npm:^4.2.1"
   languageName: unknown
   linkType: soft
 
@@ -4880,5 +4883,12 @@ __metadata:
   version: 1.2.2
   resolution: "yocto-queue@npm:1.2.2"
   checksum: 10c0/36d4793e9cf7060f9da543baf67c55e354f4862c8d3d34de1a1b1d7c382d44171315cc54abf84d8900b8113d742b830108a1434f4898fb244f9b7e8426d4b8f5
+  languageName: node
+  linkType: hard
+
+"zod@npm:^4.2.1":
+  version: 4.2.1
+  resolution: "zod@npm:4.2.1"
+  checksum: 10c0/ecb5219bddf76a42d092a843fb98ad4cb78f1e1077082772b03ef032ee5cbc80790a4051836b962d26fb4af854323bc784d628bd1b8d9898149eba7af21c5560
   languageName: node
   linkType: hard
