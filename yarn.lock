@@ -821,7 +821,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@packlint/plugin-schema@workspace:packages/plugin-schema":
+"@packlint/plugin-schema@workspace:^, @packlint/plugin-schema@workspace:packages/plugin-schema":
   version: 0.0.0-use.local
   resolution: "@packlint/plugin-schema@workspace:packages/plugin-schema"
   dependencies:
@@ -3511,6 +3511,7 @@ __metadata:
     "@changesets/cli": "npm:^2.29.8"
     "@eslint/js": "npm:^9.39.2"
     "@packlint/core": "workspace:^"
+    "@packlint/plugin-schema": "workspace:^"
     "@types/node": "npm:^24.10.0"
     eslint: "npm:^9.39.2"
     eslint-plugin-import-x: "npm:^4.16.1"

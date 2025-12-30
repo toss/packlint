@@ -7,7 +7,6 @@ import * as pc from 'picocolors';
 import type { PackageJson } from 'type-fest';
 import { writePackage } from 'write-pkg';
 import pkg from '../package.json' with { type: 'json' };
-import { pluralize } from './utils.js';
 
 const consola = createConsola({
   defaults: {
@@ -42,38 +41,44 @@ async function runPacklint(options: PacklintCliOptions) {
   consola.debug('Using config:', configFile?.filepath ? path.relative(options.cwd, configFile.filepath) : 'default');
   consola.debug('Found packages:', targets.length);
 
-  const result = await packlint(targets, resolvedConfig);
+  const reports = await packlint(targets, resolvedConfig.plugins);
 
-  if (options.fix) {
-    let totalFixedFileCount = 0;
-    for (const file of result.files) {
-      if (file.isDirty) {
-        await writePackage(file.filepath, file.fixedContent);
-        result.files = result.files.filter(f => f.filepath !== file.filepath);
-        result.issueCount -= file.issues.length;
-        totalFixedFileCount++;
-      }
+  for (const file of reports) {
+    const isChanged = JSON.stringify(file.input) !== JSON.stringify(file.output);
+
+    if (options.fix && isChanged) {
+      await writePackage(file.filepath, file.output);
     }
 
-    if (totalFixedFileCount > 0) {
-      consola.log(`${pc.green('ℹ')} ${totalFixedFileCount} ${pluralize('issue', totalFixedFileCount)} fixed.`);
-    }
-  }
-
-  for (const file of result.files) {
+    const relPath = path.relative(options.cwd, file.filepath);
     file.issues.forEach(issue => {
-      const relativePath = path.relative(options.cwd, file.filepath);
-      consola.log(`${pc.red('✖')} ${issue.message} ${pc.dim(`(${relativePath})`)}`);
+      if (issue.fixable) {
+        if (options.fix) {
+          consola.log(
+            `${pc.green('✔')} ${issue.message} ${pc.gray(`(${relPath})`)} ${pc.bgGreen(pc.black(' FIXED '))}`
+          );
+        } else {
+          consola.log(
+            `${pc.yellow('⚠')} ${issue.message} ${pc.gray(`(${relPath})`)} ${pc.bgYellow(pc.black(' FIXABLE '))}`
+          );
+        }
+      } else {
+        consola.log(`${pc.red('✖')} ${issue.message} ${pc.gray(`(${relPath})`)}`);
+      }
     });
   }
 
-  if (result.issueCount > 0) {
-    consola.error(pc.red(`${result.issueCount} ${pluralize('issue', result.issueCount)} found.`));
+  const hasRemainingIssues = reports.some(
+    f => f.issues.some(i => !i.fixable) || (!options.fix && f.issues.some(i => i.fixable))
+  );
+
+  if (hasRemainingIssues) {
+    consola.error(pc.red('Some issues remain.'));
     process.exit(1);
-  } else {
-    consola.success(pc.green('No issues found.'));
-    process.exit(0);
   }
+
+  consola.success(pc.green('No issues found.'));
+  process.exit(0);
 }
 
 export function createProgram() {

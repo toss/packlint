@@ -18,7 +18,7 @@ export const sortPlugin = (sortOrder: string[] = DEFAULT_SORT_ORDER): Plugin => 
 
   return {
     name: SORT_PLUGIN_NAME,
-    check({ packageJson, filepath }) {
+    check({ packageJson }) {
       const keys = Object.keys(packageJson);
       const targetOrder = getOrder(keys);
 
@@ -27,21 +27,14 @@ export const sortPlugin = (sortOrder: string[] = DEFAULT_SORT_ORDER): Plugin => 
       if (!isSorted) {
         return [
           {
+            code: 'require-sorted-keys',
             message: 'package.json keys are not sorted.',
-            filepath,
+            fix: packageJson => Object.fromEntries(targetOrder.map(key => [key, packageJson[key]])) as PackageJson,
           },
         ];
       }
 
       return [];
-    },
-    fix({ packageJson }) {
-      const keys = Object.keys(packageJson);
-      const targetOrder = getOrder(keys);
-
-      if (!targetOrder) return packageJson;
-
-      return Object.fromEntries(targetOrder.map(key => [key, packageJson[key]])) as PackageJson;
     },
   };
 };
