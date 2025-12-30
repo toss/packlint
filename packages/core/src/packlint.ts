@@ -1,5 +1,5 @@
 import type { PackageJson } from 'type-fest';
-import type { PacklintConfig, Rule, RuleContext } from './types/index.js';
+import type { PacklintConfig, Plugin, PluginContext } from './types/index.js';
 
 export interface Issue {
   message: string;
@@ -42,10 +42,7 @@ export interface PacklintResult {
  * @returns The linting result.
  */
 export async function packlint(targets: LintTarget[], config: PacklintConfig): Promise<PacklintResult> {
-  const allRules = config.plugins?.flatMap(p => p.rules) ?? [];
-  if (allRules.length === 0) return { totalFileCount: targets.length, issueCount: 0, files: [] };
-
-  const allResults = await Promise.all(targets.map(target => processFile(target, allRules)));
+  const allResults = await Promise.all(targets.map(target => processFile(target, config.plugins ?? [])));
 
   const dirtyFiles = allResults.filter(f => f.issues.length > 0 || f.isDirty);
 
@@ -56,21 +53,21 @@ export async function packlint(targets: LintTarget[], config: PacklintConfig): P
   };
 }
 
-async function processFile(target: LintTarget, rules: Rule[]): Promise<FileResult> {
+async function processFile(target: LintTarget, plugins: Plugin[]): Promise<FileResult> {
   const { filepath, content } = target;
   const allIssues: Issue[] = [];
 
   let currentPackage = content;
 
-  for (const rule of rules) {
-    const context: RuleContext = { data: currentPackage, filepath, ruleName: rule.name };
-    const issues = await rule.check(context);
+  for (const plugin of plugins) {
+    const context: PluginContext = { data: currentPackage, filepath, ruleName: plugin.name };
+    const issues = await plugin.check(context);
 
     if (issues.length > 0) {
       allIssues.push(...issues);
 
-      if (rule.fix) {
-        currentPackage = await rule.fix(context);
+      if (plugin.fix) {
+        currentPackage = await plugin.fix(context);
       }
     }
   }

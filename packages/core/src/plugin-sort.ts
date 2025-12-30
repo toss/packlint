@@ -1,9 +1,6 @@
 import type { PackageJson } from 'type-fest';
 import type { Plugin } from './types/index.js';
 
-export const SORT_PLUGIN_NAME = 'packlint:sort';
-
-// TODO: Implement custom sort order
 export const sortPlugin = (sortOrder: string[] = DEFAULT_SORT_ORDER): Plugin => {
   /**
    * Sorting algorithm:
@@ -18,38 +15,33 @@ export const sortPlugin = (sortOrder: string[] = DEFAULT_SORT_ORDER): Plugin => 
   };
 
   return {
-    name: SORT_PLUGIN_NAME,
-    rules: [
-      {
-        name: `${SORT_PLUGIN_NAME}:package-json-sorted`,
-        check({ data, filepath }) {
-          const keys = Object.keys(data);
-          const targetOrder = getOrder(keys);
+    name: 'packlint:sort',
+    check({ packageJson, filepath }) {
+      const keys = Object.keys(packageJson);
+      const targetOrder = getOrder(keys);
 
-          const isSorted = keys.every((key, i) => key === targetOrder[i]);
+      const isSorted = keys.every((key, i) => key === targetOrder[i]);
 
-          if (!isSorted) {
-            return [
-              {
-                message: 'package.json keys are not sorted.',
-                filepath,
-                fixable: true,
-              },
-            ];
-          }
+      if (!isSorted) {
+        return [
+          {
+            message: 'package.json keys are not sorted.',
+            filepath,
+            fixable: true,
+          },
+        ];
+      }
 
-          return [];
-        },
-        fix({ data }) {
-          const keys = Object.keys(data);
-          const targetOrder = getOrder(keys);
+      return [];
+    },
+    fix({ packageJson }) {
+      const keys = Object.keys(packageJson);
+      const targetOrder = getOrder(keys);
 
-          if (!targetOrder) return data;
+      if (!targetOrder) return packageJson;
 
-          return Object.fromEntries(targetOrder.map(key => [key, data[key]])) as PackageJson;
-        },
-      },
-    ],
+      return Object.fromEntries(targetOrder.map(key => [key, packageJson[key]])) as PackageJson;
+    },
   };
 };
 
