@@ -24,8 +24,8 @@
   "type": "module",
   "exports": {
     "./config": {
-      "types": "./dist/define-config.d.mts",
-      "default": "./dist/define-config.mjs"
+      "types": "./dist/config.d.mts",
+      "default": "./dist/config.mjs"
     }
   },
   "bin": "./dist/run.mjs",

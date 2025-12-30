@@ -8,7 +8,7 @@ export default defineConfig([
     noExternal: ['picocolors', '@packlint/core'],
   },
   {
-    entry: './src/define-config.ts',
+    entry: './src/config.ts',
     format: 'esm',
     dts: {
       resolve: ['@packlint/core'],
