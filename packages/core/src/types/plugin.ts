@@ -1,5 +1,4 @@
 import type { PackageJson } from 'type-fest';
-import type { Issue } from '../packlint.js';
 import type { Awaitable } from './utils.js';
 
 export interface Plugin {
@@ -28,6 +27,23 @@ export interface Plugin {
 }
 
 export interface PluginContext {
+  /**
+   * The path to the package.json file.
+   */
   filepath: string;
+  /**
+   * The content of the package.json file.
+   */
   packageJson: PackageJson;
+}
+
+export interface Issue {
+  /**
+   * The message of the issue.
+   */
+  message: string;
+  /**
+   * The path to the package.json file.
+   */
+  filepath: string;
 }

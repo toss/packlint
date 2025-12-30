@@ -1,10 +1,5 @@
 import type { PackageJson } from 'type-fest';
-import type { PacklintConfig, Plugin, PluginContext } from './types/index.js';
-
-export interface Issue {
-  message: string;
-  filepath: string;
-}
+import type { Issue, PacklintConfig, Plugin, PluginContext } from './types/index.js';
 
 export interface LintTarget {
   filepath: string;
