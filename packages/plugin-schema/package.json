@@ -1,6 +1,7 @@
 {
-  "name": "@packlint/core",
-  "version": "0.2.0",
+  "name": "@packlint/plugin-schema",
+  "version": "0.0.0",
+  "license": "MIT",
   "type": "module",
   "exports": {
     ".": {
@@ -9,24 +10,20 @@
     }
   },
   "main": "./dist/index.mjs",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsdown",
     "dev": "tsdown --watch",
     "prepack": "yarn build",
     "typecheck": "tsc --noEmit"
   },
-  "dependencies": {
-    "find-up": "^8.0.0"
-  },
   "devDependencies": {
-    "@types/node": "^22.2.0",
+    "@packlint/core": "workspace:^",
+    "@standard-schema/spec": "^1.1.0",
     "tsdown": "^0.18.2",
-    "type-fest": "^5.3.1",
-    "typescript": "^5.9.3",
-    "vitest": "^4.0.16"
-  },
-  "engines": {
-    "node": ">=22.2.0"
+    "typescript": "^5.9.3"
   },
   "publishConfig": {
     "access": "public"

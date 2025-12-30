@@ -1,9 +1,9 @@
+import type { Plugin } from '@packlint/core';
 import type { StandardSchemaV1 } from '@standard-schema/spec';
-import { createPlugin } from './create-plugin.js';
 
 const PLUGIN_NAME = 'packlint:schema';
 
-export const schemaPlugin = createPlugin((schema: StandardSchemaV1) => {
+export const schemaPlugin = (schema: StandardSchemaV1): Plugin => {
   return {
     name: PLUGIN_NAME,
     rules: [
@@ -25,4 +25,4 @@ export const schemaPlugin = createPlugin((schema: StandardSchemaV1) => {
       },
     ],
   };
-});
+};

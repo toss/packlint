@@ -1,4 +1,4 @@
-import { SORT_PLUGIN_NAME, sortPlugin } from '../plugin/plugin-sort.js';
+import { SORT_PLUGIN_NAME, sortPlugin } from '../plugin-sort.js';
 import type { PacklintConfig, PacklintConfigFile } from '../types/index.js';
 import { DEFAULT_CONFIG } from './default-config.js';
 

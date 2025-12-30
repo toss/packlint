@@ -812,13 +812,23 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@packlint/core@workspace:packages/core"
   dependencies:
-    "@standard-schema/spec": "npm:^1.1.0"
     "@types/node": "npm:^22.2.0"
     find-up: "npm:^8.0.0"
     tsdown: "npm:^0.18.2"
     type-fest: "npm:^5.3.1"
     typescript: "npm:^5.9.3"
     vitest: "npm:^4.0.16"
+  languageName: unknown
+  linkType: soft
+
+"@packlint/plugin-schema@workspace:packages/plugin-schema":
+  version: 0.0.0-use.local
+  resolution: "@packlint/plugin-schema@workspace:packages/plugin-schema"
+  dependencies:
+    "@packlint/core": "workspace:^"
+    "@standard-schema/spec": "npm:^1.1.0"
+    tsdown: "npm:^0.18.2"
+    typescript: "npm:^5.9.3"
   languageName: unknown
   linkType: soft
 

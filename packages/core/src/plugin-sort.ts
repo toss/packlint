@@ -1,10 +1,10 @@
 import type { PackageJson } from 'type-fest';
-import { createPlugin } from './create-plugin.js';
+import type { Plugin } from './types/index.js';
 
 export const SORT_PLUGIN_NAME = 'packlint:sort';
 
 // TODO: Implement custom sort order
-export const sortPlugin = createPlugin((sortOrder: string[] = DEFAULT_SORT_ORDER) => {
+export const sortPlugin = (sortOrder: string[] = DEFAULT_SORT_ORDER): Plugin => {
   /**
    * Sorting algorithm:
    * 1. Sort specified keys
@@ -51,7 +51,7 @@ export const sortPlugin = createPlugin((sortOrder: string[] = DEFAULT_SORT_ORDER
       },
     ],
   };
-});
+};
 
 export const DEFAULT_SORT_ORDER = [
   'name',
