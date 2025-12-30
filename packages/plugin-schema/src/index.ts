@@ -11,7 +11,6 @@ export const schemaPlugin = (schema: StandardSchemaV1): Plugin => {
         return result.issues.map(issue => ({
           message: issue.message,
           filepath,
-          fixable: false,
         }));
       }
 

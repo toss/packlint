@@ -4,7 +4,6 @@ import type { PacklintConfig, Plugin, PluginContext } from './types/index.js';
 export interface Issue {
   message: string;
   filepath: string;
-  fixable: boolean;
 }
 
 export interface LintTarget {

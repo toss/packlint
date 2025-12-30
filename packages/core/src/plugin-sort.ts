@@ -1,7 +1,7 @@
 import type { PackageJson } from 'type-fest';
 import type { Plugin } from './types/index.js';
 
-export const SORT_PLUGIN_NAME = 'packlint:sort'
+export const SORT_PLUGIN_NAME = 'packlint:sort';
 
 export const sortPlugin = (sortOrder: string[] = DEFAULT_SORT_ORDER): Plugin => {
   /**
@@ -29,7 +29,6 @@ export const sortPlugin = (sortOrder: string[] = DEFAULT_SORT_ORDER): Plugin => 
           {
             message: 'package.json keys are not sorted.',
             filepath,
-            fixable: true,
           },
         ];
       }
