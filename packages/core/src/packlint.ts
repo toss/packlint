@@ -60,7 +60,7 @@ async function processFile(target: LintTarget, plugins: Plugin[]): Promise<FileR
   let currentPackage = content;
 
   for (const plugin of plugins) {
-    const context: PluginContext = { data: currentPackage, filepath, ruleName: plugin.name };
+    const context: PluginContext = { packageJson: currentPackage, filepath };
     const issues = await plugin.check(context);
 
     if (issues.length > 0) {

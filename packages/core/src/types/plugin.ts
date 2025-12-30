@@ -28,7 +28,6 @@ export interface Plugin {
 }
 
 export interface PluginContext {
-  ruleName: string;
   filepath: string;
   packageJson: PackageJson;
 }

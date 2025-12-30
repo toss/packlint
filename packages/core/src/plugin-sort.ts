@@ -1,6 +1,8 @@
 import type { PackageJson } from 'type-fest';
 import type { Plugin } from './types/index.js';
 
+export const SORT_PLUGIN_NAME = 'packlint:sort'
+
 export const sortPlugin = (sortOrder: string[] = DEFAULT_SORT_ORDER): Plugin => {
   /**
    * Sorting algorithm:
@@ -15,7 +17,7 @@ export const sortPlugin = (sortOrder: string[] = DEFAULT_SORT_ORDER): Plugin => 
   };
 
   return {
-    name: 'packlint:sort',
+    name: SORT_PLUGIN_NAME,
     check({ packageJson, filepath }) {
       const keys = Object.keys(packageJson);
       const targetOrder = getOrder(keys);
