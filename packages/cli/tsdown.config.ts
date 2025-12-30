@@ -5,11 +5,15 @@ export default defineConfig([
     entry: './src/run.ts',
     format: 'esm',
     banner: '#!/usr/bin/env node',
-    noExternal: ['picocolors'],
+    noExternal: ['picocolors', '@packlint/core'],
   },
   {
     entry: './src/define-config.ts',
     format: 'esm',
-    dts: true,
+    dts: {
+      resolve: ['@packlint/core'],
+      resolver: 'tsc',
+    },
+    noExternal: ['@packlint/core'],
   },
 ]);
