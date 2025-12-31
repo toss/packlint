@@ -1,49 +1,46 @@
 import type { PackageJson } from 'type-fest';
 import type { Issue, Plugin } from './types/plugin.js';
 
-interface Report {
+export interface Diagnostic {
   filepath: string;
   input: PackageJson;
   output: PackageJson;
   issues: IssueReport[];
 }
 
-export interface LintTarget {
+export interface Target {
   filepath: string;
   content: PackageJson;
+}
+
+export interface Options {
+  plugins: Plugin[];
 }
 
 export interface IssueReport extends Issue {
   fixable: boolean;
 }
 
-export async function packlint(targets: LintTarget[], plugins: Plugin[]): Promise<Report[]> {
-  const reports = await Promise.all(targets.map(target => lintFile(target, plugins)));
+export async function packlint(targets: Target[], options: Options): Promise<Diagnostic[]> {
+  const reports = await Promise.all(targets.map(target => lintSingle(target, options.plugins)));
 
   return reports;
 }
 
-async function lintFile(target: LintTarget, plugins: Plugin[]): Promise<Report> {
-  const allIssues = await Promise.all(
-    plugins.map(plugin =>
-      plugin.check({
-        packageJson: target.content,
-        filepath: target.filepath,
-      })
-    )
-  );
+async function lintSingle(target: Target, plugins: Plugin[]): Promise<Diagnostic> {
+  const checkParam = { packageJson: target.content, filepath: target.filepath };
+  const issues = (await Promise.all(plugins.map(plugin => plugin.check(checkParam)))).flat();
 
-  const flattenedIssues = allIssues.flat();
   let currentContent = structuredClone(target.content);
   const reports: Array<IssueReport> = [];
 
-  for (const issue of flattenedIssues) {
-    if (issue.fix) {
-      currentContent = (await issue.fix(currentContent)) ?? currentContent;
-      reports.push({ ...issue, fixable: true });
-    } else {
-      reports.push({ ...issue, fixable: false });
+  for (const issue of issues) {
+    const result = await issue.fix?.(currentContent);
+    if (result != null) {
+      currentContent = result;
     }
+
+    reports.push({ ...issue, fixable: issue.fix != null });
   }
 
   return {

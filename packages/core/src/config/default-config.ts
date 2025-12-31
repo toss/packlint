@@ -1,4 +1,4 @@
-import { PacklintConfig } from '../types/index.js';
+import type { PacklintConfig } from '../types/index.js';
 
 export const DEFAULT_CONFIG: Required<PacklintConfig> = {
   files: ['**/package.json'],

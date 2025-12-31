@@ -28,7 +28,10 @@
       "default": "./dist/config.mjs"
     }
   },
-  "bin": "./dist/run.mjs",
+  "bin": "./dist/main.mjs",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsdown",
     "dev": "tsdown --watch",
@@ -39,18 +42,18 @@
     "@packlint/core": "workspace:^",
     "commander": "^14.0.2",
     "consola": "^3.4.2",
+    "cosmiconfig": "^9.0.0",
     "picocolors": "^1.1.1",
     "write-pkg": "^7.0.0"
   },
   "devDependencies": {
     "@types/node": "^22.2.0",
     "tsdown": "^0.18.2",
-    "type-fest": "^5.3.1",
     "typescript": "^5.9.3",
     "vitest": "^4.0.16"
   },
   "engines": {
-    "node": ">=22.2.0"
+    "node": ">=22.0.0"
   },
   "publishConfig": {
     "access": "public"

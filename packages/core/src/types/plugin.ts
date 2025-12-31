@@ -26,7 +26,6 @@ export interface Issue {
    * The message of the issue.
    */
   message: string;
-
   /**
    * Fixer function to fix the issue.
    */
