@@ -5,7 +5,7 @@
   },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
-  "eslint.nodePath": ".yarn/sdks",
+  "eslint.nodePath": ".yarn/sdks/eslint/bin/eslint.js",
   "files.trimTrailingWhitespace": true,
   "prettier.configPath": "./.prettierrc",
   "prettier.prettierPath": ".yarn/sdks/prettier/index.cjs",
