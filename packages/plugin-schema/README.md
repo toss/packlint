@@ -1,0 +1,1 @@
+# @packlint/plugin-schema

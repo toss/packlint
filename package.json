@@ -2,6 +2,7 @@
   "name": "packlint-monorepo",
   "private": true,
   "packageManager": "yarn@4.12.0",
+  "type": "module",
   "workspaces": [
     "./packages/**"
   ],
@@ -12,13 +13,14 @@
     "changeset:publish": "changeset publish",
     "changeset:version": "changeset version",
     "lint:all": "yarn eslint --fix",
-    "packlint:all": "yarn packlint -R",
     "prepack": "turbo run prepack",
     "test:all": "yarn vitest run"
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.8",
     "@eslint/js": "^9.39.2",
+    "@packlint/core": "workspace:^",
+    "@packlint/plugin-schema": "workspace:^",
     "@types/node": "^24.10.0",
     "eslint": "^9.39.2",
     "eslint-plugin-import-x": "^4.16.1",
@@ -29,9 +31,7 @@
     "turbo": "^1.6.3",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.50.0",
-    "vitest": "^4.0.16"
-  },
-  "resolutions": {
-    "zod": "3.19.1"
+    "vitest": "^4.0.16",
+    "zod": "^4.2.1"
   }
 }
