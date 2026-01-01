@@ -4,32 +4,27 @@ import type { Plugin } from './types/index.js';
 export const SORT_PLUGIN_NAME = 'packlint:sort';
 
 export const sortPlugin = (sortOrder: string[] = DEFAULT_SORT_ORDER): Plugin => {
-  /**
-   * Sorting algorithm:
-   * 1. Sort specified keys
-   * 2. Sort rest keys in alphabetically
-   */
-  const getOrder = (currentKeys: string[]) => {
-    const sortedSpecified = sortOrder.filter(key => currentKeys.includes(key));
-    const rest = currentKeys.filter(key => !sortOrder.includes(key)).sort((a, b) => a.localeCompare(b));
-
-    return [...sortedSpecified, ...rest];
-  };
-
   return {
     name: SORT_PLUGIN_NAME,
     check({ packageJson }) {
       const keys = Object.keys(packageJson);
-      const targetOrder = getOrder(keys);
 
-      const isSorted = keys.every((key, i) => key === targetOrder[i]);
+      const specifiedKeys = sortOrder.filter(key => keys.includes(key));
+      const restKeys = keys.filter(key => !sortOrder.includes(key));
+
+      const checkOrder = [...specifiedKeys, ...restKeys];
+
+      const isSorted = keys.every((key, index) => key === checkOrder[index]);
 
       if (!isSorted) {
+        const sortedRestKeys = [...restKeys].sort((a, b) => a.localeCompare(b));
+        const fixOrder = [...specifiedKeys, ...sortedRestKeys];
+
         return [
           {
             code: 'require-sorted-keys',
-            message: 'package.json keys are not sorted.',
-            fix: packageJson => Object.fromEntries(targetOrder.map(key => [key, packageJson[key]])) as PackageJson,
+            message: 'package.json keys are not sorted correctly.',
+            fix: packageJson => Object.fromEntries(fixOrder.map(key => [key, packageJson[key]])) as PackageJson,
           },
         ];
       }
