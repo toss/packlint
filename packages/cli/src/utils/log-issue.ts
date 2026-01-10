@@ -1,4 +1,5 @@
 import pc from 'picocolors';
+
 import { consola } from '../logger.js';
 
 type IssueStatus = 'fixed' | 'fixable' | 'error';

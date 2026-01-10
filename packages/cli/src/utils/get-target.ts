@@ -1,5 +1,6 @@
-import type { Target } from '@packlint/core';
 import fs from 'node:fs/promises';
+
+import type { Target } from '@packlint/core';
 
 /**
  * Convert a package.json file path into a Target object.

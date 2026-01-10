@@ -1,4 +1,5 @@
 import type { PackageJson } from 'type-fest';
+
 import type { Issue, Plugin } from './types/plugin.js';
 
 export interface Diagnostic {

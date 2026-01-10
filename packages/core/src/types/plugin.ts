@@ -1,4 +1,5 @@
 import type { PackageJson } from 'type-fest';
+
 import type { Awaitable } from './utils.js';
 
 export interface Plugin {

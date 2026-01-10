@@ -14,7 +14,7 @@ export function resolveConfig(config: PacklintConfig = {}): Required<PacklintCon
     ...config,
   };
 
-  let plugins = (config.plugins ?? [...DEFAULT_CONFIG.plugins]).filter(({ name }) => name !== SORT_PLUGIN_NAME);
+  const plugins = (config.plugins ?? [...DEFAULT_CONFIG.plugins]).filter(({ name }) => name !== SORT_PLUGIN_NAME);
 
   if (mergedConfig.sort !== false) {
     const sortOrder = Array.isArray(mergedConfig.sort) ? mergedConfig.sort : undefined; // use default sort order

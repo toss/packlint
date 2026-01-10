@@ -1,4 +1,5 @@
 import type { PackageJson } from 'type-fest';
+
 import type { Plugin } from './types/index.js';
 
 export const SORT_PLUGIN_NAME = 'packlint:sort';

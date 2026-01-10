@@ -1,9 +1,11 @@
+import path from 'node:path';
+
 import { type Diagnostic, packlint, resolveConfig } from '@packlint/core';
 import { Command } from 'commander';
 import { LogLevels } from 'consola';
-import path from 'node:path';
 import pc from 'picocolors';
 import { writePackage } from 'write-pkg';
+
 import pkg from '../package.json' with { type: 'json' };
 import { loadConfig } from './load-config.js';
 import { consola } from './logger.js';
@@ -46,7 +48,7 @@ async function run(pattern: string | undefined, options: CliOptions) {
 
   consola.debug(
     'Using config:',
-    pc.gray(configResult?.filepath ? path.resolve(options.cwd, configResult.filepath) : 'default')
+    pc.gray(configResult?.filepath != null ? path.resolve(options.cwd, configResult.filepath) : 'default')
   );
   consola.debug('Found packages:', pc.gray(targets.length));
 
