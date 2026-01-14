@@ -77,7 +77,7 @@ function printIssues(diagnostics: Diagnostic[], options: Pick<CliOptions, 'cwd' 
     const relPath = path.relative(options.cwd, filepath);
     for (const issue of issues) {
       logIssue({
-        status: issue.fixable ? (options.fix ? 'fixed' : 'fixable') : 'error',
+        status: issue.fixable === true ? (options.fix ? 'fixed' : 'fixable') : 'error',
         message: issue.message,
         filepath: relPath,
       });
@@ -98,7 +98,7 @@ function summarize(diagnostics: Diagnostic[], fix: boolean): number {
 
 function countErrors(diagnostics: Diagnostic[], fix: boolean): number {
   return diagnostics.reduce((count, { issues }) => {
-    return count + issues.filter(({ fixable }) => !fixable || (!fix && fixable)).length;
+    return count + issues.filter(({ fixable }) => fixable === false || (!fix && fixable)).length;
   }, 0);
 }
 
