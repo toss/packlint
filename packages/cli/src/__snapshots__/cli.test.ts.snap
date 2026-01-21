@@ -1,0 +1,20 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`packlint CLI > sorted > check 1`] = `
+"[success] [packlint] No issues found.
+"
+`;
+
+exports[`packlint CLI > unsorted > check 1`] = `
+"[log] [packlint]  FIXABLE  ⚠ package.json keys are not sorted correctly. (package.json)
+"
+`;
+
+exports[`packlint CLI > unsorted > fix 1`] = `
+"{
+  "name": "unsorted-package",
+  "version": "1.0.0",
+  "description": "An unsorted package"
+}
+"
+`;
