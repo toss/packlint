@@ -12,20 +12,18 @@ export const sortPlugin = (sortOrder: string[] = DEFAULT_SORT_ORDER): Plugin => 
 
       const specifiedKeys = sortOrder.filter(key => keys.includes(key));
       const restKeys = keys.filter(key => !sortOrder.includes(key));
+      const sortedRestKeys = [...restKeys].sort((a, b) => a.localeCompare(b));
 
-      const checkOrder = [...specifiedKeys, ...restKeys];
+      const checkOrder = [...specifiedKeys, ...sortedRestKeys];
 
       const isSorted = keys.every((key, index) => key === checkOrder[index]);
 
       if (!isSorted) {
-        const sortedRestKeys = [...restKeys].sort((a, b) => a.localeCompare(b));
-        const fixOrder = [...specifiedKeys, ...sortedRestKeys];
-
         return [
           {
             code: 'require-sorted-keys',
             message: 'package.json keys are not sorted correctly.',
-            fix: packageJson => Object.fromEntries(fixOrder.map(key => [key, packageJson[key]])) as PackageJson,
+            fix: packageJson => Object.fromEntries(checkOrder.map(key => [key, packageJson[key]])) as PackageJson,
           },
         ];
       }
