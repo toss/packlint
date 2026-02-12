@@ -5,7 +5,6 @@ export default defineConfig([
     entry: './src/main.ts',
     format: 'esm',
     banner: '#!/usr/bin/env node',
-    noExternal: ['@packlint/core'],
   },
   {
     entry: './src/config.ts',
@@ -14,6 +13,5 @@ export default defineConfig([
       resolve: ['@packlint/core'],
       resolver: 'tsc',
     },
-    noExternal: ['@packlint/core'],
   },
 ]);

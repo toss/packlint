@@ -10,8 +10,9 @@ export async function getTarget(filepath: string): Promise<Target> {
   let content: string;
   try {
     content = await fs.readFile(filepath, { encoding: 'utf-8' });
-  } catch {
-    throw new Error(`Failed to read file: ${filepath}`);
+  } catch (error) {
+    const reason = error instanceof Error ? `: ${error.message}` : '';
+    throw new Error(`Failed to read file: ${filepath}${reason}`, { cause: error });
   }
 
   try {
@@ -20,7 +21,8 @@ export async function getTarget(filepath: string): Promise<Target> {
       filepath: filepath,
       content: parsedContent,
     };
-  } catch {
-    throw new Error(`Invalid JSON in: ${filepath}`);
+  } catch (error) {
+    const reason = error instanceof Error ? `: ${error.message}` : '';
+    throw new Error(`Invalid JSON in: ${filepath}${reason}`, { cause: error });
   }
 }

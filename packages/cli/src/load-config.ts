@@ -1,3 +1,5 @@
+import path from 'node:path';
+
 import type { PacklintConfig } from '@packlint/core';
 import { cosmiconfig, defaultLoaders } from 'cosmiconfig';
 
@@ -9,6 +11,8 @@ const SUPPORTED_CONFIG_PATTERN = [
   'packlint.config.mts',
   'packlint.config.cts',
 ];
+
+const SUPPORTED_CONFIG_EXTENSIONS = ['.js', '.ts', '.mjs', '.cjs', '.mts', '.cts'];
 
 /**
  * Loads the configuration file.
@@ -33,9 +37,19 @@ export async function loadConfig(pathOrDir: string = process.cwd()): Promise<{
   });
 
   const isSupportedConfigPath = SUPPORTED_CONFIG_PATTERN.some(pattern => pathOrDir.endsWith(pattern));
-  if (isSupportedConfigPath) {
-    const result = await explorer.load(pathOrDir);
-    return { config: result?.config, filepath: pathOrDir };
+  const isSupportedConfigExtension = SUPPORTED_CONFIG_EXTENSIONS.includes(path.extname(pathOrDir));
+
+  if (isSupportedConfigPath || isSupportedConfigExtension) {
+    try {
+      const result = await explorer.load(pathOrDir);
+      if (result == null) {
+        throw new Error(`Failed to load config file at ${pathOrDir}`);
+      }
+      return { config: result.config, filepath: pathOrDir };
+    } catch (error) {
+      const reason = error instanceof Error ? `: ${error.message}` : '';
+      throw new Error(`Failed to load config file at ${pathOrDir}${reason}`);
+    }
   }
 
   const result = await explorer.search(pathOrDir);

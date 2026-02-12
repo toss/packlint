@@ -1,0 +1,7 @@
+{
+  "customA": "value-a",
+  "customB": "value-b",
+  "customC": {
+    "nested": true
+  }
+}

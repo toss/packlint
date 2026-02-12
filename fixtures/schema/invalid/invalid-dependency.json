@@ -1,0 +1,7 @@
+{
+  "name": "invalid-deps-package",
+  "version": "1.0.0",
+  "dependencies": {
+    "lodash": 12345
+  }
+}

@@ -1,0 +1,114 @@
+{
+  "name": "@complex/package",
+  "version": "3.2.1",
+  "private": true,
+  "description": "A complex package with many fields",
+  "keywords": ["complex", "test", "fixture"],
+  "homepage": "https://example.com",
+  "bugs": {
+    "url": "https://github.com/example/complex/issues",
+    "email": "bugs@example.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/example/complex.git",
+    "directory": "packages/complex"
+  },
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/example"
+    }
+  ],
+  "license": "Apache-2.0",
+  "author": {
+    "name": "Test Author",
+    "email": "test@example.com",
+    "url": "https://example.com"
+  },
+  "contributors": [
+    {
+      "name": "Contributor One",
+      "email": "one@example.com"
+    }
+  ],
+  "sideEffects": false,
+  "packageManager": "pnpm@8.0.0",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./utils": "./dist/utils.js",
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "browser": "./dist/browser.js",
+  "types": "./dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "utils": ["./dist/utils.d.ts"]
+    }
+  },
+  "bin": {
+    "complex-cli": "./bin/cli.js"
+  },
+  "files": [
+    "dist",
+    "bin",
+    "LICENSE"
+  ],
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest",
+    "test:coverage": "vitest --coverage",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "pnpm build"
+  },
+  "dependencies": {
+    "lodash-es": "^4.17.21",
+    "zod": "^3.22.0"
+  },
+  "devDependencies": {
+    "@types/lodash-es": "^4.17.0",
+    "@types/node": "^20.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.3.0",
+    "vitest": "^1.0.0"
+  },
+  "optionalDependencies": {
+    "fsevents": "^2.3.3"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react-dom": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "os": ["darwin", "linux"],
+  "cpu": ["x64", "arm64"],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  }
+}

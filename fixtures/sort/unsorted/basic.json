@@ -1,0 +1,18 @@
+{
+  "dependencies": {
+    "lodash": "^4.17.21"
+  },
+  "name": "test-package",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest"
+  },
+  "version": "1.0.0",
+  "description": "A test package with unsorted keys",
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "vitest": "^1.0.0"
+  },
+  "license": "MIT",
+  "author": "Test Author"
+}
