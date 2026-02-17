@@ -1,8 +1,6 @@
 {
-  "name": "@packlint/plugin-schema",
-  "version": "0.0.0",
-  "license": "MIT",
-  "type": "module",
+  "name": "@packlint/testing",
+  "private": true,
   "exports": {
     ".": {
       "types": "./dist/index.d.mts",
@@ -10,22 +8,19 @@
     }
   },
   "main": "./dist/index.mjs",
-  "files": [
-    "dist"
-  ],
   "scripts": {
     "build": "tsdown",
     "dev": "tsdown --watch",
     "prepack": "yarn build",
+    "lint": "eslint .",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@packlint/core": "workspace:^",
-    "@standard-schema/spec": "^1.1.0",
+    "@eslint/js": "^9.39.2",
+    "@types/node": "^24.10.0",
+    "eslint": "^9.39.2",
     "tsdown": "^0.18.2",
-    "typescript": "^5.9.3"
-  },
-  "publishConfig": {
-    "access": "public"
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.50.0"
   }
 }

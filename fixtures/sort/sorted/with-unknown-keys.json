@@ -1,0 +1,13 @@
+{
+  "name": "unknown-keys-package",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "vite"
+  },
+  "dependencies": {},
+  "anotherCustom": {
+    "nested": true
+  },
+  "customField": "value",
+  "xCustomField": "x-value"
+}

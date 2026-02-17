@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "zod": "^3.22.0"
+  },
+  "name": "@test-monorepo/pkg-a",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest"
+  },
+  "version": "1.0.0",
+  "description": "Package A - unsorted for testing",
+  "license": "MIT"
+}

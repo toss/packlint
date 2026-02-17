@@ -4,11 +4,11 @@ export interface PacklintConfig {
   /**
    * Glob patterns to match package.json files to lint.
    *
-   * @default ["package.json", "**\/package.json"]
+   * @default ["**\\/package.json", "!**\\/node_modules"]
    * @example
    * ```ts
    * {
-   *   files: ["services/**\/package.json"]
+   *   files: ["services/**\/package.json", "!**\/fixtures/**"]
    * }
    * ```
    */

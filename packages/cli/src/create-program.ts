@@ -1,6 +1,6 @@
 import path from 'node:path';
 
-import { type Diagnostic, packlint, resolveConfig } from '@packlint/core';
+import { type Diagnostic, packlint, resolveConfig, Target } from '@packlint/core';
 import { Command } from 'commander';
 import { LogLevels } from 'consola';
 import pc from 'picocolors';
@@ -9,7 +9,9 @@ import { writePackage } from 'write-pkg';
 import pkg from '../package.json' with { type: 'json' };
 import { loadConfig } from './load-config.js';
 import { consola } from './logger.js';
-import { findPackageJson, getTarget, logIssue } from './utils/index.js';
+import { countErrors, countFixed } from './report.js';
+import { glob, normalizePackageJsonPath } from './utils/fs.js';
+import { getTarget, logIssue } from './utils/index.js';
 
 interface CliOptions {
   fix: boolean;
@@ -35,33 +37,44 @@ export function createProgram() {
 }
 
 async function run(pattern: string | undefined, options: CliOptions) {
-  consola.level = options.verbose ? LogLevels.debug : LogLevels.info;
+  try {
+    consola.level = options.verbose ? LogLevels.debug : LogLevels.info;
 
-  const resolvedConfigPath = path.resolve(options.cwd, options.config ?? '.');
-  const configResult = await loadConfig(resolvedConfigPath);
+    const resolvedConfigPath = path.resolve(options.cwd, options.config ?? '.');
+    const configResult = await loadConfig(resolvedConfigPath);
 
-  const config = resolveConfig(configResult?.config);
+    const config = resolveConfig(configResult?.config);
 
-  const filePatterns = pattern != null ? [pattern] : config.files;
-  const files = await findPackageJson(filePatterns, options.cwd);
-  const targets = await Promise.all(files.map(getTarget));
+    const filePatterns = pattern != null ? [pattern] : config.files;
+    const normalizePatterns = filePatterns.map(normalizePackageJsonPath);
 
-  consola.debug(
-    'Using config:',
-    pc.gray(configResult?.filepath != null ? path.resolve(options.cwd, configResult.filepath) : 'default')
-  );
-  consola.debug('Found packages:', pc.gray(targets.length));
+    const targets: Target[] = [];
+    for await (const file of glob(normalizePatterns, options.cwd)) {
+      const target = await getTarget(file);
+      targets.push(target);
+    }
 
-  const diagnostics = await packlint(targets, { plugins: config.plugins });
+    consola.debug(
+      'Using config:',
+      pc.gray(configResult?.filepath != null ? path.resolve(options.cwd, configResult.filepath) : 'default')
+    );
+    consola.debug('Found packages:', pc.gray(targets.length));
 
-  if (options.fix) {
-    await applyFixes(diagnostics);
+    const diagnostics = await packlint(targets, { plugins: config.plugins });
+
+    if (options.fix) {
+      await applyFixes(diagnostics);
+    }
+
+    printIssues(diagnostics, options);
+
+    const exitCode = summarize(diagnostics, options.fix);
+    process.exit(exitCode);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : JSON.stringify(error);
+    consola.error(pc.red(message));
+    process.exit(1);
   }
-
-  printIssues(diagnostics, options);
-
-  const exitCode = summarize(diagnostics, options.fix);
-  process.exit(exitCode);
 }
 
 async function applyFixes(diagnostics: Diagnostic[]): Promise<void> {
@@ -77,7 +90,7 @@ function printIssues(diagnostics: Diagnostic[], options: Pick<CliOptions, 'cwd' 
     const relPath = path.relative(options.cwd, filepath);
     for (const issue of issues) {
       logIssue({
-        status: issue.fixable === true ? (options.fix ? 'fixed' : 'fixable') : 'error',
+        status: issue.fixable === true ? (options.fix && issue.fixed ? 'fixed' : 'fixable') : 'error',
         message: issue.message,
         filepath: relPath,
       });
@@ -94,17 +107,4 @@ function summarize(diagnostics: Diagnostic[], fix: boolean): number {
   }
   consola.success(pc.green(fixedCount > 0 ? `${fixedCount} issues fixed.` : 'No issues found.'));
   return 0;
-}
-
-function countErrors(diagnostics: Diagnostic[], fix: boolean): number {
-  return diagnostics.reduce((count, { issues }) => {
-    return count + issues.filter(({ fixable }) => fixable === false || (!fix && fixable)).length;
-  }, 0);
-}
-
-function countFixed(diagnostics: Diagnostic[], fix: boolean): number {
-  if (!fix) return 0;
-  return diagnostics.reduce((count, { issues }) => {
-    return count + issues.filter(({ fixable }) => fixable).length;
-  }, 0);
 }

@@ -1,0 +1,12 @@
+{
+  "name": "already-sorted",
+  "version": "1.0.0",
+  "description": "This package is already correctly sorted",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21"
+  }
+}

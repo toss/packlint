@@ -1,0 +1,7 @@
+{
+  "name": "wrong-types-package",
+  "version": "1.0.0",
+  "private": "yes",
+  "scripts": ["build", "test"],
+  "keywords": "single-string-not-array"
+}

@@ -1,0 +1,17 @@
+{
+  "main": "./dist/index.js",
+  "name": "@test-monorepo/pkg-b",
+  "types": "./dist/index.d.ts",
+  "version": "1.0.0",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "dependencies": {
+    "@test-monorepo/pkg-a": "workspace:*"
+  },
+  "description": "Package B - depends on Package A",
+  "license": "MIT"
+}

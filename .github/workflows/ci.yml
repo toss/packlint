@@ -14,13 +14,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - run: corepack enable
-      - uses: actions/setup-node@v6
+      - uses: jdx/mise-action@v3
         with:
-          node-version-file: .nvmrc
-          cache: 'yarn'
+          cache: false
+        env:
+          MISE_NODE_COREPACK: true
+
       - run: yarn install --immutable
-      - run: yarn lint:all
+      - run: yarn lint
       - run: yarn build
       - run: yarn typecheck
-      - run: yarn test:all
+      - run: yarn test

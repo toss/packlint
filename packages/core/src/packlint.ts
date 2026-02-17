@@ -20,6 +20,7 @@ export interface Options {
 
 export interface IssueReport extends Issue {
   fixable: boolean;
+  fixed: boolean;
 }
 
 export async function packlint(targets: Target[], options: Options): Promise<Diagnostic[]> {
@@ -29,19 +30,26 @@ export async function packlint(targets: Target[], options: Options): Promise<Dia
 }
 
 async function lintSingle(target: Target, plugins: Plugin[]): Promise<Diagnostic> {
-  const checkParam = { packageJson: target.content, filepath: target.filepath };
-  const issues = (await Promise.all(plugins.map(plugin => plugin.check(checkParam)))).flat();
-
   let currentContent = structuredClone(target.content);
   const reports: Array<IssueReport> = [];
 
-  for (const issue of issues) {
-    const result = await issue.fix?.(currentContent);
-    if (result != null) {
-      currentContent = result;
-    }
+  for (const plugin of plugins) {
+    const issues = await plugin.check({
+      packageJson: currentContent,
+      filepath: target.filepath,
+    });
 
-    reports.push({ ...issue, fixable: issue.fix != null });
+    for (const issue of issues) {
+      const before = JSON.stringify(currentContent);
+      const result = await issue.fix?.(currentContent);
+      if (result != null) {
+        currentContent = result;
+      }
+      const after = JSON.stringify(currentContent);
+      const fixed = issue.fix != null && before !== after;
+
+      reports.push({ ...issue, fixable: issue.fix != null, fixed });
+    }
   }
 
   return {
