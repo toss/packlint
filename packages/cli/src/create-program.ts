@@ -1,6 +1,6 @@
 import path from 'node:path';
 
-import { type Diagnostic, packlint, resolveConfig } from '@packlint/core';
+import { type Diagnostic, packlint, resolveConfig, Target } from '@packlint/core';
 import { Command } from 'commander';
 import { LogLevels } from 'consola';
 import pc from 'picocolors';
@@ -10,7 +10,8 @@ import pkg from '../package.json' with { type: 'json' };
 import { loadConfig } from './load-config.js';
 import { consola } from './logger.js';
 import { countErrors, countFixed } from './report.js';
-import { findPackageJson, getTarget, logIssue } from './utils/index.js';
+import { glob, normalizePackageJsonPath } from './utils/fs.js';
+import { getTarget, logIssue } from './utils/index.js';
 
 interface CliOptions {
   fix: boolean;
@@ -45,8 +46,13 @@ async function run(pattern: string | undefined, options: CliOptions) {
     const config = resolveConfig(configResult?.config);
 
     const filePatterns = pattern != null ? [pattern] : config.files;
-    const files = await findPackageJson(filePatterns, options.cwd);
-    const targets = await Promise.all(files.map(getTarget));
+    const normalizePatterns = filePatterns.map(normalizePackageJsonPath);
+
+    const targets: Target[] = [];
+    for await (const file of glob(normalizePatterns, options.cwd)) {
+      const target = await getTarget(file);
+      targets.push(target);
+    }
 
     consola.debug(
       'Using config:',

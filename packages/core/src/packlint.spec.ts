@@ -1,11 +1,10 @@
 import type { PackageJson } from 'type-fest';
-import { describe, expect, it } from 'vitest';
 
-import { sortPlugin } from './plugin-sort.js';
 import { packlint } from './packlint.js';
+import { sortPlugin } from './plugin-sort.js';
 import type { Plugin } from './types/plugin.js';
 
-describe('p acklint', () => {
+describe('packlint', () => {
   it('preserves fields created by previous plugin fixes', async () => {
     const addMainPlugin: Plugin = {
       name: 'add-main',

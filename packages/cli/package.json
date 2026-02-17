@@ -36,6 +36,8 @@
     "build": "tsdown",
     "dev": "tsdown --watch",
     "prepack": "yarn build",
+    "lint": "eslint .",
+    "test": "vitest",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -43,13 +45,18 @@
     "commander": "^14.0.2",
     "consola": "^3.4.2",
     "cosmiconfig": "^9.0.0",
+    "es-toolkit": "^1.44.0",
     "picocolors": "^1.1.1",
     "write-pkg": "^7.0.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.2",
     "@types/node": "^22.2.0",
+    "eslint": "^9.39.2",
     "tsdown": "^0.18.2",
+    "turbo": "^2.8.9",
     "typescript": "^5.9.3",
+    "typescript-eslint": "^8.50.0",
     "vitest": "^4.0.16"
   },
   "engines": {

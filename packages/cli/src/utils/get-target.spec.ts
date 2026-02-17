@@ -2,8 +2,6 @@ import fs from 'node:fs/promises';
 import os from 'node:os';
 import path from 'node:path';
 
-import { describe, expect, it } from 'vitest';
-
 import { getTarget } from './get-target.js';
 
 async function createTempDir(prefix: string): Promise<string> {
