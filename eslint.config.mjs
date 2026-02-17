@@ -1,47 +1,29 @@
 // @ts-check
 
 import eslint from '@eslint/js';
-import importX from 'eslint-plugin-import-x';
-import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import { defineConfig } from 'eslint/config';
-import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
 export default defineConfig(
   {
-    ignores: ['**/node_modules/**', '**/dist/**', '.yarn/**'],
+    ignores: ['**/node_modules/**', '**/dist/**', '.yarn/**', '**/fixtures/**', '**/coverage/**'],
   },
   eslint.configs.recommended,
-  tseslint.configs.recommended,
+  tseslint.configs.recommendedTypeChecked,
   {
-    files: ['**/*.{ts,tsx}'],
     languageOptions: {
-      parser: tseslint.parser,
       parserOptions: {
-        project: ['./tsconfig.json', './packages/**/tsconfig.json'],
+        projectService: true,
       },
     },
     rules: {
+      '@typescript-eslint/explicit-function-return-type': 'error',
       '@typescript-eslint/strict-boolean-expressions': 'error',
+      '@typescript-eslint/consistent-type-imports': 'error',
     },
   },
   {
-    files: ['**/*.{js,mjs,cjs,ts,tsx}'],
-    languageOptions: {
-      globals: {
-        ...globals.es2026,
-        ...globals.node,
-      },
-    },
-    plugins: {
-      'simple-import-sort': simpleImportSort,
-      'import-x': importX,
-    },
-    rules: {
-      'simple-import-sort/imports': 'error',
-      'import-x/first': 'error',
-      'import-x/newline-after-import': 'error',
-      'import-x/no-duplicates': 'error',
-    },
+    files: ['**/*.mjs'],
+    ...tseslint.configs.disableTypeChecked,
   }
 );

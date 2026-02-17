@@ -1,14 +1,14 @@
 # packlint
 
-> Organize `package.json` in a large monorepo.
+Organize and lint `package.json` files in monorepos.
 
 ## Install
 
 ```sh
-npm install --dev packlint
+npm install --save-dev packlint
 ```
 
-or with yarn
+or
 
 ```sh
 yarn add --dev packlint
@@ -16,74 +16,70 @@ yarn add --dev packlint
 
 ## Usage
 
-Packlint has two main features now.
-Sort package.json in custom order (or recommended order by default).
-Add or modify fields by applying merge rule. (ex: if you want to change build script of all packages in your large monorepo)
-
+```sh
+packlint [path] [options]
 ```
-  Usage
-    $ packlint
 
-  Options
-    --recursive,-R            Apply packlint to all sub-packages in repo recursively
+- `path` (optional): path or glob pattern targeting `package.json` files.
+- If `path` is omitted, `files` from config are used.
 
-  Commands
-    (default)                 Apply all rules in config
-    merge                     Apply merge rules in config
-    sort                      Apply order rules in config
+### Options
 
-  Examples
-    $ packlint
-    $ packlint -R
-    $ packlint merge
-    $ packlint merge -R
-    $ packlint sort
-    $ packlint sort -R
-```
+- `--fix`: apply available fixes and write files.
+- `--cwd <cwd>`: working directory for glob resolution and config search.
+- `--verbose`: print debug logs.
+- `--config <config>`: explicit config file path.
 
 ## Configuration
 
-The Packlint configuration file is named `packlint.config.mjs`. It should be placed in the root directory of your project and `default export` configuration object. For example:
+Supported config file names:
 
-```js
-// packlint.config.mjs
-export default {
-  files: ['./packages/**/package.json'],
-  ignores: ['./package.json'],
-  rules: {
-    merge: {
-      type: 'module',
-      scripts: {
-        prepack: 'yarn build',
-        build: 'rm -rf dist && tsup ./src/index.ts --format esm --dts',
-        dev: 'yarn run build --watch',
-        typecheck: 'tsc --noEmit',
+- `packlint.config.ts`
+- `packlint.config.js`
+- `packlint.config.mjs`
+- `packlint.config.cjs`
+- `packlint.config.mts`
+- `packlint.config.cts`
+
+Example:
+
+```ts
+// packlint.config.ts
+import { defineConfig } from 'packlint/config';
+
+export default defineConfig({
+  files: ['packages/**/package.json'],
+  sort: true,
+});
+```
+
+### Config fields
+
+- `files?: string[]`
+- `sort?: boolean | string[]`
+  - `true`: use default order
+  - `false`: disable built-in sort plugin
+  - `string[]`: custom sort priority
+- `plugins?: Plugin[]`
+
+## Plugin
+
+A plugin returns issues from `check`.
+Each issue can provide an optional `fix` function.
+
+```ts
+import type { Plugin } from '@packlint/core';
+
+const plugin: Plugin = {
+  name: 'example',
+  check({ packageJson, filepath }) {
+    return [
+      {
+        code: 'example',
+        message: `${filepath} is checked`,
+        fix: current => ({ ...current, private: true }),
       },
-      publishConfig: {
-        access: 'public',
-      },
-    },
+    ];
   },
 };
 ```
-
-### Configuration Object
-
-- `files` - An `array` of glob patterns indicating package.json that the configuration object should apply to. If not specified, default to `'./package.json'`.
-- `ignores` - An `array` of glob patterns indicating the files that the configuration object should not apply to. If not specified, the configuration object applies to all files matched by files.
-- `extends` - A path to the other configuration file. Only the rule will be extended and will be merge with [mergeDeepRight](https://ramdajs.com/docs/#mergeDeepRight) function.
-- `rules` - An `object` containing the configured rules. When files or ignores are specified, these rule configurations are only available to the matching files.
-
-  - `order` - An `array` of strings indicating the order of package.json keys. The `sort` command uses this rule to sort package.json by keys. If not specified, the recommended order will be applied by default.
-  - `merge` - An `object` that is merged with package.json. The `merge` command uses [mergeDeepRight](https://ramdajs.com/docs/#mergeDeepRight) function, and the first object is package.json, and the second one is this object.
-
-    >
-
-    > Creates a new object with the own properties of the first object merged with the own properties of the second object. If a key exists in both objects:
-    >
-    > - and both values are objects, the two values will be recursively merged
-    > - otherwise the value from the second object will be used.
-
-### In Package.json
-
-- If you set `packlint: false` in package.json, it will be ignored from applying packlint.

@@ -1,38 +1,32 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "pipeline": {
+  "ui": "tui",
+  "tasks": {
     "build": {
+      "outputLogs": "new-only",
       "dependsOn": ["^build"],
+      "inputs": ["src/**", "tsconfig.json", "tsdown.config.ts", "package.json"],
       "outputs": ["dist/**"]
     },
-    "dev": {
-      "cache": false
+    "lint": {
+      "outputLogs": "new-only",
+      "dependsOn": ["^build"],
+      "inputs": ["src/**", "eslint.config.*"]
     },
     "typecheck": {
-      "dependsOn": ["^build"]
-    },
-    "prepack": {
+      "outputLogs": "new-only",
       "dependsOn": ["^build"],
-      "outputs": ["dist/**"]
+      "inputs": ["src/**", "tsconfig.json", "package.json"]
     },
-    "version": {
-      "dependsOn": ["prepack", "//#test:all", "//#lint:all"],
-      "outputs": []
+    "test": {
+      "outputLogs": "new-only",
+      "dependsOn": ["^build"],
+      "inputs": ["src/**", "vitest.config.*", "package.json"]
     },
-    "deploy": {
-      "dependsOn": ["version"],
-      "outputs": []
-    },
-    "//#test:all": {
-      "dependsOn": ["@packlint/core#build", "@packlint/command#build"],
-      "outputs": []
-    },
-    "//#lint:all": {
-      "outputs": []
-    },
-    "//#packlint:all": {
-      "dependsOn": ["packlint#build"],
-      "outputs": []
+    "dev": {
+      "persistent": true,
+      "interactive": true,
+      "cache": false
     }
   }
 }

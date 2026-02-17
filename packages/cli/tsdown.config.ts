@@ -1,8 +1,17 @@
 import { defineConfig } from 'tsdown';
 
-export default defineConfig({
-  entry: './src/index.ts',
-  format: 'esm',
-  clean: true,
-  dts: true,
-});
+export default defineConfig([
+  {
+    entry: './src/main.ts',
+    format: 'esm',
+    banner: '#!/usr/bin/env node',
+  },
+  {
+    entry: './src/config.ts',
+    format: 'esm',
+    dts: {
+      resolve: ['@packlint/core'],
+      resolver: 'tsc',
+    },
+  },
+]);

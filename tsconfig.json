@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     /* Modules */
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
     "resolveJsonModule": true,
 
     /* Type Checking */
@@ -25,6 +25,6 @@
     "allowJs": false,
     "skipLibCheck": true
   },
-  "exclude": ["**/dist/*"],
-  "include": ["*.config.*", "**/tsdown.config.ts"]
+  "exclude": ["**/dist/*", "**/fixtures/*"],
+  "include": ["packlint.config.ts", "vitest.config.ts"]
 }

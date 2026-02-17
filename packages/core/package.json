@@ -1,54 +1,37 @@
 {
   "name": "@packlint/core",
   "version": "0.2.0",
+  "sideEffects": false,
   "type": "module",
   "exports": {
     ".": {
       "types": "./dist/index.d.mts",
       "default": "./dist/index.mjs"
     },
-    "./testing": {
-      "types": "./dist/testing/index.d.mts",
-      "default": "./dist/testing/index.mjs"
-    },
     "./package.json": "./package.json"
   },
   "main": "./dist/index.mjs",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsdown",
     "dev": "tsdown --watch",
     "prepack": "yarn build",
+    "lint": "eslint .",
+    "test": "vitest",
     "typecheck": "tsc --noEmit"
   },
-  "dependencies": {
-    "@types/ramda": "^0.28.20",
-    "cosmiconfig": "^7.0.1",
-    "fast-glob": "^3.3.3",
-    "find-up": "^6.3.0",
-    "fs-extra": "^10.1.0",
-    "picocolors": "^1.1.1",
-    "ramda": "^0.28.0",
-    "zod": "^3.19.1"
-  },
   "devDependencies": {
-    "@types/fs-extra": "^9.0.13",
-    "fast-check": "^3.3.0",
+    "@eslint/js": "^9.39.2",
+    "@types/node": "^22.2.0",
+    "eslint": "^9.39.2",
     "tsdown": "^0.18.2",
+    "turbo": "^2.8.9",
+    "type-fest": "^5.3.1",
     "typescript": "^5.9.3",
-    "vitest": "^4.0.16",
-    "zod-fast-check": "^0.8.0"
-  },
-  "peerDependencies": {
-    "fast-check": "*",
-    "zod-fast-check": "*"
-  },
-  "peerDependenciesMeta": {
-    "fast-check": {
-      "optional": true
-    },
-    "zod-fast-check": {
-      "optional": true
-    }
+    "typescript-eslint": "^8.50.0",
+    "vitest": "^4.0.16"
   },
   "publishConfig": {
     "access": "public"

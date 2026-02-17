@@ -1,0 +1,13 @@
+{
+  "name": "pkg-b",
+  "version": "1.0.0",
+  "description": "Package B - sorted",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "zod": "^3.22.0"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "scripts": {
+    "build": "tsc"
+  },
+  "name": "pkg-a",
+  "version": "1.0.0",
+  "license": "MIT",
+  "dependencies": {
+    "lodash": "^4.17.0"
+  },
+  "description": "Package A - unsorted"
+}
