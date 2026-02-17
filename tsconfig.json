@@ -1,7 +1,5 @@
 {
   "compilerOptions": {
-    "types": ["vitest/globals", "node"],
-
     /* Modules */
     "module": "ESNext",
     "moduleResolution": "Bundler",
@@ -27,6 +25,6 @@
     "allowJs": false,
     "skipLibCheck": true
   },
-  "exclude": ["**/dist/*"],
+  "exclude": ["**/dist/*", "**/fixtures/*"],
   "include": ["packlint.config.ts", "vitest.config.ts"]
 }
