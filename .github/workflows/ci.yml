@@ -21,7 +21,7 @@ jobs:
           MISE_NODE_COREPACK: true
 
       - run: yarn install --immutable
-      - run: yarn lint
       - run: yarn build
+      - run: yarn lint
       - run: yarn typecheck
       - run: yarn test
