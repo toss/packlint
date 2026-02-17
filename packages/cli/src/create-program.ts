@@ -1,11 +1,10 @@
 import { type PackageJson, packlint, resolveConfig, type Target } from '@packlint/core';
 import { Command } from 'commander';
 import fs from 'node:fs/promises';
-import { writePackage } from 'write-pkg';
 import pkg from '../package.json' with { type: 'json' };
 import { loadConfig } from './load-config.js';
 import { report } from './reporter.js';
-import { glob } from './utils.js';
+import { glob, writePackage } from './utils.js';
 
 export interface CliOptions {
   fix: boolean;
@@ -50,7 +49,7 @@ async function run(pattern: string | undefined, options: CliOptions): Promise<vo
       await Promise.all(
         diagnostics
           .filter(({ issues }) => issues.some(i => i.fixed === true))
-          .map(({ filepath, output }) => writePackage(filepath, output, { normalize: false }))
+          .map(({ filepath, output }) => writePackage(filepath, output))
       );
     }
 

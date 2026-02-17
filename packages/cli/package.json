@@ -44,9 +44,9 @@
     "@packlint/core": "workspace:^",
     "commander": "^14.0.2",
     "cosmiconfig": "^9.0.0",
+    "detect-indent": "^7.0.2",
     "es-toolkit": "^1.44.0",
-    "picocolors": "^1.1.1",
-    "write-pkg": "^7.0.0"
+    "picocolors": "^1.1.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",

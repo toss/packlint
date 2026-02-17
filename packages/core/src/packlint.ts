@@ -33,7 +33,7 @@ async function lintSingle(target: Target, plugins: Plugin[]): Promise<Diagnostic
       const { fixed, result } = await tryFix(issue, current);
       if (fixed) current = result;
 
-      issues.push({ ...issue, fixable: issue.fix != null, fixed });
+      issues.push({ message: issue.message, fixable: issue.fix != null, fixed });
     }
   }
 
