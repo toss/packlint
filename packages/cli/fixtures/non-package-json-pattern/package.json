@@ -1,9 +1,0 @@
-{
-  "name": "non-package-json-pattern",
-  "version": "1.0.0",
-  "description": "Testing non-package.json pattern bug",
-  "license": "MIT",
-  "scripts": {
-    "start": "node index.js"
-  }
-}
