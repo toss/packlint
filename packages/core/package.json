@@ -1,6 +1,7 @@
 {
   "name": "@packlint/core",
   "version": "0.2.0",
+  "sideEffects": false,
   "type": "module",
   "exports": {
     ".": {
@@ -10,6 +11,9 @@
     "./package.json": "./package.json"
   },
   "main": "./dist/index.mjs",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsdown",
     "dev": "tsdown --watch",
@@ -23,6 +27,7 @@
     "@types/node": "^22.2.0",
     "eslint": "^9.39.2",
     "tsdown": "^0.18.2",
+    "turbo": "^2.8.9",
     "type-fest": "^5.3.1",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.50.0",

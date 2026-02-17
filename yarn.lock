@@ -789,6 +789,7 @@ __metadata:
     "@types/node": "npm:^22.2.0"
     eslint: "npm:^9.39.2"
     tsdown: "npm:^0.18.2"
+    turbo: "npm:^2.8.9"
     type-fest: "npm:^5.3.1"
     typescript: "npm:^5.9.3"
     typescript-eslint: "npm:^8.50.0"

@@ -3,8 +3,8 @@
     "types": ["vitest/globals", "node"],
 
     /* Modules */
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
     "resolveJsonModule": true,
 
     /* Type Checking */
