@@ -1,5 +1,5 @@
 import type { PackageJson } from 'type-fest';
-
+import type { Issue } from './issue.js';
 import type { Awaitable } from './utils.js';
 
 export interface Plugin {
@@ -16,19 +16,4 @@ export interface PluginContext {
    * The content of the package.json file.
    */
   packageJson: PackageJson;
-}
-
-export interface Issue {
-  /**
-   * The code of the issue.
-   */
-  code: string;
-  /**
-   * The message of the issue.
-   */
-  message: string;
-  /**
-   * Fixer function to fix the issue.
-   */
-  fix?: (packageJson: PackageJson) => Awaitable<void | PackageJson>;
 }

@@ -43,7 +43,6 @@
   "dependencies": {
     "@packlint/core": "workspace:^",
     "commander": "^14.0.2",
-    "consola": "^3.4.2",
     "cosmiconfig": "^9.0.0",
     "es-toolkit": "^1.44.0",
     "picocolors": "^1.1.1",

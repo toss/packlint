@@ -796,19 +796,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@packlint/testing@workspace:testing":
-  version: 0.0.0-use.local
-  resolution: "@packlint/testing@workspace:testing"
-  dependencies:
-    "@eslint/js": "npm:^9.39.2"
-    "@types/node": "npm:^24.10.0"
-    eslint: "npm:^9.39.2"
-    tsdown: "npm:^0.18.2"
-    typescript: "npm:^5.9.3"
-    typescript-eslint: "npm:^8.50.0"
-  languageName: unknown
-  linkType: soft
-
 "@quansync/fs@npm:^1.0.0":
   version: 1.0.0
   resolution: "@quansync/fs@npm:1.0.0"
@@ -1708,13 +1695,6 @@ __metadata:
   version: 0.0.1
   resolution: "concat-map@npm:0.0.1"
   checksum: 10c0/c996b1cfdf95b6c90fee4dae37e332c8b6eb7d106430c17d538034c0ad9a1630cb194d2ab37293b1bdd4d779494beee7786d586a50bd9376fd6f7bcc2bd4c98f
-  languageName: node
-  linkType: hard
-
-"consola@npm:^3.4.2":
-  version: 3.4.2
-  resolution: "consola@npm:3.4.2"
-  checksum: 10c0/7cebe57ecf646ba74b300bcce23bff43034ed6fbec9f7e39c27cee1dc00df8a21cd336b466ad32e304ea70fba04ec9e890c200270de9a526ce021ba8a7e4c11a
   languageName: node
   linkType: hard
 
@@ -3306,7 +3286,6 @@ __metadata:
     "@packlint/core": "workspace:^"
     "@types/node": "npm:^22.2.0"
     commander: "npm:^14.0.2"
-    consola: "npm:^3.4.2"
     cosmiconfig: "npm:^9.0.0"
     es-toolkit: "npm:^1.44.0"
     eslint: "npm:^9.39.2"
@@ -4243,11 +4222,11 @@ __metadata:
   linkType: hard
 
 "type-fest@npm:^5.3.1":
-  version: 5.3.1
-  resolution: "type-fest@npm:5.3.1"
+  version: 5.4.4
+  resolution: "type-fest@npm:5.4.4"
   dependencies:
     tagged-tag: "npm:^1.0.0"
-  checksum: 10c0/3282cf11f5e8708321c109b5a72967702cf4c3b928b4d77f5819600b23915dc6a6b8f16cde4182cfbad308973ed3eeea544825cafe9657634ac1f331dc940315
+  checksum: 10c0/bf9c6d7df5383fd720aac71da8ce8690ff1c554459d19cf3c72d61eac98255dba57abe20c628f91f4116f66211791462fdafa90b2be2d7405a5a4c295e4d849d
   languageName: node
   linkType: hard
 

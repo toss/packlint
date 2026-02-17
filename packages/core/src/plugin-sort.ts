@@ -1,37 +1,32 @@
 import type { PackageJson } from 'type-fest';
+import { definePlugin } from './define-plugin.js';
+import type { Issue } from './types/issue.js';
 
-import type { Plugin } from './types/index.js';
+export const sortPlugin = definePlugin((sortOrder: string[] = DEFAULT_SORT_ORDER) => ({
+  name: 'packlint:sort',
+  check({ packageJson }): Issue[] {
+    const keys = Object.keys(packageJson);
 
-export const SORT_PLUGIN_NAME = 'packlint:sort';
+    const specifiedKeys = sortOrder.filter(key => keys.includes(key));
+    const restKeys = keys.filter(key => !sortOrder.includes(key));
+    const sortedRestKeys = [...restKeys].sort((a, b) => a.localeCompare(b));
 
-export const sortPlugin = (sortOrder: string[] = DEFAULT_SORT_ORDER): Plugin => {
-  return {
-    name: SORT_PLUGIN_NAME,
-    check({ packageJson }) {
-      const keys = Object.keys(packageJson);
+    const checkOrder = [...specifiedKeys, ...sortedRestKeys];
 
-      const specifiedKeys = sortOrder.filter(key => keys.includes(key));
-      const restKeys = keys.filter(key => !sortOrder.includes(key));
-      const sortedRestKeys = [...restKeys].sort((a, b) => a.localeCompare(b));
+    const isSorted = keys.every((key, index) => key === checkOrder[index]);
 
-      const checkOrder = [...specifiedKeys, ...sortedRestKeys];
+    if (!isSorted) {
+      return [
+        {
+          message: 'package.json keys are not sorted correctly.',
+          fix: (packageJson): PackageJson => Object.fromEntries(checkOrder.map(key => [key, packageJson[key]])),
+        },
+      ];
+    }
 
-      const isSorted = keys.every((key, index) => key === checkOrder[index]);
-
-      if (!isSorted) {
-        return [
-          {
-            code: 'require-sorted-keys',
-            message: 'package.json keys are not sorted correctly.',
-            fix: packageJson => Object.fromEntries(checkOrder.map(key => [key, packageJson[key]])) as PackageJson,
-          },
-        ];
-      }
-
-      return [];
-    },
-  };
-};
+    return [];
+  },
+}));
 
 export const DEFAULT_SORT_ORDER = [
   'name',

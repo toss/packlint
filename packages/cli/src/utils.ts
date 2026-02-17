@@ -1,6 +1,5 @@
 import { partition } from 'es-toolkit';
 import { glob as fsGlob } from 'node:fs/promises';
-import path from 'node:path';
 
 /**
  * Find matching files
@@ -18,12 +17,4 @@ export async function* glob(patterns: string[], cwd = process.cwd()): AsyncItera
   for await (const file of fsGlob(include, { cwd, exclude: excludePattern })) {
     yield file;
   }
-}
-
-export function normalizePackageJsonPath(pattern: string): string {
-  if (!pattern.endsWith('/package.json')) {
-    return path.join(pattern, 'package.json');
-  }
-
-  return pattern;
 }

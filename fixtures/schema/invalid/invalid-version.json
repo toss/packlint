@@ -1,5 +1,0 @@
-{
-  "name": "invalid-version-package",
-  "version": "not-a-valid-semver",
-  "description": "This package has an invalid version format"
-}

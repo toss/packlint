@@ -1,6 +1,6 @@
 import type { PackageJson } from 'type-fest';
-
-import type { Issue, Plugin } from './types/plugin.js';
+import type { Issue, IssueReport } from './types/issue.js';
+import type { Plugin } from './types/plugin.js';
 
 export interface Diagnostic {
   filepath: string;
@@ -18,11 +18,6 @@ export interface Options {
   plugins: Plugin[];
 }
 
-export interface IssueReport extends Issue {
-  fixable: boolean;
-  fixed: boolean;
-}
-
 export async function packlint(targets: Target[], options: Options): Promise<Diagnostic[]> {
   const reports = await Promise.all(targets.map(target => lintSingle(target, options.plugins)));
 
@@ -30,32 +25,24 @@ export async function packlint(targets: Target[], options: Options): Promise<Dia
 }
 
 async function lintSingle(target: Target, plugins: Plugin[]): Promise<Diagnostic> {
-  let currentContent = structuredClone(target.content);
-  const reports: Array<IssueReport> = [];
+  let current = structuredClone(target.content);
+  const issues: IssueReport[] = [];
 
   for (const plugin of plugins) {
-    const issues = await plugin.check({
-      packageJson: currentContent,
-      filepath: target.filepath,
-    });
+    for (const issue of await plugin.check({ packageJson: current, filepath: target.filepath })) {
+      const { fixed, result } = await tryFix(issue, current);
+      if (fixed) current = result;
 
-    for (const issue of issues) {
-      const before = JSON.stringify(currentContent);
-      const result = await issue.fix?.(currentContent);
-      if (result != null) {
-        currentContent = result;
-      }
-      const after = JSON.stringify(currentContent);
-      const fixed = issue.fix != null && before !== after;
-
-      reports.push({ ...issue, fixable: issue.fix != null, fixed });
+      issues.push({ ...issue, fixable: issue.fix != null, fixed });
     }
   }
 
-  return {
-    filepath: target.filepath,
-    input: target.content,
-    output: currentContent,
-    issues: reports,
-  };
+  return { filepath: target.filepath, input: target.content, output: current, issues };
+}
+
+async function tryFix(issue: Issue, current: PackageJson): Promise<{ fixed: boolean; result: PackageJson }> {
+  if (issue.fix == null) return { fixed: false, result: current };
+
+  const result = await issue.fix(current);
+  return result != null ? { fixed: true, result } : { fixed: false, result: current };
 }

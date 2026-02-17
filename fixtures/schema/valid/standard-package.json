@@ -1,7 +1,0 @@
-{
-  "name": "valid-package",
-  "version": "1.0.0",
-  "description": "A valid package that should pass schema validation",
-  "main": "./dist/index.js",
-  "license": "MIT"
-}

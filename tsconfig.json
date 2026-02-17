@@ -1,5 +1,7 @@
 {
   "compilerOptions": {
+    "types": ["vitest/globals"],
+
     /* Modules */
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
@@ -26,5 +28,5 @@
     "skipLibCheck": true
   },
   "exclude": ["**/dist/*"],
-  "include": ["packlint.config.ts"]
+  "include": ["packlint.config.ts", "vitest.config.ts"]
 }

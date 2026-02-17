@@ -1,24 +1,31 @@
 {
   "$schema": "https://turbo.build/schema.json",
+  "ui": "tui",
   "tasks": {
     "build": {
+      "outputLogs": "new-only",
       "dependsOn": ["^build"],
       "inputs": ["src/**", "tsconfig.json", "tsdown.config.ts", "package.json"],
       "outputs": ["dist/**"]
     },
     "lint": {
+      "outputLogs": "new-only",
+      "dependsOn": ["^build"],
       "inputs": ["src/**", "eslint.config.*"]
     },
     "typecheck": {
+      "outputLogs": "new-only",
       "dependsOn": ["^build"],
       "inputs": ["src/**", "tsconfig.json", "package.json"]
     },
     "test": {
+      "outputLogs": "new-only",
       "dependsOn": ["^build"],
       "inputs": ["src/**", "vitest.config.*", "package.json"]
     },
     "dev": {
       "persistent": true,
+      "interactive": true,
       "cache": false
     }
   }
