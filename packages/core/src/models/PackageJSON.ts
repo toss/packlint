@@ -37,7 +37,7 @@ export const PackageJSONSchema = z
       license: z.string(),
       author: z.union([PersonSchema, z.string()]),
       contributors: z.array(PersonSchema),
-      sideEffects: z.boolean(),
+      sideEffects: z.union([z.boolean(), z.array(z.string())]),
       packageManager: z.string().describe('Experimental: https://nodejs.org/api/packages.html#packagemanager'),
       type: z.enum(['commonjs', 'module']),
       exports: ExportsSchema,
