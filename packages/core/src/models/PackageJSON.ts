@@ -4,6 +4,8 @@ import { ExportsSchema } from './Exports.js';
 import { PackageJSONErrorMap } from './PackageJSONError.js';
 import { PersonSchema } from './Person.js';
 
+const FundingEntrySchema = z.union([z.object({ type: z.string(), url: z.string() }), z.string()]);
+
 export const PackageJSONSchema = z
   .object(
     {
@@ -29,11 +31,7 @@ export const PackageJSONSchema = z
         }),
         z.string(),
       ]),
-      funding: z.union([
-        z.object({ type: z.string(), url: z.string() }),
-        z.string(),
-        z.array(z.object({ type: z.string(), url: z.string() }), z.string()),
-      ]),
+      funding: z.union([FundingEntrySchema, z.array(FundingEntrySchema)]),
       license: z.string(),
       author: z.union([PersonSchema, z.string()]),
       contributors: z.array(PersonSchema),
