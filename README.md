@@ -1,3 +1,9 @@
+> [!IMPORTANT]
+> **Packlint is no longer maintained.**
+>
+> No further updates are planned.
+> We recommend migrating to a maintained alternative.
+
 # packlint
 
 > Organize `package.json` in a large monorepo.
